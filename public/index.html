@@ -1,0 +1,2605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async custom-element="amp-ad" src="https://cdn.ampproject.org/v0/amp-ad-0.1.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GlobalNews Network | Responsive News Platform</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+    /* General Styles & Variables */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    :root {
+        --primary: #1a73e8;
+        --primary-dark: #0d47a1;
+        --accent: #ff6d00;
+        --light: #f8f9fa;
+        --dark: #202124;
+        --gray: #5f6368;
+        --light-gray: #dadce0;
+        --success: #00c853;
+        --error: #f44336;
+        --warning: #ff9800;
+        --transition: all 0.3s ease;
+
+        /* Light theme variables */
+        --bg-color: #f0f2f5;
+        --text-color: #202124;
+        --card-bg: #ffffff;
+        --header-bg: linear-gradient(135deg, var(--primary), var(--primary-dark));
+        --footer-bg: #202124;
+        --footer-text: #ffffff;
+        --border-color: #e0e0e0;
+        --shadow-color: rgba(0, 0, 0, 0.08);
+    }
+
+    /* Dark theme variables */
+    [data-theme="dark"] {
+        --bg-color: #121212;
+        --text-color: #e0e0e0;
+        --card-bg: #1e1e1e;
+        --header-bg: linear-gradient(135deg, #0d2b4e, #061a33);
+        --footer-bg: #0a0a0a;
+        --footer-text: #e0e0e0;
+        --border-color: #333333;
+        --shadow-color: rgba(0, 0, 0, 0.3);
+        --light-gray: #333333;
+        --gray: #aaaaaa;
+    }
+
+    body {
+        font-family: 'Poppins', sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        line-height: 1.6;
+        overflow-x: hidden;
+        transition: background-color 0.5s ease, color 0.5s ease;
+        opacity: 0; /* Hidden by default for fade-in effect */
+        transition: opacity 0.5s ease-in;
+    }
+
+    /* Header Styles */
+    header {
+        background: var(--header-bg);
+        color: white;
+        padding: 0.32rem 1rem; /* Reduced padding from 0.8rem to 0.32rem (60% reduction) */
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 100;
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.15);
+        transition: var(--transition);
+    }
+
+    .header-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .logo i {
+        font-size: 1.8rem;
+        color: var(--accent);
+    }
+
+    .logo h1 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        font-family: 'Roboto Slab', serif;
+    }
+
+    .menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        color: white;
+        font-size: 1.5rem;
+        cursor: pointer;
+    }
+
+    .nav-container {
+        display: flex;
+        align-items: center;
+        flex-grow: 1;
+        justify-content: space-between;
+    }
+
+    .nav-links {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        margin-left: 1rem;
+    }
+
+    .nav-links a {
+        color: rgba(255, 255, 255, 0.9);
+        text-decoration: none;
+        font-weight: 500;
+        transition: var(--transition);
+        padding: 0.5rem;
+        font-size: 0.95rem;
+        position: relative;
+    }
+
+    .nav-links a:hover, .nav-links a.active {
+        color: white;
+    }
+
+    .nav-links a::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: var(--accent);
+        transition: var(--transition);
+    }
+
+    .nav-links a:hover::after, .nav-links a.active::after {
+        width: 100%;
+    }
+
+    .header-right {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+    }
+
+    .theme-toggle, .profile-icon {
+        background: rgba(255, 255, 255, 0.2);
+        border: none;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: white;
+        transition: var(--transition);
+    }
+
+    .theme-toggle:hover, .profile-icon:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: rotate(20deg);
+    }
+
+    .search-bar {
+        display: flex;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 30px;
+        overflow: hidden;
+        max-width: 300px;
+        width: 100%;
+    }
+
+    .search-bar input {
+        flex: 1;
+        border: none;
+        padding: 0.7rem 1rem;
+        background: transparent;
+        color: white;
+        outline: none;
+        font-size: 0.9rem;
+    }
+
+    .search-bar input::placeholder {
+        color: rgba(255, 255, 255, 0.7);
+    }
+
+    .search-bar button {
+        background: var(--accent);
+        border: none;
+        padding: 0 1rem;
+        cursor: pointer;
+        color: white;
+        transition: var(--transition);
+    }
+
+    .search-bar button:hover {
+        background: #e65100;
+    }
+
+    /* Notifications Icon */
+    .notification-icon-container {
+        position: relative;
+        margin-right: 1rem;
+    }
+
+    .notification-icon {
+        background: rgba(255, 255, 255, 0.2);
+        border: none;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: white;
+        transition: var(--transition);
+        position: relative;
+    }
+
+    .notification-icon:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: scale(1.05);
+    }
+
+    .notification-badge {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        background-color: var(--error);
+        color: white;
+        border-radius: 50%;
+        padding: 0.3em 0.6em;
+        font-size: 0.7em;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        line-height: 1;
+    }
+
+    .notification-dropdown {
+        position: absolute;
+        top: 50px;
+        right: 0;
+        background-color: var(--card-bg);
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        width: 300px;
+        max-height: 400px;
+        overflow-y: auto;
+        display: none;
+        z-index: 101;
+        border: 1px solid var(--border-color);
+        color: var(--text-color);
+    }
+
+    .notification-dropdown.active {
+        display: block;
+    }
+
+    .notification-dropdown h5 {
+        padding: 0.8rem 1rem;
+        margin: 0;
+        border-bottom: 1px solid var(--border-color);
+        font-size: 1rem;
+        color: var(--primary);
+    }
+
+    .notification-item {
+        padding: 0.8rem 1rem;
+        border-bottom: 1px solid var(--border-color);
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        transition: background-color 0.2s ease;
+        cursor: pointer;
+    }
+
+    .notification-item:last-child {
+        border-bottom: none;
+    }
+
+    .notification-item:hover {
+        background-color: var(--bg-color);
+    }
+
+    .notification-item i {
+        color: var(--primary);
+        font-size: 1.1rem;
+        flex-shrink: 0;
+        margin-top: 2px;
+    }
+
+    .notification-content {
+        flex-grow: 1;
+    }
+
+    .notification-content p {
+        margin: 0;
+        font-size: 0.9rem;
+        line-height: 1.4;
+    }
+
+    .notification-content small {
+        color: var(--gray);
+        font-size: 0.75rem;
+        display: block;
+        margin-top: 4px;
+    }
+
+    /* Main Content */
+    .container {
+        max-width: 1400px;
+        margin: 1.5rem auto;
+        padding: 0 1rem;
+        margin-top: calc(1.5rem + 40px); /* Adjust for fixed header height (approximate new header height) */
+    }
+
+    .section-title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.2rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid var(--primary);
+    }
+
+    .section-title h2 {
+        font-size: 1.5rem;
+        color: var(--primary);
+        font-family: 'Roboto Slab', serif;
+        font-weight: 700;
+    }
+
+    .section-title a {
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: 600;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.95rem;
+    }
+
+    .section-title a:hover {
+        color: var(--primary-dark);
+        gap: 8px;
+    }
+
+    /* News Grid */
+    .news-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2.5rem;
+    }
+
+    .news-card {
+        background: var(--card-bg);
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px var(--shadow-color);
+        transition: var(--transition);
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        border: 1px solid var(--border-color);
+        cursor: pointer;
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .news-card.hidden {
+        display: none !important;
+    }
+
+    .news-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px var(--shadow-color);
+    }
+
+    .card-image {
+        height: 180px;
+        overflow: hidden;
+    }
+
+    .card-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: var(--transition);
+    }
+
+    .news-card:hover .card-image img {
+        transform: scale(1.05);
+    }
+
+    .card-content {
+        padding: 1.2rem;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .category-tag {
+        display: inline-block;
+        background: var(--primary);
+        color: white;
+        padding: 0.3rem 0.8rem;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        margin-bottom: 0.8rem;
+        text-transform: uppercase;
+    }
+
+    .card-content h3 {
+        font-size: 1.1rem;
+        margin-bottom: 0.8rem;
+        flex: 1;
+        font-weight: 700;
+        line-height: 1.4;
+        color: var(--text-color);
+    }
+
+    .card-content p {
+        color: var(--gray);
+        margin-bottom: 1rem;
+        font-size: 0.85rem;
+    }
+
+    .card-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: var(--gray);
+        font-size: 0.8rem;
+        margin-top: auto;
+        padding-top: 1rem;
+        border-top: 1px solid var(--border-color);
+    }
+
+    .author {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .author img {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 1px solid var(--light-gray);
+    }
+
+    .author span {
+        color: var(--text-color);
+    }
+
+    .card-actions {
+        display: flex;
+        gap: 0.8rem;
+    }
+
+    .card-actions i {
+        cursor: pointer;
+        color: var(--gray);
+        transition: var(--transition);
+    }
+
+    .card-actions i:hover {
+        color: var(--primary);
+        transform: scale(1.1);
+    }
+
+    .card-actions i.fa-trash:hover {
+        color: var(--error);
+    }
+
+    /* Featured News */
+    .featured-news {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        margin-bottom: 2.5rem;
+    }
+
+    .main-feature {
+        background: var(--card-bg);
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px var(--shadow-color);
+        transition: var(--transition);
+        border: 1px solid var(--border-color);
+        display: flex;
+        flex-direction: column;
+        cursor: pointer;
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .main-feature.hidden {
+        display: none !important;
+    }
+
+    .main-feature:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px var(--shadow-color);
+    }
+
+    .main-feature-image {
+        height: 300px;
+        overflow: hidden;
+    }
+
+    .main-feature-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: var(--transition);
+    }
+
+    .main-feature:hover .main-feature-image img {
+        transform: scale(1.05);
+    }
+
+    .main-feature-content {
+        padding: 1.5rem;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .main-feature-content .category-tag {
+        font-size: 0.8rem;
+        margin-bottom: 0.8rem;
+    }
+
+    .main-feature-content h2 {
+        font-size: 1.6rem;
+        margin: 0.8rem 0;
+        line-height: 1.3;
+        color: var(--text-color);
+        flex: 1;
+    }
+
+    .main-feature-content p {
+        font-size: 0.95rem;
+        color: var(--gray);
+        margin-bottom: 1.2rem;
+        line-height: 1.6;
+    }
+
+    .side-features {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.2rem;
+    }
+
+    .side-feature {
+        display: flex;
+        gap: 1rem;
+        background: var(--card-bg);
+        padding: 1rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px var(--shadow-color);
+        transition: var(--transition);
+        text-decoration: none;
+        color: var(--text-color);
+        border: 1px solid var(--border-color);
+        cursor: pointer;
+    }
+
+    .side-feature.hidden {
+        display: none !important;
+    }
+
+    .side-feature:hover {
+        transform: translateX(5px);
+        box-shadow: 0 6px 15px var(--shadow-color);
+    }
+
+    .side-feature-image {
+        width: 100px;
+        height: 90px;
+        border-radius: 6px;
+        overflow: hidden;
+        flex-shrink: 0;
+    }
+
+    .side-feature-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: var(--transition);
+    }
+
+    .side-feature:hover .side-feature-image img {
+        transform: scale(1.08);
+    }
+
+    .side-feature-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .side-feature-content .category-tag {
+        font-size: 0.7rem;
+        padding: 0.2rem 0.6rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .side-feature-content h4 {
+        font-size: 1rem;
+        margin-bottom: 0.3rem;
+        font-weight: 700;
+        color: var(--text-color);
+    }
+
+    /* Admin Panel */
+    .admin-panel {
+        background: var(--card-bg);
+        border-radius: 8px;
+        padding: 1.5rem;
+        box-shadow: 0 4px 12px var(--shadow-color);
+        margin-bottom: 2.5rem;
+        border-left: 4px solid var(--success);
+        border: 1px solid var(--border-color);
+    }
+
+    .admin-panel h3 {
+        color: var(--success);
+        margin-bottom: 1.2rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 1.2rem;
+    }
+
+    .admin-panel h3 i {
+        font-size: 1.5rem;
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 0.4rem;
+        font-weight: 500;
+        color: var(--text-color);
+        font-size: 0.9rem;
+    }
+
+    .form-group input, .form-group textarea, .form-group select {
+        width: 100%;
+        padding: 0.8rem;
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        font-size: 0.9rem;
+        transition: var(--transition);
+        background: var(--bg-color);
+        color: var(--text-color);
+    }
+
+    .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2);
+    }
+
+    .form-group textarea {
+        min-height: 120px;
+        resize: vertical;
+    }
+
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--primary);
+        color: white;
+        border: none;
+        padding: 0.8rem 1.5rem;
+        border-radius: 6px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition);
+        gap: 6px;
+    }
+
+    .btn:hover {
+        background: var(--primary-dark);
+        transform: translateY(-2px);
+    }
+
+    .btn-success {
+        background: var(--success);
+    }
+
+    .btn-success:hover {
+        background: #009624;
+    }
+
+    /* Loading Overlay */
+    .loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .loading-overlay.visible {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .loading-overlay i {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    /* News Detail Modal Styles */
+    .news-detail-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 10001;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+        padding: 1rem;
+    }
+
+    .news-detail-modal.visible {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .modal-content {
+        background: var(--card-bg);
+        border-radius: 8px;
+        max-width: 900px;
+        width: 100%;
+        max-height: 90vh;
+        overflow-y: auto;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        position: relative;
+        transform: scale(0.9);
+        transition: transform 0.3s ease;
+    }
+
+    .news-detail-modal.visible .modal-content {
+        transform: scale(1);
+    }
+
+    .close-button {
+        position: sticky;
+        top: 0;
+        right: 0;
+        background: var(--primary);
+        color: white;
+        font-size: 1.8rem;
+        font-weight: bold;
+        padding: 0.2rem 0.8rem;
+        cursor: pointer;
+        border-bottom-left-radius: 8px;
+        z-index: 10002;
+        float: right;
+    }
+
+    .close-button:hover {
+        background: var(--primary-dark);
+    }
+
+    .modal-image-container {
+        width: 100%;
+        height: 350px;
+        overflow: hidden;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+    }
+
+    .modal-image-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .modal-body {
+        padding: 1.5rem;
+    }
+
+    .modal-body .category-tag {
+        margin-bottom: 0.8rem;
+        font-size: 0.85rem;
+    }
+
+    .modal-body h2 {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+        color: var(--text-color);
+        font-family: 'Roboto Slab', serif;
+    }
+
+    .modal-author-info {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        margin-bottom: 1.5rem;
+        color: var(--gray);
+        font-size: 0.9rem;
+    }
+
+    .modal-author-info .author-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid var(--primary);
+    }
+
+    .modal-author-info #modalAuthorName {
+        font-weight: 600;
+        color: var(--text-color);
+    }
+
+    .modal-body p {
+        font-size: 1rem;
+        line-height: 1.8;
+        color: var(--text-color);
+        margin-bottom: 2rem;
+        white-space: pre-wrap;
+    }
+
+    .modal-mini-profile {
+        border-top: 1px solid var(--border-color);
+        padding-top: 1.5rem;
+    }
+
+    .modal-mini-profile h3 {
+        font-size: 1.2rem;
+        color: var(--primary);
+        margin-bottom: 0.8rem;
+    }
+
+    .modal-mini-profile p {
+        font-size: 0.9rem;
+        color: var(--gray);
+        line-height: 1.6;
+    }
+
+    /* New Comment Section Styles */
+    .comments-section {
+        margin-top: 2rem;
+        border-top: 1px solid var(--border-color);
+        padding-top: 1.5rem;
+    }
+
+    .comments-section h3 {
+        font-size: 1.4rem;
+        color: var(--primary);
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .comment-form {
+        background: var(--bg-color);
+        padding: 1.2rem;
+        border-radius: 8px;
+        margin-bottom: 1.5rem;
+        border: 1px solid var(--border-color);
+    }
+
+    .comment-form .form-group {
+        margin-bottom: 0.8rem;
+    }
+
+    .comment-form input[type="text"], .comment-form textarea {
+        border: 1px solid var(--light-gray);
+        background: var(--card-bg);
+        color: var(--text-color);
+    }
+
+    .comment-form textarea {
+        min-height: 80px;
+        max-height: 150px;
+    }
+
+    .comment-form button {
+        width: auto;
+        padding: 0.6rem 1.2rem;
+        font-size: 0.9rem;
+    }
+
+    .comments-list {
+        margin-top: 1.5rem;
+    }
+
+    .comment-item {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+        padding: 1rem;
+        background: var(--bg-color);
+        border-radius: 8px;
+        border: 1px solid var(--border-color);
+    }
+
+    .comment-item:last-child {
+        margin-bottom: 0;
+    }
+
+    .comment-avatar {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid var(--accent);
+        flex-shrink: 0;
+    }
+
+    .comment-content {
+        flex-grow: 1;
+    }
+
+    .comment-meta {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.5rem;
+        margin-bottom: 0.5rem;
+        font-size: 0.85rem;
+        color: var(--gray);
+    }
+
+    .comment-meta .comment-author-info {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .comment-meta .comment-author-name {
+        font-weight: 600;
+        color: var(--text-color);
+    }
+
+    .comment-meta .comment-actions i {
+        cursor: pointer;
+        color: var(--gray);
+        transition: var(--transition);
+        margin-left: 0.5rem;
+    }
+
+    .comment-meta .comment-actions i:hover {
+        color: var(--primary);
+    }
+
+    .comment-meta .comment-actions i.fa-trash:hover {
+        color: var(--error);
+    }
+
+    .comment-text {
+        font-size: 0.95rem;
+        line-height: 1.6;
+        color: var(--text-color);
+    }
+
+    .no-comments-message {
+        text-align: center;
+        color: var(--gray);
+        padding: 1.5rem 0;
+        font-style: italic;
+    }
+
+    /* Profile Modal Styles */
+    .profile-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 10001;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+        padding: 1rem;
+    }
+
+    .profile-modal.visible {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .profile-modal-content {
+        background: var(--card-bg);
+        border-radius: 8px;
+        max-width: 500px;
+        width: 100%;
+        max-height: 90vh;
+        overflow-y: auto;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        position: relative;
+        transform: scale(0.9);
+        transition: transform 0.3s ease;
+        padding: 1.5rem;
+    }
+
+    .profile-modal.visible .profile-modal-content {
+        transform: scale(1);
+    }
+
+    .profile-modal h3 {
+        font-size: 1.5rem;
+        color: var(--primary);
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .profile-avatar-preview {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 1.5rem;
+    }
+
+    .profile-avatar-preview img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid var(--primary);
+        margin-bottom: 0.8rem;
+    }
+
+    /* Footer */
+    footer {
+        background: var(--footer-bg);
+        color: var(--footer-text);
+        padding: 2.5rem 1rem 1.5rem;
+        transition: var(--transition);
+    }
+
+    .footer-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 1.8rem;
+    }
+
+    .footer-col {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .footer-col h4 {
+        font-size: 1.1rem;
+        margin-bottom: 1.2rem;
+        position: relative;
+        padding-bottom: 0.5rem;
+        color: white;
+    }
+
+    .footer-col h4::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 40px;
+        height: 2px;
+        background: var(--accent);
+    }
+
+    .footer-links {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 0.7rem;
+    }
+
+    .footer-links li a {
+        color: #ddd;
+        text-decoration: none;
+        transition: var(--transition);
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .footer-links li a:hover {
+        color: var(--accent);
+        gap: 12px;
+    }
+
+    .social-links {
+        display: flex;
+        gap: 0.8rem;
+        margin-top: 1rem;
+    }
+
+    .social-links a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 34px;
+        height: 34px;
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+        border-radius: 50%;
+        transition: var(--transition);
+    }
+
+    .social-links a:hover {
+        background: var(--accent);
+        transform: translateY(-3px);
+    }
+
+    .copyright {
+        text-align: center;
+        padding-top: 1.8rem;
+        margin-top: 1.8rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        color: #aaa;
+        font-size: 0.85rem;
+    }
+
+    /* Scroll to top button */
+    .scroll-to-top {
+        position: fixed;
+        bottom: 25px;
+        right: 25px;
+        width: 50px;
+        height: 50px;
+        background: var(--primary);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: var(--transition);
+        opacity: 0;
+        transform: translateY(20px);
+        z-index: 1000;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .scroll-to-top.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .scroll-to-top:hover {
+        background: var(--primary-dark);
+        transform: translateY(-5px) scale(1.1);
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+        0% { opacity: 0; transform: translateY(20px); }
+        100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Apply animation only when visible, not when hidden by filter */
+    .news-card:not(.hidden), .featured-news > div:not(.hidden), .admin-panel {
+        animation: fadeIn 0.6s ease forwards;
+    }
+
+    /* Responsive Design */
+    @media (min-width: 768px) {
+        .featured-news {
+            grid-template-columns: 2fr 1fr;
+        }
+        .side-features {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+        .logo h1 {
+            font-size: 1.8rem;
+        }
+        .main-feature-image {
+            height: 350px;
+        }
+        .section-title h2 {
+            font-size: 1.7rem;
+        }
+    }
+
+    @media (min-width: 992px) {
+        .logo h1 {
+            font-size: 1.9rem;
+        }
+        .nav-links {
+            gap: 1.5rem;
+        }
+        .main-feature-image {
+            height: 400px;
+        }
+        .main-feature-content h2 {
+            font-size: 1.9rem;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .menu-toggle {
+            display: block;
+        }
+        .nav-container {
+            display: none;
+            flex-direction: column;
+            width: 100%;
+            margin-top: 1rem;
+            align-items: flex-start;
+        }
+        .nav-container.active {
+            display: flex;
+        }
+        .nav-links {
+            width: 100%;
+            flex-direction: column;
+            margin-left: 0;
+            margin-bottom: 1rem;
+        }
+        .search-bar {
+            max-width: 100%;
+        }
+        .header-container {
+            padding: 0.8rem;
+        }
+        .header-right {
+            width: 100%;
+            margin-top: 1rem;
+        }
+        .modal-body h2 {
+            font-size: 1.5rem;
+        }
+        .modal-image-container {
+            height: 250px;
+        }
+        .container {
+            margin-top: calc(1.5rem + 80px); /* Adjusted for mobile header height */
+        }
+    }
+
+    @media (max-width: 480px) {
+        .news-grid {
+            grid-template-columns: 1fr;
+        }
+        .logo h1 {
+            font-size: 1.4rem;
+        }
+        .section-title {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+        .main-feature-image {
+            height: 250px;
+        }
+        .side-feature {
+            flex-direction: column;
+        }
+        .side-feature-image {
+            width: 100%;
+            height: 150px;
+        }
+    }
+</style>
+</head>
+<body>
+<header>
+    <div class="header-container">
+        <div class="logo">
+            <i class="fas fa-newspaper"></i>
+            <h1>GlobalNews</h1>
+        </div>
+        <button class="menu-toggle" id="menuToggle">
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="nav-container" id="navContainer">
+            <nav class="nav-links">
+                <a href="#" class="nav-link-category active" data-category="all">Home</a>
+                <a href="#" class="nav-link-category" data-category="Politics">Politics</a>
+                <a href="#" class="nav-link-category" data-category="Technology">Technology</a>
+                <a href="#" class="nav-link-category" data-category="Business">Business</a>
+                <a href="#" class="nav-link-category" data-category="Entertainment">Entertainment</a>
+                <a href="#" class="nav-link-category" data-category="Sports">Sports</a>
+                <a href="#" class="nav-link-category" data-category="Health">Health</a>
+                <a href="#" class="nav-link-category" data-category="Environment">Environment</a>
+                <a href="#" class="nav-link-category" data-category="Finance">Finance</a>
+                <a href="#" class="nav-link-category" data-category="Automotive">Automotive</a>
+                <a href="#" class="nav-link-category" data-category="my-posts">My Posts</a>
+            </nav>
+            <div class="header-right">
+                <button class="profile-icon" id="profileIcon" aria-label="User Profile">
+                    <i class="fas fa-user-circle"></i>
+                </button>
+                <div class="notification-icon-container">
+                    <button class="notification-icon" id="notificationToggle" aria-label="Notifications">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge" id="notificationBadge">0</span>
+                    </button>
+                    <div class="notification-dropdown" id="notificationDropdown">
+                        <h5>Notifications</h5>
+                        <div id="notificationList">
+                            <div style="padding: 10px; text-align: center; color: var(--gray);" id="noNotificationsMessage">No new notifications.</div>
+                        </div>
+                    </div>
+                </div>
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <i class="fas fa-sun"></i>
+                </button>
+                <div class="search-bar">
+                    <input type="text" id="searchInput" placeholder="Search news...">
+                    <button id="searchButton"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="container" id="home">
+    <div class="section-title">
+        <h2>Featured Stories</h2>
+        <a href="#featured-section"> View All <i class="fas fa-arrow-right"></i> </a>
+    </div>
+    <div class="featured-news" id="featured-section">
+    </div>
+    <div class="section-title">
+        <h2>Latest News</h2>
+        <a href="#latest-news-section"> View All <i class="fas fa-arrow-right"></i> </a>
+    </div>
+    <div class="news-grid" id="latest-news-section">
+    </div>
+    <div class="admin-panel">
+        <h3><i class="fas fa-user-shield"></i> Admin News Update</h3>
+        <form id="newsForm">
+            <input type="hidden" id="editNewsId">
+            <div class="form-group">
+                <label for="newsTitle">News Title</label>
+                <input type="text" id="newsTitle" placeholder="Enter news headline" required>
+            </div>
+            <div class="form-group">
+                <label for="newsCategory">Category</label>
+                <select id="newsCategory" required>
+                    <option value="">Select Category</option>
+                    <option value="Politics">Politics</option>
+                    <option value="Technology">Technology</option>
+                    <option value="Business">Business</option>
+                    <option value="Entertainment">Entertainment</option>
+                    <option value="Sports">Sports</option>
+                    <option value="Health">Health</option>
+                    <option value="Environment">Environment</option>
+                    <option value="Finance">Finance</option>
+                    <option value="Automotive">Automotive</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="newsImage">Upload News Image</label>
+                <input type="file" id="newsImage" accept="image/*">
+                <small style="color: var(--gray);">Note: For a real application, image upload requires server-side handling.</small>
+                <div id="imagePreviewContainer" style="display: none; margin-top: 10px;">
+                    <img id="currentImagePreview" src="" alt="Current Image" style="max-width: 100px; max-height: 100px; border-radius: 5px;">
+                    <button type="button" id="clearImageSelection" class="btn" style="background-color: var(--error); font-size: 0.8rem; padding: 5px 10px; margin-left: 10px;">Clear Image</button>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="newsContent">News Content</label>
+                <textarea id="newsContent" placeholder="Enter news content" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-success" id="publishBtn">
+                <i class="fas fa-paper-plane"></i> Publish News
+            </button>
+        </form>
+    </div>
+</div>
+<footer>
+    <div class="footer-container">
+        <div class="footer-col">
+            <h4>GlobalNews</h4>
+            <p>Delivering the latest and most important news from around the world.</p>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="https://www.instagram.com/prince__xharma777" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+        </div>
+        <div class="footer-col">
+            <h4>Categories</h4>
+            <ul class="footer-links">
+                <li><a href="#" class="footer-link-category" data-category="Politics"><i class="fas fa-landmark"></i> Politics</a></li>
+                <li><a href="#" class="footer-link-category" data-category="Technology"><i class="fas fa-microchip"></i> Technology</a></li>
+                <li><a href="#" class="footer-link-category" data-category="Business"><i class="fas fa-chart-line"></i> Business</a></li>
+                <li><a href="#" class="footer-link-category" data-category="Entertainment"><i class="fas fa-film"></i> Entertainment</a></li>
+                <li><a href="#" class="footer-link-category" data-category="Sports"><i class="fas fa-running"></i> Sports</a></li>
+                <li><a href="#" class="footer-link-category" data-category="Health"><i class="fas fa-heartbeat"></i> Health</a></li>
+                <li><a href="#" class="footer-link-category" data-category="Environment"><i class="fas fa-leaf"></i> Environment</a></li>
+                <li><a href="#" class="footer-link-category" data-category="Finance"><i class="fas fa-wallet"></i> Finance</a></li>
+                <li><a href="#" class="footer-link-category" data-category="Automotive"><i class="fas fa-car"></i> Automotive</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Quick Links</h4>
+            <ul class="footer-links">
+                <li><a href="#home"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="#about"><i class="fas fa-info-circle"></i> About Us</a></li>
+                <li><a href="#contact"><i class="fas fa-envelope"></i> Contact</a></li>
+                <li><a href="#privacy"><i class="fas fa-shield-alt"></i> Privacy Policy</a></li>
+                <li><a href="#terms"><i class="fas fa-file-contract"></i> Terms of Service</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Newsletter</h4>
+            <p>Subscribe for daily updates.</p>
+            <form id="newsletterForm" class="search-bar" style="margin-top: 1rem;">
+                <input type="email" id="newsletterEmail" placeholder="Your Email" required>
+                <button type="submit"><i class="fas fa-paper-plane"></i></button>
+            </form>
+        </div>
+    </div>
+    <div class="copyright">
+        &copy; 2025 GlobalNews Network. All rights reserved.
+    </div>
+</footer>
+<div class="scroll-to-top">
+    <i class="fas fa-arrow-up"></i>
+</div>
+<div class="loading-overlay" id="loadingOverlay">
+    <i class="fas fa-spinner"></i>
+    <p id="loadingMessage">Loading...</p>
+</div>
+<div id="newsDetailModal" class="news-detail-modal">
+    <div class="modal-content">
+        <span class="close-button">&times;</span>
+        <div class="modal-image-container">
+            <img id="modalNewsImage" src="" alt="News Image">
+        </div>
+        <div class="modal-body">
+            <span id="modalCategoryTag" class="category-tag"></span>
+            <h2 id="modalNewsTitle"></h2>
+            <div class="modal-author-info">
+                <img id="modalAuthorImage" src="" alt="Author" class="author-avatar">
+                <span id="modalAuthorName"></span>
+                <span id="modalPublishDate"></span>
+            </div>
+            <p id="modalNewsContent"></p>
+            <div class="modal-mini-profile">
+                <h3>About the Author</h3>
+                <p id="modalAuthorBio">No additional author bio available for this article.</p>
+            </div>
+            <div class="comments-section">
+                <h3><i class="fas fa-comments"></i> Comments</h3>
+                <div class="comments-list" id="commentsList">
+                    <div class="no-comments-message" id="noCommentsMessage">No comments yet. Be the first to comment!</div>
+                </div>
+                <form class="comment-form" id="commentForm">
+                    <input type="hidden" id="commentNewsId">
+                    <input type="hidden" id="editCommentId">
+                    <div class="form-group">
+                        <label for="commentText">Your Comment</label>
+                        <textarea id="commentText" placeholder="Write your comment here..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn" id="postCommentBtn">
+                        <i class="fas fa-comment-dots"></i> Post Comment
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="profileModal" class="profile-modal">
+    <div class="profile-modal-content">
+        <span class="close-button" id="closeProfileModal">&times;</span>
+        <h3><i class="fas fa-user-circle"></i> Your Profile</h3>
+        <form id="profileForm">
+            <div class="profile-avatar-preview">
+                <img id="profileAvatarPreview" src="https://via.placeholder.com/100x100?text=User" alt="Profile Avatar">
+                <label for="profileAvatarUpload" class="btn btn-small" style="cursor: pointer; margin-top: 5px;">
+                    <i class="fas fa-upload"></i> Change Avatar
+                </label>
+                <input type="file" id="profileAvatarUpload" accept="image/*" style="display: none;">
+            </div>
+            <div class="form-group">
+                <label for="profileName">Your Name</label>
+                <input type="text" id="profileName" placeholder="Enter your name" required>
+            </div>
+            <button type="submit" class="btn btn-success">
+                <i class="fas fa-save"></i> Save Profile
+            </button>
+        </form>
+    </div>
+</div>
+<script>
+    // --- CONFIGURATION AND CONSTANTS ---
+    // IMPORTANT: This BASE_API_URL must match the URL where your Node.js backend is running.
+    const BASE_API_URL = 'http://localhost:3000/api';
+
+    const MY_POSTS_AUTHOR_ID = 'user-prince'; // Fixed ID for "my posts" (would come from user authentication in real app)
+    const USER_PROFILE_KEY = 'globalNewsUserProfile'; // LocalStorage for user profile (client-specific)
+
+    // Initial default news data (only used if backend is not available or for first-run setup on backend)
+    // This is now primarily for initial setup of the backend, the frontend will fetch from the backend.
+    const DEFAULT_NEWS_DATA = [
+        { id: 'feature1', category: 'Technology', title: 'Breakthrough in Quantum Computing Announced', fullContent: 'Scientists have achieved a major milestone in quantum computing that could revolutionize how we process information and solve complex problems, opening up new frontiers in cryptography, drug discovery, and artificial intelligence.\n\nThis breakthrough could accelerate the development of next-generation technologies.', imageUrl: 'https://images.unsplash.com/photo-1588681664899-f142ff2dc9b1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80', author: 'Robert Chen', authorImage: 'https://randomuser.me/api/portraits/men/32.jpg', publishDate: 'July 5, 2025 at 10:00 AM', isFeatured: true, authorId: 'admin', comments: [] },
+        { id: 'sidefeature1', category: 'Business', title: 'Global Markets React to New Economic Policies', fullContent: 'Global markets are showing significant volatility as new economic policies are introduced. Analysts are closely watching how these changes will impact various sectors and international trade agreements.\n\nEconomic forecasts suggest potential shifts in investment strategies.', imageUrl: 'https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80', author: 'Emily White', authorImage: 'https://randomuser.me/api/portraits/women/67.jpg', publishDate: 'July 5, 2025 at 1:00 PM', isFeatured: true, isSideFeature: true, authorId: 'admin', comments: [] },
+        { id: 'sidefeature2', category: 'Sports', title: 'National Team Qualifies for Finals', fullContent: 'In an exhilarating display of skill and determination, the national team has successfully secured its spot in the championship finals after a series of intense matches against top-ranked opponents.\n\nFans are eagerly anticipating the final showdown.', imageUrl: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80', author: 'David Lee', authorImage: 'https://randomuser.me/api/portraits/men/22.jpg', publishDate: 'July 5, 2025 at 11:30 AM', isFeatured: true, isSideFeature: true, authorId: 'admin', comments: [] },
+        { id: 'sidefeature3', category: 'Automotive', title: 'Electric Vehicle Sales Surpass Traditional Models', fullContent: 'For the first time in history, sales of electric vehicles have officially surpassed traditional gasoline-powered models, signaling a significant shift in consumer preferences and the automotive industry\'s future.\n\nThis trend is expected to continue as infrastructure improves.', imageUrl: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80', author: 'Olivia Clark', authorImage: 'https://randomuser.me/api/portraits/women/55.jpg', publishDate: 'July 5, 2025 at 9:15 AM', isFeatured: true, isSideFeature: true, authorId: 'admin', comments: [] },
+        { id: 'news1', category: 'Environment', title: 'New Climate Agreement Signed by 40 Nations', fullContent: 'Global leaders from 40 nations have signed a landmark climate agreement, committing to ambitious targets aimed at significantly reducing carbon emissions by the year 2030, marking a crucial step towards combating climate change.\n\nThe agreement emphasizes renewable energy investments and sustainable practices.', imageUrl: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80', author: 'Sarah Johnson', authorImage: 'https://randomuser.me/api/portraits/women/44.jpg', publishDate: 'July 4, 2025 at 3:00 PM', isFeatured: false, authorId: 'admin', comments: [] },
+        { id: 'news2', category: 'Sports', title: 'Underdog Team Advances to Championship Finals', fullContent: 'In a stunning upset, the underdog team defeats the reigning champions in a nail-biting finish, securing their spot in the championship finals and thrilling fans worldwide.\n\nTheir journey has captured the hearts of many.', imageUrl: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80', author: 'Michael Torres', authorImage: 'https://randomuser.me/api/portraits/men/22.jpg', publishDate: 'July 4, 2025 at 6:45 PM', isFeatured: false, authorId: 'admin', comments: [] },
+        { id: 'news3', category: 'Finance', title: 'Central Bank Announces Interest Rate Changes', fullContent: 'In response to recent economic indicators and inflation concerns, the central bank has announced a series of interest rate adjustments, a move that is expected to have a significant impact on borrowing costs and investment across the country.\n\nAnalysts predict a period of market adjustment.', imageUrl: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80', author: 'David Kim', authorImage: 'https://randomuser.me/api/portraits/men/65.jpg', publishDate: 'July 4, 2025 at 1:00 PM', isFeatured: false, authorId: 'admin', comments: [] }
+    ];
+
+    // --- GLOBAL STATE (will be fetched from backend) ---
+    let allNews = []; // Master array of all news items
+    let notifications = []; // Notifications are still client-side for simplicity, but could be backend too.
+    let userProfile = { // User profile
+        name: 'Guest User',
+        avatar: 'https://via.placeholder.com/100x100?text=User'
+    };
+
+    // --- DOM Elements ---
+    const menuToggle = document.getElementById('menuToggle');
+    const navContainer = document.getElementById('navContainer');
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = themeToggle.querySelector('i');
+    const notificationToggle = document.getElementById('notificationToggle');
+    const notificationBadge = document.getElementById('notificationBadge');
+    const notificationDropdown = document.getElementById('notificationDropdown');
+    const notificationList = document.getElementById('notificationList');
+    const noNotificationsMessage = document.getElementById('noNotificationsMessage');
+    const featuredSection = document.getElementById('featured-section');
+    const latestNewsSection = document.getElementById('latest-news-section');
+    const newsForm = document.getElementById('newsForm');
+    const editNewsIdInput = document.getElementById('editNewsId');
+    const publishBtn = document.getElementById('publishBtn');
+    const searchInput = document.getElementById('searchInput');
+    const searchButton = document.getElementById('searchButton');
+    const newsDetailModal = document.getElementById('newsDetailModal');
+    const closeModalButton = newsDetailModal.querySelector('.close-button');
+    const modalNewsImage = document.getElementById('modalNewsImage');
+    const modalCategoryTag = document.getElementById('modalCategoryTag');
+    const modalNewsTitle = document.getElementById('modalNewsTitle');
+    const modalAuthorImage = document.getElementById('modalAuthorImage');
+    const modalAuthorName = document.getElementById('modalAuthorName');
+    const modalPublishDate = document.getElementById('modalPublishDate');
+    const modalNewsContent = document.getElementById('modalNewsContent');
+    const modalAuthorBio = document.getElementById('modalAuthorBio');
+    const commentForm = document.getElementById('commentForm');
+    const commentTextInput = document.getElementById('commentText');
+    const commentNewsIdInput = document.getElementById('commentNewsId');
+    const editCommentIdInput = document.getElementById('editCommentId');
+    const commentsList = document.getElementById('commentsList');
+    const noCommentsMessage = document.getElementById('noCommentsMessage');
+    const postCommentBtn = document.getElementById('postCommentBtn');
+    const profileIcon = document.getElementById('profileIcon');
+    const profileModal = document.getElementById('profileModal');
+    const closeProfileModalBtn = document.getElementById('closeProfileModal');
+    const profileForm = document.getElementById('profileForm');
+    const profileNameInput = document.getElementById('profileName');
+    const profileAvatarUpload = document.getElementById('profileAvatarUpload');
+    const profileAvatarPreview = document.getElementById('profileAvatarPreview');
+    const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+    const currentImagePreview = document.getElementById('currentImagePreview');
+    const clearImageSelection = document.getElementById('clearImageSelection');
+    const loadingOverlay = document.getElementById('loadingOverlay');
+    const loadingMessage = document.getElementById('loadingMessage');
+    const loadingIcon = loadingOverlay.querySelector('i');
+    const navCategoryLinks = document.querySelectorAll('.nav-link-category');
+    const footerCategoryLinks = document.querySelectorAll('.footer-link-category');
+    const scrollToTopBtn = document.querySelector('.scroll-to-top');
+
+    // --- UTILITY FUNCTIONS ---
+    function showLoading(message = 'Loading...', iconClass = 'fas fa-spinner', animate = true) {
+        loadingMessage.textContent = message;
+        loadingIcon.className = iconClass;
+        loadingIcon.style.animation = animate ? 'spin 1s linear infinite' : 'none';
+        loadingOverlay.classList.add('visible');
+    }
+
+    function hideLoading() {
+        loadingOverlay.classList.remove('visible');
+    }
+
+    function displayError(message = 'An unexpected error occurred. Please try again.') {
+        showLoading(message, 'fas fa-exclamation-circle', false);
+        setTimeout(hideLoading, 3000);
+    }
+
+    function displaySuccess(message = 'Operation successful!') {
+        showLoading(message, 'fas fa-check-circle', false);
+        setTimeout(hideLoading, 1500);
+    }
+
+    function timeAgo(dateString) {
+        const now = new Date();
+        const date = new Date(dateString);
+        const seconds = Math.floor((now - date) / 1000);
+
+        let interval = seconds / 31536000;
+        if (interval > 1) return Math.floor(interval) + " years ago";
+        interval = seconds / 2592000;
+        if (interval > 1) return Math.floor(interval) + " months ago";
+        interval = seconds / 86400;
+        if (interval > 1) return Math.floor(interval) + " days ago";
+        interval = seconds / 3600;
+        if (interval > 1) return Math.floor(interval) + " hours ago";
+        interval = seconds / 60;
+        if (interval > 1) return Math.floor(interval) + " minutes ago";
+        return Math.floor(seconds) + " seconds ago";
+    }
+
+    function saveUserProfile() {
+        localStorage.setItem(USER_PROFILE_KEY, JSON.stringify(userProfile));
+    }
+
+    function loadUserProfile() {
+        const storedProfile = localStorage.getItem(USER_PROFILE_KEY);
+        if (storedProfile) {
+            userProfile = JSON.parse(storedProfile);
+        }
+    }
+
+    // --- THEME TOGGLE ---
+    const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    const currentTheme = localStorage.getItem('theme');
+
+    // Set initial theme
+    if (currentTheme === 'dark' || (!currentTheme && prefersDarkScheme.matches)) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        themeIcon.classList.remove('fa-sun');
+        themeIcon.classList.add('fa-moon');
+    } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+        themeIcon.classList.remove('fa-moon');
+        themeIcon.classList.add('fa-sun');
+    }
+
+    // Toggle theme
+    themeToggle.addEventListener('click', function() {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        if (currentTheme === 'light') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            themeIcon.classList.remove('fa-sun');
+            themeIcon.classList.add('fa-moon');
+            localStorage.setItem('theme', 'dark');
+        } else {
+            document.documentElement.setAttribute('data-theme', 'light');
+            themeIcon.classList.remove('fa-moon');
+            themeIcon.classList.add('fa-sun');
+            localStorage.setItem('theme', 'light');
+        }
+    });
+
+    // --- MOBILE MENU TOGGLE ---
+    menuToggle.addEventListener('click', () => {
+        navContainer.classList.toggle('active');
+    });
+
+    // --- NOTIFICATIONS (Client-side for simplicity, but could be backend) ---
+    function updateNotificationDisplay() {
+        notificationList.innerHTML = '';
+        if (notifications.length === 0) {
+            noNotificationsMessage.style.display = 'block';
+        } else {
+            noNotificationsMessage.style.display = 'none';
+            notifications.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+            notifications.forEach(notification => {
+                const item = document.createElement('div');
+                item.className = 'notification-item';
+                if (notification.newsId) {
+                    item.setAttribute('data-news-id', notification.newsId);
+                }
+                item.innerHTML = `
+                    <i class="${notification.icon}"></i>
+                    <div class="notification-content">
+                        <p>${notification.message}</p>
+                        <small>${timeAgo(notification.timestamp)}</small>
+                    </div>
+                `;
+                notificationList.appendChild(item);
+            });
+        }
+        notificationBadge.textContent = notifications.length;
+        notificationBadge.style.display = notifications.length > 0 ? 'flex' : 'none';
+    }
+
+    function addNotification(message, icon = 'fas fa-info-circle', newsId = null) {
+        const newNotification = {
+            id: Date.now(),
+            message,
+            icon,
+            timestamp: new Date().toISOString(),
+            newsId
+        };
+        notifications.unshift(newNotification);
+        if (notifications.length > 10) { // Keep only latest 10
+            notifications = notifications.slice(0, 10);
+        }
+        // Ideally, notifications would also be stored/fetched from a backend
+        // For now, client-side only:
+        localStorage.setItem('globalNewsNotifications', JSON.stringify(notifications));
+        updateNotificationDisplay();
+    }
+
+    notificationToggle.addEventListener('click', (event) => {
+        notificationDropdown.classList.toggle('active');
+        if (notificationDropdown.classList.contains('active')) {
+            notificationBadge.textContent = '0';
+            notificationBadge.style.display = 'none';
+        }
+        event.stopPropagation();
+    });
+
+    document.addEventListener('click', (event) => {
+        if (!notificationDropdown.contains(event.target) && !notificationToggle.contains(event.target)) {
+            notificationDropdown.classList.remove('active');
+        }
+    });
+
+    // --- NEWS FETCHING AND RENDERING (Backend Interaction) ---
+
+    // Fetches all news from the backend API
+    async function fetchNews(category = 'all', searchTerm = '') {
+        showLoading('Fetching news...');
+        try {
+            let url = `${BASE_API_URL}/news`;
+            const params = new URLSearchParams();
+            if (category !== 'all' && category !== 'my-posts') {
+                params.append('category', category);
+            }
+            if (searchTerm) {
+                params.append('search', searchTerm);
+            }
+            if (category === 'my-posts') {
+                params.append('authorId', MY_POSTS_AUTHOR_ID);
+            }
+            if (params.toString()) {
+                url += `?${params.toString()}`;
+            }
+
+            const response = await fetch(url);
+            if (!response.ok) {
+                // If backend is down or returns an error, explicitly state the problem.
+                throw new Error(`Failed to fetch news from ${url}. Server responded with status: ${response.status}. Please ensure your backend server is running.`);
+            }
+            const data = await response.json();
+            allNews = data; // Update global news array with fetched data
+            renderNewsCards(category, searchTerm); // Render based on fetched data
+            hideLoading();
+        } catch (error) {
+            console.error('Error fetching news:', error);
+            displayError(`Failed to load news: ${error.message}`);
+            // Do NOT fall back to DEFAULT_NEWS_DATA here, as it encourages ignoring backend issues.
+            // A real app would show a persistent error or a retry mechanism.
+        }
+    }
+
+    // Function to render news cards based on the allNews array
+    function renderNewsCards(filterCategory = 'all', searchTerm = '') {
+        featuredSection.innerHTML = '';
+        latestNewsSection.innerHTML = '';
+
+        // Sort all news by publishDate (newest first)
+        const sortedNewsData = [...allNews].sort((a, b) => new Date(b.publishDate) - new Date(a.publishDate));
+
+        const featuredNewsItems = sortedNewsData.filter(news => news.isFeatured);
+        const latestNewsItems = sortedNewsData.filter(news => !news.isFeatured);
+
+        // Render Featured News
+        const mainFeature = featuredNewsItems.find(news => !news.isSideFeature);
+        if (mainFeature && shouldDisplayNews(mainFeature, filterCategory, searchTerm)) {
+            featuredSection.appendChild(createNewsElement(mainFeature, 'main-feature'));
+        }
+
+        const sideFeaturesContainer = document.createElement('div');
+        sideFeaturesContainer.className = 'side-features';
+        const sideFeatures = featuredNewsItems.filter(news => news.isSideFeature);
+        sideFeatures.forEach(news => {
+            if (shouldDisplayNews(news, filterCategory, searchTerm)) {
+                sideFeaturesContainer.appendChild(createNewsElement(news, 'side-feature'));
+            }
+        });
+        if (sideFeaturesContainer.children.length > 0) {
+            featuredSection.appendChild(sideFeaturesContainer);
+        }
+
+        // Render Latest News
+        const newsGrid = document.createElement('div');
+        newsGrid.className = 'news-grid';
+        latestNewsItems.forEach(news => {
+            if (shouldDisplayNews(news, filterCategory, searchTerm)) {
+                newsGrid.appendChild(createNewsElement(news, 'news-card'));
+            }
+        });
+        latestNewsSection.appendChild(newsGrid);
+    }
+
+    function shouldDisplayNews(news, filterCategory, searchTerm) {
+        const matchesCategory = filterCategory === 'all' || news.category === filterCategory || (filterCategory === 'my-posts' && news.authorId === MY_POSTS_AUTHOR_ID);
+        const matchesSearch = searchTerm === '' || news.title.toLowerCase().includes(searchTerm.toLowerCase()) || news.fullContent.toLowerCase().includes(searchTerm.toLowerCase()) || news.category.toLowerCase().includes(searchTerm.toLowerCase()) || news.author.toLowerCase().includes(searchTerm.toLowerCase());
+        return matchesCategory && matchesSearch;
+    }
+
+    function createNewsElement(newsItem, type) {
+        const element = document.createElement('a');
+        element.href = 'javascript:void(0)';
+        element.className = type;
+        element.setAttribute('data-id', newsItem.id);
+        element.setAttribute('data-category', newsItem.category);
+        // data-full-content is not strictly needed on the card for modal, as modal fetches fresh data
+        element.setAttribute('data-author-id', newsItem.authorId);
+
+        const firstParagraph = newsItem.fullContent.split('\n')[0];
+        const truncatedContent = firstParagraph.substring(0, 80) + (firstParagraph.length > 80 ? '...' : '');
+
+        let actionsHTML = '';
+        if (newsItem.authorId === MY_POSTS_AUTHOR_ID) { // Only allow editing/deleting owned posts
+            actionsHTML = `
+                <div class="card-actions">
+                    <i class="fas fa-edit" data-action="edit"></i>
+                    <i class="fas fa-trash" data-action="delete"></i>
+                </div>
+            `;
+        }
+
+        // Helper function to resolve image URL
+        const getImageUrl = (url) => {
+            return url.startsWith('/uploads/') ? `http://localhost:3000${url}` : url;
+        };
+
+        let contentHTML = '';
+        if (type === 'main-feature') {
+            contentHTML = `
+                <div class="main-feature-image">
+                    <img src="${getImageUrl(newsItem.imageUrl)}" alt="${newsItem.title}">
+                </div>
+                <div class="main-feature-content">
+                    <span class="category-tag">${newsItem.category}</span>
+                    <h2>${newsItem.title}</h2>
+                    <p>${truncatedContent}</p>
+                    <div class="card-footer">
+                        <div class="author">
+                            <img src="${newsItem.authorImage || 'https://via.placeholder.com/28x28?text=A'}" alt="Author">
+                            <span>${newsItem.author}</span>
+                        </div>
+                        ${actionsHTML}
+                    </div>
+                </div>
+            `;
+        } else if (type === 'side-feature') {
+            contentHTML = `
+                <div class="side-feature-image">
+                    <img src="${getImageUrl(newsItem.imageUrl)}" alt="${newsItem.title}">
+                </div>
+                <div class="side-feature-content">
+                    <span class="category-tag">${newsItem.category}</span>
+                    <h4>${newsItem.title}</h4>
+                    <div class="card-footer">
+                        <span>${timeAgo(newsItem.publishDate)}</span>
+                        ${actionsHTML}
+                    </div>
+                </div>
+            `;
+        } else if (type === 'news-card') {
+            contentHTML = `
+                <div class="card-image">
+                    <img src="${getImageUrl(newsItem.imageUrl)}" alt="${newsItem.title}">
+                </div>
+                <div class="card-content">
+                    <span class="category-tag">${newsItem.category}</span>
+                    <h3>${newsItem.title}</h3>
+                    <p>${truncatedContent}</p>
+                    <div class="card-footer">
+                        <div class="author">
+                            <img src="${newsItem.authorImage || 'https://via.placeholder.com/28x28?text=A'}" alt="Author">
+                            <span>${newsItem.author}</span>
+                        </div>
+                        ${actionsHTML}
+                    </div>
+                </div>
+            `;
+        }
+        element.innerHTML = contentHTML;
+        return element;
+    }
+
+    // --- CATEGORY FILTERING ---
+    let currentActiveCategory = 'all'; // Keep track of the currently active category
+
+    function filterNewsByCategory(category) {
+        navCategoryLinks.forEach(navLink => navLink.classList.remove('active'));
+        const currentActiveNavLink = document.querySelector(`.nav-link-category[data-category="${category}"]`);
+        if (currentActiveNavLink) {
+            currentActiveNavLink.classList.add('active');
+        } else {
+            document.querySelector('.nav-link-category[data-category="all"]').classList.add('active');
+        }
+        currentActiveCategory = category; // Update the global variable
+        fetchNews(category); // Fetch news based on category
+        searchInput.value = ''; // Clear search input when filtering by category
+        document.querySelector('.container').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    navCategoryLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            filterNewsByCategory(this.dataset.category);
+        });
+    });
+
+    footerCategoryLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            filterNewsByCategory(this.dataset.category);
+        });
+    });
+
+    // --- SEARCH BAR FUNCTIONALITY ---
+    function performSearch() {
+        const query = searchInput.value.toLowerCase().trim();
+        navCategoryLinks.forEach(navLink => navLink.classList.remove('active'));
+        document.querySelector('.nav-link-category[data-category="all"]').classList.add('active');
+        currentActiveCategory = 'all'; // Reset active category to all for search
+        fetchNews('all', query); // Search across all categories
+    }
+
+    searchButton.addEventListener('click', performSearch);
+    searchInput.addEventListener('keyup', function(e) {
+        if (e.key === 'Enter') {
+            performSearch();
+        } else if (searchInput.value.trim() === '') {
+            filterNewsByCategory('all');
+        }
+    });
+
+    // --- ADMIN NEWS PUBLISHING / EDITING (Backend Interaction) ---
+    newsForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        showLoading('Processing news...');
+
+        const title = document.getElementById('newsTitle').value;
+        const category = document.getElementById('newsCategory').value;
+        const newsImageFile = document.getElementById('newsImage').files[0];
+        const content = document.getElementById('newsContent').value;
+        const editingId = editNewsIdInput.value;
+
+        const authorName = userProfile.name;
+        const authorImage = userProfile.avatar;
+        const authorId = MY_POSTS_AUTHOR_ID; // The fixed author ID for client-created posts
+
+        const formData = new FormData();
+        formData.append('title', title);
+        formData.append('category', category);
+        formData.append('fullContent', content);
+        formData.append('author', authorName);
+        formData.append('authorImage', authorImage);
+        formData.append('authorId', authorId);
+
+        if (newsImageFile) {
+            formData.append('image', newsImageFile); // Append file if new image is selected
+        } else if (editingId) {
+            // If editing and no new file, explicitly tell backend to keep existing image URL
+            const existingNews = allNews.find(item => item.id === editingId);
+            if (existingNews && existingNews.imageUrl) {
+                // Only send the imageUrl if it's not a local file to prevent issues
+                // For local files, the backend logic for deletion/replacement handles it.
+                if (!existingNews.imageUrl.startsWith('/uploads/')) {
+                     formData.append('imageUrl', existingNews.imageUrl);
+                }
+            } else {
+                formData.append('imageUrl', 'https://via.placeholder.com/600x400?text=No+Image'); // Default if no image
+            }
+        } else {
+            // New post with no image selected
+            formData.append('imageUrl', 'https://via.placeholder.com/600x400?text=No+Image'); // Default for new post with no image
+        }
+
+        try {
+            let response;
+            if (editingId) {
+                // UPDATE News Item
+                response = await fetch(`${BASE_API_URL}/news/${editingId}`, {
+                    method: 'PUT',
+                    body: formData // FormData automatically sets Content-Type to multipart/form-data
+                });
+            } else {
+                // CREATE New News Item
+                response = await fetch(`${BASE_API_URL}/news`, {
+                    method: 'POST',
+                    body: formData
+                });
+            }
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Server error during news submission.');
+            }
+
+            const result = await response.json();
+            displaySuccess(editingId ? 'News updated successfully!' : 'News published successfully!');
+            addNotification(
+                editingId ? `"${title}" was updated by ${authorName}.` : `New article "${title}" published by ${authorName}!`,
+                editingId ? 'fas fa-pen' : 'fas fa-newspaper',
+                result.id // Use the ID returned from the server
+            );
+
+            newsForm.reset();
+            editNewsIdInput.value = '';
+            publishBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Publish News';
+            imagePreviewContainer.style.display = 'none';
+            currentImagePreview.src = '';
+
+            await fetchNews(currentActiveCategory, searchInput.value); // Re-fetch and re-render current view
+            document.querySelector('.admin-panel').scrollIntoView({ behavior: 'smooth' });
+
+        } catch (error) {
+            console.error('Error submitting news:', error);
+            displayError(`Failed to submit news: ${error.message}`);
+        } finally {
+            hideLoading();
+        }
+    });
+
+    // Image preview and clear functionality for news image
+    newsImage.addEventListener('change', function() {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                currentImagePreview.src = e.target.result;
+                imagePreviewContainer.style.display = 'flex';
+            };
+            reader.readAsDataURL(file);
+        } else {
+            // If file input is cleared, hide preview
+            imagePreviewContainer.style.display = 'none';
+            currentImagePreview.src = '';
+        }
+    });
+
+    clearImageSelection.addEventListener('click', () => {
+        newsImage.value = ''; // Clear the file input
+        imagePreviewContainer.style.display = 'none';
+        currentImagePreview.src = '';
+    });
+
+    // --- NEWS DETAIL MODAL AND COMMENTS (Backend Interaction) ---
+
+    async function fetchNewsDetailAndComments(newsId) {
+        showLoading('Loading article...');
+        try {
+            const newsResponse = await fetch(`${BASE_API_URL}/news/${newsId}`);
+            if (!newsResponse.ok) {
+                throw new Error(`Failed to fetch news detail. Status: ${newsResponse.status}`);
+            }
+            const newsItem = await newsResponse.json();
+
+            // Fetch comments for this news item
+            const commentsResponse = await fetch(`${BASE_API_URL}/news/${newsId}/comments`);
+            if (!commentsResponse.ok) {
+                throw new Error(`Failed to fetch comments. Status: ${commentsResponse.status}`);
+            }
+            const comments = await commentsResponse.json();
+            newsItem.comments = comments; // Attach comments to the news item
+
+            // Helper function to resolve image URL for modal
+            const getModalImageUrl = (url) => {
+                return url.startsWith('/uploads/') ? `http://localhost:3000${url}` : url;
+            };
+
+            // Populate modal
+            modalNewsImage.src = getModalImageUrl(newsItem.imageUrl);
+            modalNewsImage.alt = newsItem.title;
+            modalCategoryTag.textContent = newsItem.category;
+            modalNewsTitle.textContent = newsItem.title;
+            modalAuthorImage.src = newsItem.authorImage || 'https://via.placeholder.com/40x40?text=A';
+            modalAuthorName.textContent = newsItem.author;
+            modalPublishDate.textContent = newsItem.publishDate;
+            modalNewsContent.textContent = newsItem.fullContent;
+            modalAuthorBio.textContent = `Read more articles by ${newsItem.author}.`;
+
+            commentNewsIdInput.value = newsId;
+            editCommentIdInput.value = '';
+            commentTextInput.value = '';
+            postCommentBtn.innerHTML = '<i class="fas fa-comment-dots"></i> Post Comment';
+            displayComments(newsItem); // Display fetched comments
+            newsDetailModal.classList.add('visible');
+            document.body.style.overflow = 'hidden';
+            hideLoading();
+        } catch (error) {
+            console.error('Error fetching news detail or comments:', error);
+            displayError(`Failed to load article details: ${error.message}`);
+        }
+    }
+
+    function displayComments(newsItem) {
+        commentsList.innerHTML = '';
+        if (newsItem.comments && newsItem.comments.length > 0) {
+            noCommentsMessage.style.display = 'none';
+            // Comments are already sorted by backend, but ensure for consistency if data source changes
+            newsItem.comments.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+            newsItem.comments.forEach(comment => {
+                const commentElement = document.createElement('div');
+                commentElement.className = 'comment-item';
+                commentElement.setAttribute('data-comment-id', comment.id);
+                let actionsHTML = '';
+                // Check if comment belongs to the current user (based on authorId stored in the comment on backend)
+                if (comment.authorId === MY_POSTS_AUTHOR_ID) {
+                    actionsHTML = `
+                        <div class="comment-actions">
+                            <i class="fas fa-edit" data-action="edit-comment"></i>
+                            <i class="fas fa-trash" data-action="delete-comment"></i>
+                        </div>
+                    `;
+                }
+                commentElement.innerHTML = `
+                    <img src="${comment.avatar || 'https://via.placeholder.com/45x45?text=U'}" alt="${comment.author}" class="comment-avatar">
+                    <div class="comment-content">
+                        <div class="comment-meta">
+                            <div class="comment-author-info">
+                                <span class="comment-author-name">${comment.author}</span> &bull; <span>${timeAgo(comment.timestamp)}</span>
+                            </div>
+                            ${actionsHTML}
+                        </div>
+                        <p class="comment-text">${comment.text}</p>
+                    </div>
+                `;
+                commentsList.appendChild(commentElement);
+            });
+        } else {
+            noCommentsMessage.style.display = 'block';
+        }
+    }
+
+    commentForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        showLoading('Posting comment...');
+        const newsId = commentNewsIdInput.value;
+        const editCommentId = editCommentIdInput.value;
+        const commenterName = userProfile.name;
+        const commenterAvatar = userProfile.avatar;
+        const commentText = commentTextInput.value.trim();
+
+        if (commenterName === 'Guest User') {
+            displayError('Please set your name in the profile before commenting.');
+            hideLoading();
+            return;
+        }
+        if (!commentText) {
+            displayError('Please enter your comment.');
+            hideLoading();
+            return;
+        }
+
+        const commentData = {
+            author: commenterName,
+            authorId: MY_POSTS_AUTHOR_ID,
+            avatar: commenterAvatar,
+            text: commentText
+        };
+
+        try {
+            let response;
+            if (editCommentId) {
+                // UPDATE Comment
+                response = await fetch(`${BASE_API_URL}/news/${newsId}/comments/${editCommentId}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(commentData)
+                });
+            } else {
+                // CREATE Comment
+                response = await fetch(`${BASE_API_URL}/news/${newsId}/comments`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(commentData)
+                });
+            }
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Server error during comment submission.');
+            }
+
+            displaySuccess(editCommentId ? 'Comment updated!' : 'Comment posted!');
+            addNotification(
+                editCommentId ? `Your comment on news ID ${newsId} was updated.` : `New comment on news ID ${newsId} by ${commenterName}.`,
+                editCommentId ? 'fas fa-pen' : 'fas fa-comment',
+                newsId
+            );
+
+            // Re-fetch comments for this specific news item to update the modal
+            await fetchNewsDetailAndComments(newsId);
+
+            commentForm.reset();
+            editCommentIdInput.value = '';
+            postCommentBtn.innerHTML = '<i class="fas fa-comment-dots"></i> Post Comment';
+
+        } catch (error) {
+            console.error('Error submitting comment:', error);
+            displayError(`Failed to submit comment: ${error.message}`);
+        } finally {
+            hideLoading();
+        }
+    });
+
+    // Delegated event listener for news and comment actions
+    document.addEventListener('click', async function(e) {
+        const target = e.target;
+
+        // --- News Card Actions (Edit/Delete) ---
+        if (target.classList.contains('fa-trash') && target.dataset.action === 'delete') {
+            const newsCardElement = target.closest('.news-card, .main-feature, .side-feature');
+            if (!newsCardElement) return;
+            const newsIdToDelete = newsCardElement.dataset.id;
+            const newsItemAuthorId = newsCardElement.dataset.authorId;
+
+            if (newsItemAuthorId === MY_POSTS_AUTHOR_ID) {
+                if (confirm('Are you sure you want to delete this news item?')) {
+                    showLoading('Deleting news...');
+                    try {
+                        const response = await fetch(`${BASE_API_URL}/news/${newsIdToDelete}`, {
+                            method: 'DELETE'
+                        });
+
+                        if (!response.ok) {
+                            const errorData = await response.json();
+                            throw new Error(errorData.message || 'Server error during deletion.');
+                        }
+
+                        displaySuccess('News item deleted!');
+                        addNotification(`News item ${newsIdToDelete} was deleted.`, 'fas fa-trash-alt');
+                        await fetchNews(currentActiveCategory, searchInput.value); // Re-fetch and re-render current view
+                    } catch (error) {
+                        console.error('Error deleting news:', error);
+                        displayError(`Failed to delete news: ${error.message}`);
+                    } finally {
+                        hideLoading();
+                    }
+                }
+            } else {
+                alert('You can only delete your own posts.');
+            }
+        } else if (target.classList.contains('fa-edit') && target.dataset.action === 'edit') {
+            const newsCardElement = target.closest('.news-card, .main-feature, .side-feature');
+            if (!newsCardElement) return;
+            const newsIdToEdit = newsCardElement.dataset.id;
+            const newsItemAuthorId = newsCardElement.dataset.authorId;
+
+            if (newsItemAuthorId === MY_POSTS_AUTHOR_ID) {
+                showLoading('Loading news for edit...');
+                try {
+                    const response = await fetch(`${BASE_API_URL}/news/${newsIdToEdit}`);
+                    if (!response.ok) {
+                        throw new Error(`Failed to fetch news for edit. Status: ${response.status}`);
+                    }
+                    const newsItem = await response.json();
+
+                    document.getElementById('newsTitle').value = newsItem.title;
+                    document.getElementById('newsCategory').value = newsItem.category;
+                    document.getElementById('newsContent').value = newsItem.fullContent;
+                    document.getElementById('editNewsId').value = newsItem.id;
+
+                    // Set image preview if exists
+                    if (newsItem.imageUrl) {
+                        // Handle local uploads vs external URLs
+                        currentImagePreview.src = newsItem.imageUrl.startsWith('/uploads/') ? `http://localhost:3000${newsItem.imageUrl}` : newsItem.imageUrl;
+                        imagePreviewContainer.style.display = 'flex';
+                    } else {
+                        imagePreviewContainer.style.display = 'none';
+                        currentImagePreview.src = '';
+                    }
+                    newsImage.value = ''; // Clear file input so new file can be selected
+
+                    publishBtn.innerHTML = '<i class="fas fa-upload"></i> Update News';
+                    document.querySelector('.admin-panel').scrollIntoView({ behavior: 'smooth' });
+                    hideLoading();
+                } catch (error) {
+                    console.error('Error fetching news for edit:', error);
+                    displayError(`Failed to load news for edit: ${error.message}`);
+                }
+            } else {
+                alert('You can only edit your own posts.');
+            }
+        }
+        // --- Comment Actions (Edit/Delete) ---
+        else if (target.classList.contains('fa-trash') && target.dataset.action === 'delete-comment') {
+            const commentElement = target.closest('.comment-item');
+            if (!commentElement) return;
+            const commentIdToDelete = commentElement.dataset.commentId;
+            const newsId = commentNewsIdInput.value; // News ID from the open modal
+
+            // Fetch the comment to verify ownership (more robust than relying on local allNews copy)
+            showLoading('Verifying comment owner...');
+            try {
+                const commentResponse = await fetch(`${BASE_API_URL}/news/${newsId}/comments`);
+                if (!commentResponse.ok) {
+                    throw new Error('Failed to fetch comments to verify ownership.');
+                }
+                const comments = await commentResponse.json();
+                const commentToDelete = comments.find(c => c.id === commentIdToDelete);
+
+                if (commentToDelete && commentToDelete.authorId === MY_POSTS_AUTHOR_ID) {
+                    hideLoading(); // Hide initial verification loading before confirmation
+                    if (confirm('Are you sure you want to delete this comment?')) {
+                        showLoading('Deleting comment...');
+                        const response = await fetch(`${BASE_API_URL}/news/${newsId}/comments/${commentIdToDelete}`, {
+                            method: 'DELETE'
+                        });
+
+                        if (!response.ok) {
+                            const errorData = await response.json();
+                            throw new Error(errorData.message || 'Server error during comment deletion.');
+                        }
+
+                        displaySuccess('Comment deleted!');
+                        addNotification(`A comment on news ID ${newsId} was deleted.`, 'fas fa-trash-alt', newsId);
+                        await fetchNewsDetailAndComments(newsId); // Re-fetch and display comments
+                    }
+                } else {
+                    hideLoading(); // Hide loading if not authorized
+                    alert('You can only delete your own comments.');
+                }
+            } catch (error) {
+                console.error('Error deleting comment:', error);
+                displayError(`Failed to delete comment: ${error.message}`);
+            } finally {
+                // Ensure loading is hidden in all paths
+                hideLoading();
+            }
+        } else if (target.classList.contains('fa-edit') && target.dataset.action === 'edit-comment') {
+            const commentElement = target.closest('.comment-item');
+            if (!commentElement) return;
+            const commentIdToEdit = commentElement.dataset.commentId;
+            const newsId = commentNewsIdInput.value;
+
+            showLoading('Loading comment for edit...');
+            try {
+                const commentResponse = await fetch(`${BASE_API_URL}/news/${newsId}/comments`);
+                if (!commentResponse.ok) {
+                    throw new Error('Failed to fetch comments to verify ownership.');
+                }
+                const comments = await commentResponse.json();
+                const commentToEdit = comments.find(c => c.id === commentIdToEdit);
+
+                if (commentToEdit && commentToEdit.authorId === MY_POSTS_AUTHOR_ID) {
+                    commentTextInput.value = commentToEdit.text;
+                    editCommentIdInput.value = commentToEdit.id;
+                    postCommentBtn.innerHTML = '<i class="fas fa-save"></i> Update Comment';
+                    commentTextInput.focus();
+                    hideLoading();
+                } else {
+                    hideLoading();
+                    alert('You can only edit your own comments.');
+                }
+            } catch (error) {
+                console.error('Error editing comment:', error);
+                displayError(`Failed to load comment for edit: ${error.message}`);
+            }
+        }
+        // --- Handle click on notification item to show full content in modal ---
+        else if (target.closest('.notification-item')) {
+            const notificationItemElement = target.closest('.notification-item');
+            const newsId = notificationItemElement.dataset.newsId;
+            if (newsId) {
+                fetchNewsDetailAndComments(newsId);
+                notificationDropdown.classList.remove('active');
+            }
+        }
+        // --- Handle click on news card to show full content in modal ---
+        else if (target.closest('.news-card') || target.closest('.main-feature') || target.closest('.side-feature')) {
+            const newsCard = target.closest('.news-card') || target.closest('.main-feature') || target.closest('.side-feature');
+            if (target.classList.contains('fa-edit') || target.classList.contains('fa-trash')) {
+                return; // Do not open modal if edit/delete icon was clicked
+            }
+            const newsId = newsCard.dataset.id;
+            fetchNewsDetailAndComments(newsId); // Fetch and display detail and comments
+        }
+    });
+
+    // Close modal event listener
+    closeModalButton.addEventListener('click', () => {
+        newsDetailModal.classList.remove('visible');
+        document.body.style.overflow = '';
+    });
+
+    // Close modal if clicked outside content (on backdrop)
+    newsDetailModal.addEventListener('click', (e) => {
+        if (e.target === newsDetailModal) {
+            newsDetailModal.classList.remove('visible');
+            document.body.style.overflow = '';
+        }
+    });
+
+    // Newsletter subscription form functionality (Client-side only)
+    document.getElementById('newsletterForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const emailInput = document.getElementById('newsletterEmail');
+        const email = emailInput.value;
+        if (email && email.includes('@') && email.includes('.')) {
+            alert(`Thank you for subscribing, ${email}! You'll receive our daily updates.`);
+            emailInput.value = '';
+        } else {
+            alert('Please enter a valid email address.');
+        }
+    });
+
+    // Scroll to top button
+    window.addEventListener('scroll', () => {
+        if (window.pageYOffset > 300) {
+            scrollToTopBtn.classList.add('visible');
+        } else {
+            scrollToTopBtn.classList.remove('visible');
+        }
+    });
+
+    scrollToTopBtn.addEventListener('click', () => {
+        smoothScrollTo(0);
+    });
+
+    // Enhanced smooth scrolling for internal anchor links (excluding category links)
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+            if (this.classList.contains('nav-link-category') || this.classList.contains('footer-link-category')) {
+                return;
+            }
+            if (href !== '#' && href !== '#!' && href !== 'javascript:void(0)') {
+                e.preventDefault();
+                const targetElement = document.querySelector(href);
+                if (targetElement) {
+                    const headerHeight = document.querySelector('header').offsetHeight;
+                    const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+                    smoothScrollTo(targetPosition);
+                }
+            }
+        });
+    });
+
+    function smoothScrollTo(targetPosition) {
+        const startPosition = window.pageYOffset;
+        const distance = targetPosition - startPosition;
+        const duration = 800;
+        let startTime = null;
+
+        function animation(currentTime) {
+            if (startTime === null) startTime = currentTime;
+            const timeElapsed = currentTime - startTime;
+            const run = easeInOutQuad(timeElapsed, startPosition, distance, duration);
+            window.scrollTo(0, run);
+            if (timeElapsed < duration) requestAnimationFrame(animation);
+        }
+
+        function easeInOutQuad(t, b, c, d) {
+            t /= d / 2;
+            if (t < 1) return c / 2 * t * t + b;
+            t--;
+            return -c / 2 * (t * (t - 2) - 1) + b;
+        }
+        requestAnimationFrame(animation);
+    }
+
+    // --- User Profile Logic (Client-side localStorage) ---
+    profileIcon.addEventListener('click', () => {
+        profileNameInput.value = userProfile.name;
+        profileAvatarPreview.src = userProfile.avatar;
+        profileModal.classList.add('visible');
+        document.body.style.overflow = 'hidden';
+    });
+
+    closeProfileModalBtn.addEventListener('click', () => {
+        profileModal.classList.remove('visible');
+        document.body.style.overflow = '';
+    });
+
+    profileModal.addEventListener('click', (e) => {
+        if (e.target === profileModal) {
+            profileModal.classList.remove('visible');
+            document.body.style.overflow = '';
+        }
+    });
+
+    profileAvatarUpload.addEventListener('change', function() {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                profileAvatarPreview.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    profileForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const newName = profileNameInput.value.trim();
+        const newAvatar = profileAvatarPreview.src;
+
+        if (newName) {
+            userProfile.name = newName;
+            userProfile.avatar = newAvatar;
+            saveUserProfile();
+            addNotification('Your profile has been updated!', 'fas fa-user');
+            alert('Profile saved successfully!');
+            profileModal.classList.remove('visible');
+            document.body.style.overflow = '';
+        } else {
+            alert('Please enter your name.');
+        }
+    });
+
+    // --- INITIALIZATION ---
+    document.addEventListener('DOMContentLoaded', async () => {
+        document.body.style.opacity = 1;
+        loadUserProfile();
+        // Load notifications from localStorage (still client-side for this example)
+        try {
+            const storedNotifications = localStorage.getItem('globalNewsNotifications');
+            if (storedNotifications) {
+                notifications = JSON.parse(storedNotifications);
+            }
+        } catch (e) {
+            console.error("Error loading notifications from localStorage:", e);
+            notifications = [];
+        }
+        updateNotificationDisplay();
+        await fetchNews('all'); // Initial fetch of all news from backend
+    });
+
+
+</script>
+<amp-ad layout="fixed" width="728" height="90" type="adsense" data-ad-client="ca-pub-6452903048072621" data-ad-slot="3171168179">
+</amp-ad>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6452903048072621" crossorigin="anonymous"></script>
+<ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-6452903048072621" data-ad-slot="3171168179"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6452903048072621" crossorigin="anonymous"></script>
+<ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-6452903048072621" data-ad-slot="7271029439"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</body>
+</html>
