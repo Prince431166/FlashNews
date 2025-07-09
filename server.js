@@ -15,7 +15,7 @@ app.use(express.urlencoded({ extended: true })); // To parse URL-encoded bodies
 
 // Serve static files from the 'public' directory (e.g., your frontend HTML, CSS, JS)
 // Assuming your index.html and other frontend assets are in a 'public' folder
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'index.html')));
 
 // Serve uploaded images statically
 // The frontend will request images like http://localhost:3000/uploads/image-name.jpg
@@ -82,7 +82,7 @@ const formatDate = (date) => {
 
 // ✅ Serve index.html for the root path
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public',  'index.html'));
+    res.sendFile(path.join(__dirname,   'index.html'));
 });
 app.get('/data', (req, res) => {
     res.sendFile(path.join(__dirname, 'uploads',  'data.json'));
