@@ -84,10 +84,10 @@ const formatDate = (date) => {
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
-app.get('/', (req, res) => {
+
+app.get('/data', (req, res) => {
     res.sendFile(path.join(__dirname, 'uploads', 'data.json'));
 });
-  
 
 // GET all news with optional filtering and search
 app.get('/api/news', (req, res) => {
