@@ -1551,20 +1551,6 @@
     </div>
 </div>
 <script>
-
-fetch("/data.json")
-    .then((response) => response.json())
-    .then((data) => {
-      const container = document.getElementById("news-container");
-      data.forEach((item) => {
-        const div = document.createElement("div");
-        div.textContent = item.title;
-        container.appendChild(div);
-      });
-    })
-    .catch((error) => {
-      console.error("Failed to load news.", error);
-    });
     
     // --- CONFIGURATION AND CONSTANTS ---
     // IMPORTANT: This BASE_API_URL must match the URL where your Node.js backend is running.
@@ -2615,5 +2601,22 @@ fetch("/data.json")
 <script>
     (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
+    
+<script>
+    // Yehi line laazmi hai:
+    fetch("/data.json")
+      .then((response) => response.json())
+      .then((data) => {
+        const container = document.getElementById("news-container");
+        data.forEach((item) => {
+          const div = document.createElement("div");
+          div.textContent = item.title;
+          container.appendChild(div);
+        });
+      })
+      .catch((error) => {
+        console.error("Failed to load news.", error);
+      });
+  </script> 
 </body>
 </html>
