@@ -1,18 +1,26 @@
 {
-  "name": "globalnews-app",
+  "name": "news-part-2",
   "version": "1.0.0",
-  "description": "A responsive news platform with a simple Node.js backend.",
+  "description": "",
   "main": "server.js",
+  "dependencies": {
+    "uuid": "^11.1.0"
+  },
+  "devDependencies": {},
   "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/prince431166/FlashNews.git"
+  },
   "keywords": [],
-  "author": "Your Name",
+  "author": "",
   "license": "ISC",
-  "dependencies": {
-    "cors": "^2.8.5",
-    "express": "^4.21.2",
-    "multer": "^1.4.5-lts.1",
-    "uuid": "^11.1.0"
-  }
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/prince431166/FlashNews/issues"
+  },
+  "homepage": "https://github.com/prince431166/FlashNews#readme"
 }
