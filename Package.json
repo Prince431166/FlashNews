@@ -1,5 +1,5 @@
 {
-  "name": "globalnews-app",
+  "name": "FlashNews",
   "version": "1.0.0",
   "description": "A responsive news platform with a simple Node.js backend.",
   "main": "server.js",
