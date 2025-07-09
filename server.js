@@ -57,6 +57,12 @@ const formatDate = (date) => {
 // --- API Endpoints for News ---
 
 // GET all news
+
+// ✅ Serve data.json explicitly
+app.get('/data.json', (req, res) => {
+  res.sendFile(path.join(__dirname, 'data.json'));
+});
+
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
