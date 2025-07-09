@@ -1550,6 +1550,27 @@
         </form>
     </div>
 </div>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6452903048072621" crossorigin="anonymous"></script>
+<ins class="adsbygoogle"
+     style="display:inline-block;width:728px;height:90px"
+     data-ad-client="ca-pub-6452903048072621"
+     data-ad-slot="3171168179"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6452903048072621" crossorigin="anonymous"></script>
+<ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-6452903048072621"
+     data-ad-slot="7271029439"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
 <script>
     // --- CONFIGURATION AND CONSTANTS ---
     // IMPORTANT: This BASE_API_URL must match the URL where your Node.js backend is running.
@@ -2548,6 +2569,9 @@
                 profileAvatarPreview.src = e.target.result;
             };
             reader.readAsDataURL(file);
+        } else {
+            // If file input is cleared, hide preview
+            profileAvatarPreview.src = userProfile.avatar; // Revert to current avatar if no new file selected
         }
     });
 
@@ -2586,20 +2610,6 @@
         updateNotificationDisplay();
         await fetchNews('all'); // Initial fetch of all news from backend
     });
-
-
-</script>
-<amp-ad layout="fixed" width="728" height="90" type="adsense" data-ad-client="ca-pub-6452903048072621" data-ad-slot="3171168179">
-</amp-ad>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6452903048072621" crossorigin="anonymous"></script>
-<ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-6452903048072621" data-ad-slot="3171168179"></ins>
-<script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6452903048072621" crossorigin="anonymous"></script>
-<ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-6452903048072621" data-ad-slot="7271029439"></ins>
-<script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
 </body>
 </html>

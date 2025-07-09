@@ -3,21 +3,28 @@ const cors = require('cors');
 const multer = require('multer'); // For handling file uploads
 const path = require('path');
 const fs = require('fs'); // For file system operations (saving images)
-const app = express(); 
+const { v4: uuidv4 } = require('uuid'); // For generating unique IDs (install: npm install uuid)
+
+const app = express();
 const PORT = 3000; // This is the port your frontend expects (localhost:3000)
 
+// --- Middleware ---
 app.use(cors()); // Allows requests from your frontend
-
-// Middleware
-app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json()); // To parse JSON bodies from requests
 app.use(express.urlencoded({ extended: true })); // To parse URL-encoded bodies
-app.use('/uploads', express.static(path.join(__dirname, 'uploads',))); // Serve uploaded images statically
 
+// Serve static files from the 'public' directory (e.g., your frontend HTML, CSS, JS)
+// Assuming your index.html and other frontend assets are in a 'public' folder
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Serve uploaded images statically
+// The frontend will request images like http://localhost:3000/uploads/image-name.jpg
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Ensure 'uploads' directory exists for images
-const uploadsDir = path.join(__dirname, 'uploads',);
+const uploadsDir = path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadsDir)) {
+    console.log(`Creating uploads directory: ${uploadsDir}`);
     fs.mkdirSync(uploadsDir);
 }
 
@@ -27,11 +34,28 @@ const storage = multer.diskStorage({
         cb(null, 'uploads/'); // Images will be saved in the 'uploads' folder
     },
     filename: (req, file, cb) => {
-        // Create a unique filename based on current timestamp and original name
-        cb(null, `${Date.now()}-${file.originalname}`);
+        // Use a unique ID for the filename to prevent collisions and preserve original extension
+        const uniqueSuffix = uuidv4();
+        const fileExtension = path.extname(file.originalname);
+        cb(null, `${uniqueSuffix}${fileExtension}`);
     }
 });
-const upload = multer({ storage: storage });
+const upload = multer({
+    storage: storage,
+    limits: { fileSize: 5 * 1024 * 1024 }, // Limit file size to 5MB (optional, but good practice)
+    fileFilter: (req, file, cb) => {
+        // Accept only common image formats
+        const allowedTypes = /jpeg|jpg|png|gif/;
+        const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
+        const mimetype = allowedTypes.test(file.mimetype);
+
+        if (extname && mimetype) {
+            return cb(null, true);
+        } else {
+            cb(new Error('Only images (jpeg, jpg, png, gif) are allowed!'));
+        }
+    }
+});
 
 // --- In-memory Data Store (for demonstration) ---
 // In a real application, you'd use a database (e.g., MongoDB, PostgreSQL, SQLite)
@@ -48,7 +72,7 @@ let newsData = [
 // Ensure all existing news items have a 'comments' array
 newsData = newsData.map(news => ({ ...news, comments: news.comments || [] }));
 
-// Utility to format date (optional, for consistent display)
+// Utility to format date for consistency (optional, but good practice)
 const formatDate = (date) => {
     const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
     return new Date(date).toLocaleString('en-US', options);
@@ -56,13 +80,14 @@ const formatDate = (date) => {
 
 // --- API Endpoints for News ---
 
-// GET all news
+// ✅ Serve index.html for the root path
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
+// GET all news with optional filtering and search
 app.get('/api/news', (req, res) => {
-    let filteredNews = [...newsData];
+    let filteredNews = [...newsData]; // Create a copy to avoid modifying original data
     const { category, search, authorId } = req.query;
 
     // Apply filters
@@ -78,6 +103,7 @@ app.get('/api/news', (req, res) => {
             news.author.toLowerCase().includes(searchTerm)
         );
     }
+    // Note: 'my-posts' logic is handled by the 'authorId' filter
     if (authorId) {
         filteredNews = filteredNews.filter(news => news.authorId === authorId);
     }
@@ -101,21 +127,25 @@ app.get('/api/news/:id', (req, res) => {
 // POST a new news item
 app.post('/api/news', upload.single('image'), (req, res) => {
     const { title, category, fullContent, author, authorImage, authorId } = req.body;
-    // Determine image URL: if a file was uploaded, use its path; otherwise, use existing or a placeholder.
+
+    if (!title || !category || !fullContent || !author || !authorId) {
+        return res.status(400).json({ message: 'Missing required news fields.' });
+    }
+
     const imageUrl = req.file ? `/uploads/${req.file.filename}` : (req.body.imageUrl || 'https://via.placeholder.com/600x400?text=No+Image');
 
     const newNews = {
-        id: `news-${Date.now()}`, // Simple unique ID
+        id: uuidv4(), // Use UUID for robust unique IDs
         category,
         title,
         fullContent,
         imageUrl,
-        author: author || 'Unknown Author',
+        author,
         authorImage: authorImage || 'https://via.placeholder.com/28x28?text=A',
         publishDate: formatDate(new Date()),
         isFeatured: false, // New posts are generally not featured by default
         isSideFeature: false, // New posts are generally not side featured by default
-        authorId: authorId || 'admin', // Default author ID
+        authorId,
         comments: [] // Initialize with empty comments array
     };
     newsData.push(newNews);
@@ -130,38 +160,50 @@ app.put('/api/news/:id', upload.single('image'), (req, res) => {
     if (newsIndex > -1) {
         const existingNews = newsData[newsIndex];
         const { title, category, fullContent, author, authorImage, authorId } = req.body;
-        let imageUrl = req.body.imageUrl; // Expect existing URL if no new file
+        let imageUrl = req.body.imageUrl; // Expect existing URL if no new file provided in form data
 
+        // Handle image update logic
         if (req.file) {
-            // New image uploaded, delete old local image if it exists
+            // New image uploaded: delete old local image if it exists
             if (existingNews.imageUrl && existingNews.imageUrl.startsWith('/uploads/')) {
                 const oldImagePath = path.join(__dirname, existingNews.imageUrl);
+                // Ensure the path exists before attempting to delete
                 if (fs.existsSync(oldImagePath)) {
                     fs.unlink(oldImagePath, (err) => {
-                        if (err) console.error("Error deleting old image:", err);
+                        if (err) console.error("Error deleting old image:", oldImagePath, err);
                     });
                 }
             }
             imageUrl = `/uploads/${req.file.filename}`; // Set new local image URL
-        } else if (!imageUrl && !req.file) {
-            // If no new file and imageUrl is empty, use placeholder
+        } else if (req.body.imageUrl === '') {
+            // If imageUrl in body is explicitly empty, it means the user cleared it
+            // And no new file was uploaded
             imageUrl = 'https://via.placeholder.com/600x400?text=No+Image';
-        } else if (!imageUrl && existingNews.imageUrl && !existingNews.imageUrl.startsWith('/uploads/')) {
-            // If imageUrl is empty from request, but old image was a remote URL, keep it
+             // If there was an old local image, delete it
+            if (existingNews.imageUrl && existingNews.imageUrl.startsWith('/uploads/')) {
+                const oldImagePath = path.join(__dirname, existingNews.imageUrl);
+                if (fs.existsSync(oldImagePath)) {
+                    fs.unlink(oldImagePath, (err) => {
+                        if (err) console.error("Error deleting old image after clear:", oldImagePath, err);
+                    });
+                }
+            }
+        } else {
+            // No new file, and imageUrl not explicitly cleared from body: retain existing URL
             imageUrl = existingNews.imageUrl;
         }
 
-
         const updatedNews = {
             ...existingNews,
-            title: title || existingNews.title,
-            category: category || existingNews.category,
-            fullContent: fullContent || existingNews.fullContent,
-            imageUrl: imageUrl || existingNews.imageUrl, // Use updated or existing
-            author: author || existingNews.author,
-            authorImage: authorImage || existingNews.authorImage,
-            authorId: authorId || existingNews.authorId,
-            // publishDate remains original or is updated explicitly if needed
+            title: title !== undefined ? title : existingNews.title, // Only update if provided
+            category: category !== undefined ? category : existingNews.category,
+            fullContent: fullContent !== undefined ? fullContent : existingNews.fullContent,
+            imageUrl: imageUrl, // Use the determined imageUrl
+            author: author !== undefined ? author : existingNews.author,
+            authorImage: authorImage !== undefined ? authorImage : existingNews.authorImage,
+            authorId: authorId !== undefined ? authorId : existingNews.authorId,
+            // publishDate typically remains the original date unless explicitly modified
+            // comments array should not be directly updated via PUT for news, but via comment endpoints
         };
         newsData[newsIndex] = updatedNews;
         res.json(updatedNews);
@@ -174,22 +216,31 @@ app.put('/api/news/:id', upload.single('image'), (req, res) => {
 // DELETE a news item
 app.delete('/api/news/:id', (req, res) => {
     const newsId = req.params.id;
-    const newsIndex = newsData.findIndex(news => news.id === newsId);
+    const initialLength = newsData.length;
+    const newsItemToDelete = newsData.find(news => news.id === newsId);
 
-    if (newsIndex > -1) {
-        const deletedNews = newsData.splice(newsIndex, 1)[0]; // Remove and get the deleted item
-        // If the deleted news had a locally uploaded image, delete the file
-        if (deletedNews.imageUrl && deletedNews.imageUrl.startsWith('/uploads/')) {
-            const imagePath = path.join(__dirname, deletedNews.imageUrl);
-            if (fs.existsSync(imagePath)) {
-                fs.unlink(imagePath, (err) => {
-                    if (err) console.error("Error deleting image file:", err);
-                });
-            }
+    if (!newsItemToDelete) {
+        return res.status(404).json({ message: 'News item not found' });
+    }
+
+    newsData = newsData.filter(news => news.id !== newsId);
+
+    // If the news item was successfully removed, delete associated image file
+    if (newsData.length < initialLength) {
+        if (newsItemToDelete.imageUrl && newsItemToDelete.imageUrl.startsWith('/uploads/')) {
+            const imagePath = path.join(__dirname, newsItemToDelete.imageUrl);
+            fs.unlink(imagePath, (err) => {
+                if (err) {
+                    console.error("Error deleting image file:", imagePath, err);
+                    // Even if image deletion fails, consider the news item deleted from data
+                }
+            });
         }
         res.status(200).json({ message: 'News item deleted successfully' });
     } else {
-        res.status(404).json({ message: 'News item not found' });
+        // This case should theoretically not be hit if newsItemToDelete was found but then filter didn't work.
+        // It's a fallback for unexpected internal logic issues.
+        res.status(500).json({ message: 'Failed to delete news item due to internal error.' });
     }
 });
 
@@ -199,6 +250,7 @@ app.delete('/api/news/:id', (req, res) => {
 app.get('/api/news/:newsId/comments', (req, res) => {
     const newsItem = newsData.find(news => news.id === req.params.newsId);
     if (newsItem) {
+        // Always return comments sorted by newest first
         const sortedComments = [...newsItem.comments].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
         res.json(sortedComments);
     } else {
@@ -209,57 +261,87 @@ app.get('/api/news/:newsId/comments', (req, res) => {
 // POST a new comment to a news item
 app.post('/api/news/:newsId/comments', (req, res) => {
     const newsItem = newsData.find(news => news.id === req.params.newsId);
-    if (newsItem) {
-        const { author, authorId, avatar, text } = req.body;
-        const newComment = {
-            id: `comment-${Date.now()}`,
-            author: author || 'Anonymous',
-            authorId: authorId || 'guest',
-            avatar: avatar || 'https://via.placeholder.com/45x45?text=U',
-            text,
-            timestamp: formatDate(new Date())
-        };
-        newsItem.comments.push(newComment);
-        res.status(201).json(newComment);
-    } else {
-        res.status(404).json({ message: 'News item not found' });
+    if (!newsItem) {
+        return res.status(404).json({ message: 'News item not found' });
     }
+
+    const { author, authorId, avatar, text } = req.body;
+
+    if (!text) { // Ensure comment text is not empty
+        return res.status(400).json({ message: 'Comment text cannot be empty.' });
+    }
+    if (!author || !authorId) {
+        return res.status(400).json({ message: 'Author and Author ID are required for comments.' });
+    }
+
+    const newComment = {
+        id: uuidv4(), // Use UUID for unique comment IDs
+        author: author,
+        authorId: authorId,
+        avatar: avatar || 'https://via.placeholder.com/45x45?text=U',
+        text,
+        timestamp: formatDate(new Date())
+    };
+    newsItem.comments.push(newComment);
+    res.status(201).json(newComment);
 });
 
 // PUT/PATCH (Update) a comment
 app.put('/api/news/:newsId/comments/:commentId', (req, res) => {
     const newsItem = newsData.find(news => news.id === req.params.newsId);
-    if (newsItem) {
-        const commentIndex = newsItem.comments.findIndex(c => c.id === req.params.commentId);
-        if (commentIndex > -1) {
-            newsItem.comments[commentIndex].text = req.body.text || newsItem.comments[commentIndex].text;
-            res.json(newsItem.comments[commentIndex]);
-        } else {
-            res.status(404).json({ message: 'Comment not found' });
-        }
-    } else {
-        res.status(404).json({ message: 'News item not found' });
+    if (!newsItem) {
+        return res.status(404).json({ message: 'News item not found' });
     }
+
+    const commentIndex = newsItem.comments.findIndex(c => c.id === req.params.commentId);
+    if (commentIndex === -1) {
+        return res.status(404).json({ message: 'Comment not found' });
+    }
+
+    const { text } = req.body;
+    if (text === undefined || text.trim() === '') {
+        return res.status(400).json({ message: 'Comment text cannot be empty for update.' });
+    }
+
+    newsItem.comments[commentIndex].text = text;
+    res.json(newsItem.comments[commentIndex]);
 });
 
 // DELETE a comment
 app.delete('/api/news/:newsId/comments/:commentId', (req, res) => {
     const newsItem = newsData.find(news => news.id === req.params.newsId);
-    if (newsItem) {
-        const initialLength = newsItem.comments.length;
-        newsItem.comments = newsItem.comments.filter(c => c.id !== req.params.commentId);
-        if (newsItem.comments.length < initialLength) {
-            res.status(200).json({ message: 'Comment deleted successfully' });
-        } else {
-            res.status(404).json({ message: 'Comment not found' });
-        }
+    if (!newsItem) {
+        return res.status(404).json({ message: 'News item not found' });
+    }
+
+    const initialCommentCount = newsItem.comments.length;
+    newsItem.comments = newsItem.comments.filter(c => c.id !== req.params.commentId);
+
+    if (newsItem.comments.length < initialCommentCount) {
+        res.status(200).json({ message: 'Comment deleted successfully' });
     } else {
-        res.status(404).json({ message: 'News item not found' });
+        res.status(404).json({ message: 'Comment not found' });
     }
 });
+
+// --- Error Handling Middleware (should be last app.use) ---
+app.use((err, req, res, next) => {
+    if (err instanceof multer.MulterError) {
+        if (err.code === 'LIMIT_FILE_SIZE') {
+            return res.status(400).json({ message: 'File size too large. Max 5MB allowed.' });
+        }
+        // Handle other Multer errors
+        return res.status(400).json({ message: err.message });
+    } else if (err) {
+        // Generic error handler for other issues
+        console.error(err); // Log the error for debugging
+        return res.status(500).json({ message: err.message || 'An unexpected error occurred.' });
+    }
+    next(); // Pass to the next middleware if no error
+});
+
 
 // Start the server
 app.listen(PORT, () => {
     console.log(`Backend server running on http://localhost:${PORT}`);
 });
-
