@@ -1,0 +1,13 @@
+[[redirects]]
+
+>
+
+2 from = "/*"
+
+public
+
+3 to = "/index.html"
+
+>
+
+4 status 200
