@@ -4,595 +4,67 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lucky Romance Casino</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --primary: #ff6b6b;
-            --secondary: #ff8e8e;
-            --accent: #ff5252;
-            --dark: #2c2c54;
-            --light: #f7f1e3;
-            --gold: #ffb142;
-            --success: #2ed573;
-        }
-
-        body {
-            font-family: 'Montserrat', sans-serif;
-            background: linear-gradient(135deg, #2c2c54 0%, #40407a 100%);
-            color: var(--light);
-            min-height: 100vh;
-            overflow-x: hidden;
-            position: relative;
-        }
-
-        body::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(255, 107, 107, 0.1) 0%, transparent 20%),
-                radial-gradient(circle at 90% 80%, rgba(255, 142, 142, 0.1) 0%, transparent 20%),
-                radial-gradient(circle at 50% 50%, rgba(255, 82, 82, 0.1) 0%, transparent 30%);
-            z-index: -1;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        /* Header Styles */
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 0;
-            margin-bottom: 30px;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-        }
-
-        .logo h1 {
-            font-family: 'Dancing Script', cursive;
-            font-size: 2.8rem;
-            color: var(--primary);
-            text-shadow: 0 0 10px rgba(255, 107, 107, 0.7);
-            margin-left: 10px;
-        }
-
-        .logo-icon {
-            font-size: 2.5rem;
-            color: var(--gold);
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-
-        .user-info {
-            display: flex;
-            align-items: center;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 12px 20px;
-            border-radius: 30px;
-            backdrop-filter: blur(10px);
-        }
-
-        .balance {
-            margin-right: 20px;
-            font-size: 1.2rem;
-            font-weight: 600;
-        }
-
-        .balance span {
-            color: var(--gold);
-        }
-
-        .btn {
-            background: linear-gradient(to right, var(--primary), var(--accent));
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 30px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            font-size: 0.9rem;
-        }
-
-        .btn i {
-            margin-right: 8px;
-        }
-
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(255, 82, 82, 0.4);
-        }
-
-        .btn-withdraw {
-            background: linear-gradient(to right, var(--success), #1dd1a1);
-            margin-left: 10px;
-        }
-
-        /* Games Section */
-        .games-section {
-            margin-bottom: 40px;
-        }
-
-        .section-title {
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-        }
-
-        .section-title i {
-            color: var(--primary);
-            margin-right: 10px;
-        }
-
-        .games-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
-        }
-
-        .game-card {
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 15px;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            position: relative;
-            height: 200px;
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .game-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-            background: rgba(255, 255, 255, 0.12);
-        }
-
-        .game-card::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, transparent, rgba(255, 107, 107, 0.1), transparent);
-            z-index: 1;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .game-card:hover::before {
-            opacity: 1;
-        }
-
-        .game-content {
-            padding: 20px;
-            position: relative;
-            z-index: 2;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .game-icon {
-            font-size: 2.5rem;
-            color: var(--primary);
-            margin-bottom: 15px;
-        }
-
-        .game-title {
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-
-        .game-desc {
-            font-size: 0.9rem;
-            opacity: 0.8;
-            margin-bottom: 15px;
-        }
-
-        .play-btn {
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            width: 100px;
-            text-align: center;
-        }
-
-        .play-btn:hover {
-            background: var(--primary);
-            border-color: var(--primary);
-        }
-
-        /* Payment Section */
-        .payment-section {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 20px;
-            padding: 25px;
-            margin-top: 30px;
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .payment-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-        }
-
-        .payment-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
-            padding: 25px;
-            transition: all 0.3s ease;
-        }
-
-        .payment-card:hover {
-            background: rgba(255, 255, 255, 0.08);
-            transform: translateY(-5px);
-        }
-
-        .payment-title {
-            font-size: 1.2rem;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-        }
-
-        .payment-title i {
-            color: var(--gold);
-            margin-right: 10px;
-            font-size: 1.5rem;
-        }
-
-        .payment-form {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-size: 0.9rem;
-            opacity: 0.8;
-        }
-
-        input, select {
-            width: 100%;
-            padding: 12px 15px;
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            color: white;
-            font-size: 1rem;
-        }
-
-        input:focus, select:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-
-        .submit-btn {
-            background: linear-gradient(to right, var(--success), #1dd1a1);
-            border: none;
-            padding: 12px;
-            border-radius: 8px;
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 10px;
-            transition: all 0.3s ease;
-        }
-
-        .submit-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(46, 213, 115, 0.4);
-        }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 30px 0;
-            margin-top: 50px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 0.9rem;
-            opacity: 0.7;
-        }
-
-        /* Animations */
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
-        }
-
-        .floating {
-            animation: float 4s ease-in-out infinite;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            header {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .user-info {
-                margin-top: 20px;
-                flex-direction: column;
-            }
-            
-            .balance {
-                margin-right: 0;
-                margin-bottom: 15px;
-            }
-            
-            .btn {
-                width: 100%;
-                margin-bottom: 10px;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
         <header>
-            <div class="logo">
-                <i class="fas fa-heart logo-icon floating"></i>
-                <h1>Lucky Romance Casino</h1>
-            </div>
+            <h1>Lucky Romance Casino</h1>
             <div class="user-info">
-                <div class="balance">
-                    Your Balance: <span>$1,250.00</span>
-                </div>
-                <button class="btn">
-                    <i class="fas fa-plus"></i> Deposit
-                </button>
-                <button class="btn btn-withdraw">
-                    <i class="fas fa-money-bill-wave"></i> Withdraw
-                </button>
+                <span>Balance: $<span id="balance">1000</span></span>
+                <button id="deposit-btn">Deposit</button>
+                <button id="withdraw-btn">Withdraw</button>
             </div>
         </header>
-        
-        <section class="games-section">
-            <h2 class="section-title"><i class="fas fa-dice"></i> Popular Games</h2>
-            <div class="games-grid">
-                <!-- Game 1 -->
-                <div class="game-card">
-                    <div class="game-content">
-                        <i class="fas fa-heart game-icon"></i>
-                        <div>
-                            <h3 class="game-title">Romantic Roulette</h3>
-                            <p class="game-desc">Spin the wheel of love and fortune</p>
-                        </div>
-                        <div class="play-btn">Play Now</div>
-                    </div>
-                </div>
-                
-                <!-- Game 2 -->
-                <div class="game-card">
-                    <div class="game-content">
-                        <i class="fas fa-gem game-icon"></i>
-                        <div>
-                            <h3 class="game-title">Diamond Slots</h3>
-                            <p class="game-desc">Match the diamonds for huge wins</p>
-                        </div>
-                        <div class="play-btn">Play Now</div>
-                    </div>
-                </div>
-                
-                <!-- Game 3 -->
-                <div class="game-card">
-                    <div class="game-content">
-                        <i class="fas fa-crown game-icon"></i>
-                        <div>
-                            <h3 class="game-title">Royal Blackjack</h3>
-                            <p class="game-desc">Beat the dealer in this classic game</p>
-                        </div>
-                        <div class="play-btn">Play Now</div>
-                    </div>
-                </div>
-                
-                <!-- Game 4 -->
-                <div class="game-card">
-                    <div class="game-content">
-                        <i class="fas fa-coins game-icon"></i>
-                        <div>
-                            <h3 class="game-title">Golden Poker</h3>
-                            <p class="game-desc">Test your skills against players</p>
-                        </div>
-                        <div class="play-btn">Play Now</div>
-                    </div>
-                </div>
-                
-                <!-- Game 5 -->
-                <div class="game-card">
-                    <div class="game-content">
-                        <i class="fas fa-star game-icon"></i>
-                        <div>
-                            <h3 class="game-title">Starlight Baccarat</h3>
-                            <p class="game-desc">Elegant game of chance and strategy</p>
-                        </div>
-                        <div class="play-btn">Play Now</div>
-                    </div>
-                </div>
-                
-                <!-- Game 6 -->
-                <div class="game-card">
-                    <div class="game-content">
-                        <i class="fas fa-dice game-icon"></i>
-                        <div>
-                            <h3 class="game-title">Love Dice</h3>
-                            <p class="game-desc">Roll the dice for romantic fortunes</p>
-                        </div>
-                        <div class="play-btn">Play Now</div>
-                    </div>
-                </div>
+
+        <div class="games">
+            <div class="game-card" data-game="slots">
+                <h2>Slot Machine</h2>
+                <p>Spin to win!</p>
             </div>
-        </section>
-        
-        <section class="games-section">
-            <h2 class="section-title"><i class="fas fa-fire"></i> New Games</h2>
-            <div class="games-grid">
-                <!-- Game 7 -->
-                <div class="game-card">
-                    <div class="game-content">
-                        <i class="fas fa-moon game-icon"></i>
-                        <div>
-                            <h3 class="game-title">Moonlight Keno</h3>
-                            <p class="game-desc">Pick your lucky numbers under the moon</p>
-                        </div>
-                        <div class="play-btn">Play Now</div>
-                    </div>
-                </div>
-                
-                <!-- Game 8 -->
-                <div class="game-card">
-                    <div class="game-content">
-                        <i class="fas fa-feather game-icon"></i>
-                        <div>
-                            <h3 class="game-title">Angel's Bingo</h3>
-                            <p class="game-desc">Match numbers with heavenly rewards</p>
-                        </div>
-                        <div class="play-btn">Play Now</div>
-                    </div>
-                </div>
+            <div class="game-card" data-game="roulette">
+                <h2>Roulette</h2>
+                <p>Bet on your luck!</p>
             </div>
-        </section>
-        
-        <section class="payment-section">
-            <h2 class="section-title"><i class="fas fa-wallet"></i> Deposit & Withdraw Funds</h2>
-            <div class="payment-grid">
-                <div class="payment-card">
-                    <h3 class="payment-title"><i class="fas fa-coins"></i> Deposit Funds</h3>
-                    <form class="payment-form">
-                        <div class="form-group">
-                            <label for="amount">Amount ($)</label>
-                            <input type="number" id="amount" min="10" value="100">
-                        </div>
-                        <div class="form-group">
-                            <label for="method">Payment Method</label>
-                            <select id="method">
-                                <option>Credit Card</option>
-                                <option>PayPal</option>
-                                <option>Bitcoin</option>
-                                <option>Skrill</option>
-                                <option>Neteller</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="submit-btn">Deposit Now</button>
-                    </form>
-                </div>
-                
-                <div class="payment-card">
-                    <h3 class="payment-title"><i class="fas fa-money-bill-wave"></i> Withdraw Funds</h3>
-                    <form class="payment-form">
-                        <div class="form-group">
-                            <label for="withdraw-amount">Amount ($)</label>
-                            <input type="number" id="withdraw-amount" min="20" value="200">
-                        </div>
-                        <div class="form-group">
-                            <label for="withdraw-method">Withdrawal Method</label>
-                            <select id="withdraw-method">
-                                <option>Bank Transfer</option>
-                                <option>PayPal</option>
-                                <option>Bitcoin</option>
-                                <option>Skrill</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="submit-btn">Request Withdrawal</button>
-                    </form>
-                </div>
-            </div>
-        </section>
-        
-        <footer>
-            <p>© 2023 Lucky Romance Casino. All rights reserved. | 18+ Only | Play Responsibly</p>
-            <p>Licensed and regulated by the Gaming Authority</p>
-        </footer>
+            <!-- Add more games as needed -->
+        </div>
     </div>
-    
-    <script>
-        // Add floating animation to game cards on hover
-        document.querySelectorAll('.game-card').forEach(card => {
-            card.addEventListener('mouseenter', () => {
-                card.classList.add('floating');
-            });
-            
-            card.addEventListener('mouseleave', () => {
-                card.classList.remove('floating');
-            });
-        });
-        
-        // Handle deposit button
-        document.querySelector('.btn').addEventListener('click', function() {
-            document.querySelector('.payment-section').scrollIntoView({ 
-                behavior: 'smooth' 
-            });
-            document.getElementById('amount').focus();
-        });
-        
-        // Handle withdraw button
-        document.querySelector('.btn-withdraw').addEventListener('click', function() {
-            document.querySelector('.payment-section').scrollIntoView({ 
-                behavior: 'smooth' 
-            });
-            document.getElementById('withdraw-amount').focus();
-        });
-        
-        // Simple balance update simulation
-        document.querySelectorAll('.submit-btn').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                e.preventDefault();
-                alert('Transaction request received! This would process in a real casino site.');
-            });
-        });
-        
-        // Play button functionality
-        document.querySelectorAll('.play-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const game = this.closest('.game-card').querySelector('.game-title').textContent;
-                alert(`Launching ${game}... This would start the game in a real casino site.`);
-            });
-        });
-    </script>
+
+    <!-- Game Modals (initially hidden) -->
+    <div id="slots-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Slot Machine</h2>
+            <div id="slot-machine">
+                <div class="reels">
+                    <div id="reel1">🍒</div>
+                    <div id="reel2">🍒</div>
+                    <div id="reel3">🍒</div>
+                </div>
+                <button id="spin-btn">Spin</button>
+                <div id="result"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="roulette-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Roulette</h2>
+            <div id="roulette">
+                <div id="wheel"></div>
+                <div id="betting-area">
+                    <button class="bet-btn" data-bet="red">Red</button>
+                    <button class="bet-btn" data-bet="black">Black</button>
+                    <button class="bet-btn" data-bet="0">0</button>
+                    <!-- More betting options can be added -->
+                </div>
+                <div id="roulette-result"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
