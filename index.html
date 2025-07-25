@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Love Calculator - Find Your Perfect Match</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    
+    body {
+      background: linear-gradient(135deg, #1f0710, #30130d, #130101);
+      min-height: 100vh;
+      padding: 20px;
+      color: #fff;
+      overflow-x: hidden;
+      position: relative;
+    }
+    
+    /* Floating Hearts */
+    .heart {
+      position: absolute;
+      color: #ff69b4;
+      font-size: 1.5rem;
+      opacity: 0.5;
+      z-index: -1;
+      animation: float 15s linear infinite;
+    }
+    
+    @keyframes float {
+      0% { transform: translateY(100vh) rotate(0deg); }
+      100% { transform: translateY(-10vh) rotate(360deg); }
+    }
+    
+    /* Container */
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+      position: relative;
+      z-index: 1;
+    }
+    
+    /* Header */
+    header {
+      text-align: center;
+      padding: 40px 20px;
+      background: linear-gradient(to right, #ff006e, #ff4b91);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+      transform: rotate(30deg);
+    }
+    
+    header h1 {
+      font-size: 3.5rem;
+      margin-bottom: 10px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      position: relative;
+      z-index: 2;
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.03); }
+      100% { transform: scale(1); }
+    }
+    
+    .tagline {
+      font-size: 1.3rem;
+      opacity: 0.9;
+      max-width: 600px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+    
+    /* Navigation */
+    .main-nav {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.2);
+    }
+    
+    .main-nav a {
+      color: rgba(255, 255, 255, 0.8);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 8px 15px;
+      border-radius: 30px;
+      transition: all 0.3s ease;
+    }
+    
+    .main-nav a:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      transform: translateY(-2px);
+    }
+    
+    .main-nav a.active {
+      background: #ff006e;
+      color: #fff;
+    }
+    
+    /* Input Section */
+    .input-section {
+      padding: 30px;
+      text-align: center;
+    }
+    
+    .input-group {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+    
+    .input-box {
+      flex: 1;
+      min-width: 250px;
+      max-width: 300px;
+      position: relative;
+    }
+    
+    .input-box label {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 1.1rem;
+      text-align: left;
+      color: rgba(255, 255, 255, 0.9);
+    }
+    
+    .input-box input {
+      width: 100%;
+      padding: 15px 20px;
+      border-radius: 12px;
+      border: none;
+      background: rgba(255, 255, 255, 0.1);
+      font-size: 1.1rem;
+      color: #fff;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+    }
+    
+    .input-box input:focus {
+      outline: none;
+      border-color: #ff006e;
+      background: rgba(255, 255, 255, 0.15);
+      box-shadow: 0 0 15px rgba(255, 0, 110, 0.3);
+    }
+    
+    .input-box input::placeholder {
+      color: rgba(255, 255, 255, 0.5);
+    }
+    
+    .input-box i {
+      position: absolute;
+      right: 15px;
+      top: 45px;
+      color: rgba(255, 255, 255, 0.5);
+    }
+    
+    /* Button */
+    .calculate-btn {
+      padding: 16px 40px;
+      background: linear-gradient(to right, #ff006e, #ff4b91);
+      border: none;
+      border-radius: 12px;
+      color: #fff;
+      font-size: 1.2rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(255, 0, 110, 0.4);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .calculate-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(255, 0, 110, 0.6);
+    }
+    
+    .calculate-btn:active {
+      transform: translateY(1px);
+    }
+    
+    .calculate-btn::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -60%;
+      width: 20px;
+      height: 200%;
+      background: rgba(255, 255, 255, 0.3);
+      transform: rotate(30deg);
+      transition: all 0.6s;
+    }
+    
+    .calculate-btn:hover::after {
+      left: 120%;
+    }
+    
+    /* Result Section */
+    .result-section {
+      padding: 40px 20px;
+      text-align: center;
+      background: rgba(0, 0, 0, 0.2);
+      margin: 20px 30px;
+      border-radius: 15px;
+      display: none;
+      animation: fadeIn 0.8s ease;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .result-title {
+      font-size: 1.8rem;
+      color: #ffcc00;
+      margin-bottom: 20px;
+    }
+    
+    .names {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+      color: #ff6b9d;
+    }
+    
+    .percentage {
+      font-size: 5rem;
+      font-weight: bold;
+      background: linear-gradient(to right, #ffcc00, #ff6b9d);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin: 20px 0;
+      text-shadow: 0 0 10px rgba(255, 204, 0, 0.3);
+    }
+    
+    .message {
+      font-size: 1.3rem;
+      color: #ffcc00;
+      margin-top: 20px;
+      padding: 15px;
+      background: rgba(255, 204, 0, 0.1);
+      border-radius: 10px;
+      display: inline-block;
+      max-width: 80%;
+      animation: pulse 2s infinite;
+    }
+    
+    /* Quotes */
+    .love-quotes {
+      padding: 30px;
+      text-align: center;
+      margin: 30px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 15px;
+    }
+    
+    .quote-title {
+      font-size: 1.5rem;
+      color: #ff6b9d;
+      margin-bottom: 20px;
+    }
+    
+    .quote {
+      font-style: italic;
+      font-size: 1.2rem;
+      line-height: 1.6;
+      margin-bottom: 15px;
+      color: rgba(255, 255, 255, 0.9);
+      position: relative;
+      padding: 0 20px;
+    }
+    
+    .quote::before, .quote::after {
+      content: '"';
+      font-size: 3rem;
+      position: absolute;
+      color: rgba(255, 107, 157, 0.3);
+    }
+    
+    .quote::before {
+      top: -20px;
+      left: -10px;
+    }
+    
+    .quote::after {
+      bottom: -40px;
+      right: -10px;
+    }
+    
+    .quote-author {
+      font-size: 1.1rem;
+      color: #ffcc00;
+      font-weight: 500;
+    }
+    
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 30px;
+      background: rgba(0, 0, 0, 0.3);
+      margin-top: 20px;
+    }
+    
+    footer p {
+      margin: 10px 0;
+      color: rgba(255, 255, 255, 0.7);
+    }
+    
+    footer a {
+      color: #ff6b9d;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+    
+    footer a:hover {
+      color: #ffcc00;
+      text-decoration: underline;
+    }
+    
+    footer i.fas.fa-heart {
+      color: #ff006e;
+      animation: heartbeat 1.2s infinite;
+    }
+    
+    @keyframes heartbeat {
+      0% { transform: scale(1); }
+      5% { transform: scale(1.2); }
+      10% { transform: scale(1); }
+      15% { transform: scale(1.3); }
+      50% { transform: scale(1); }
+      100% { transform: scale(1); }
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 2.5rem;
+      }
+      
+      .tagline {
+        font-size: 1.1rem;
+      }
+      
+      .input-group {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .input-box {
+        width: 100%;
+        max-width: 100%;
+      }
+      
+      .percentage {
+        font-size: 3.5rem;
+      }
+      
+      .message {
+        font-size: 1.1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Floating Hearts Background -->
+  <div class="hearts-container"></div>
+  
+  <div class="container">
+    <header>
+      <h1><i class="fas fa-heart"></i> Love Calculator</h1>
+      <p class="tagline">Discover your love compatibility percentage with our magical calculator. Enter your names and see the sparks fly!</p>
+    </header>
+    
+    <nav class="main-nav">
+      <a href="#" class="active">Home</a>
+      <a href="#">Love Tips</a>
+      <a href="#">About</a>
+      <a href="#">Privacy</a>
+      <a href="#">Contact</a>
+      <a href="#">🎂 Birthday Match</a>
+      <a href="#">🔮 Zodiac Match</a>
+    </nav>
+    
+    <div class="input-section">
+      <div class="input-group">
+        <div class="input-box">
+          <label for="name1"><i class="fas fa-user"></i> Your Name</label>
+          <input type="text" id="name1" placeholder="Enter your name">
+          <i class="fas fa-heart"></i>
+        </div>
+        <div class="input-box">
+          <label for="name2"><i class="fas fa-user"></i> Partner's Name</label>
+          <input type="text" id="name2" placeholder="Enter partner's name">
+          <i class="fas fa-heart"></i>
+        </div>
+      </div>
+      
+      <button class="calculate-btn" id="calculateBtn">
+        <i class="fas fa-heart"></i> Calculate Love Percentage
+      </button>
+    </div>
+    
+    <div class="result-section" id="resultSection">
+      <h2 class="result-title">Your Love Compatibility</h2>
+      <div class="names" id="namesDisplay">Alex ❤️ Taylor</div>
+      <div class="percentage" id="percentageDisplay">86%</div>
+      <div class="message" id="messageDisplay">🌟 Wow! You two are truly compatible!</div>
+    </div>
+    
+    <div class="love-quotes">
+      <h3 class="quote-title"><i class="fas fa-quote-left"></i> Romantic Quotes</h3>
+      <p class="quote" id="quoteText">Love is composed of a single soul inhabiting two bodies.</p>
+      <p class="quote-author" id="quoteAuthor">- Aristotle</p>
+    </div>
+    
+    <footer>
+      <p>🥀 Follow us on 
+        <a href="https://instagram.com/prince__xharma777" target="_blank">
+          <i class="fab fa-instagram"></i> Instagram
+        </a>
+      </p>
+      <p>Made with <i class="fas fa-heart"></i> | Prince Kumar © 2025</p>
+    </footer>
+  </div>
+
+  <script>
+    // Create floating hearts
+    function createHearts() {
+      const heartsContainer = document.querySelector('.hearts-container');
+      const heartCount = 30;
+      
+      for (let i = 0; i < heartCount; i++) {
+        const heart = document.createElement('div');
+        heart.classList.add('heart');
+        heart.innerHTML = '❤';
+        
+        // Random properties
+        const size = Math.random() * 2 + 1;
+        const duration = Math.random() * 10 + 10;
+        const delay = Math.random() * 5;
+        const left = Math.random() * 100;
+        
+        heart.style.fontSize = `${size}rem`;
+        heart.style.animationDuration = `${duration}s`;
+        heart.style.animationDelay = `${delay}s`;
+        heart.style.left = `${left}vw`;
+        heart.style.opacity = Math.random() * 0.5 + 0.1;
+        
+        heartsContainer.appendChild(heart);
+      }
+    }
+    
+    // Quotes data
+    const quotes = [
+      {
+        text: "Love is composed of a single soul inhabiting two bodies.",
+        author: "Aristotle"
+      },
+      {
+        text: "The best thing to hold onto in life is each other.",
+        author: "Audrey Hepburn"
+      },
+      {
+        text: "We are most alive when we're in love.",
+        author: "John Updike"
+      },
+      {
+        text: "True love stories never have endings.",
+        author: "Richard Bach"
+      },
+      {
+        text: "Love doesn't make the world go round. Love is what makes the ride worthwhile.",
+        author: "Franklin P. Jones"
+      }
+    ];
+    
+    // Messages for different percentages
+    const messages = {
+      0: "💔 There might be some challenges ahead...",
+      10: "🌱 A spark is there, but it needs nurturing.",
+      20: "👯 Friendship potential is strong!",
+      30: "😊 You enjoy each other's company.",
+      40: "🔥 There's definite chemistry here!",
+      50: "🤝 A balanced connection - work on it together.",
+      60: "💖 Strong feelings are developing!",
+      70: "💞 This is a deep and meaningful connection.",
+      80: "🌟 Wow! You two are truly compatible!",
+      90: "😍 An almost perfect match - cherish it!",
+      100: "💘 Soulmates! This is true love!"
+    };
+    
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      createHearts();
+      showRandomQuote();
+      
+      // Set up button click
+      document.getElementById('calculateBtn').addEventListener('click', calculateLove);
+    });
+    
+    // Show random quote
+    function showRandomQuote() {
+      const quote = quotes[Math.floor(Math.random() * quotes.length)];
+      document.getElementById('quoteText').textContent = quote.text;
+      document.getElementById('quoteAuthor').textContent = `- ${quote.author}`;
+    }
+    
+    // Calculate love percentage
+    function calculateLove() {
+      const name1 = document.getElementById('name1').value.trim();
+      const name2 = document.getElementById('name2').value.trim();
+      
+      if (!name1 || !name2) {
+        alert('Please enter both names!');
+        return;
+      }
+      
+      // Display names
+      document.getElementById('namesDisplay').textContent = `${name1} ❤️ ${name2}`;
+      
+      // Calculate percentage (fun algorithm)
+      const combined = (name1 + name2).toLowerCase().replace(/\s/g, '');
+      let sum = 0;
+      
+      for (let char of combined) {
+        sum += char.charCodeAt(0);
+      }
+      
+      const percentage = (sum % 91) + 10; // Ensure between 10-100
+      
+      // Animate result
+      animateResult(percentage);
+      
+      // Show result section
+      document.getElementById('resultSection').style.display = 'block';
+      
+      // Show new quote
+      setTimeout(showRandomQuote, 1500);
+    }
+    
+    // Animate the percentage counter
+    function animateResult(finalPercentage) {
+      const display = document.getElementById('percentageDisplay');
+      let current = 0;
+      const increment = Math.ceil(finalPercentage / 30); // Dynamic increment
+      
+      const timer = setInterval(() => {
+        current += increment;
+        if (current >= finalPercentage) {
+          current = finalPercentage;
+          clearInterval(timer);
+          
+          // Set message based on percentage
+          const messageKey = Math.floor(finalPercentage / 10) * 10;
+          document.getElementById('messageDisplay').textContent = messages[messageKey];
+        }
+        display.textContent = `${current}%`;
+      }, 30);
+    }
+  </script>
+</body>
+</html>
