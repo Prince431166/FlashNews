@@ -1,593 +1,960 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Love Calculator - Find Your Perfect Match</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    /* Base Styles */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
-    }
-    
-    body {
-      background: linear-gradient(135deg, #1f0710, #30130d, #130101);
-      min-height: 100vh;
-      padding: 20px;
-      color: #fff;
-      overflow-x: hidden;
-      position: relative;
-    }
-    
-    /* Floating Hearts */
-    .heart {
-      position: absolute;
-      color: #ff69b4;
-      font-size: 1.5rem;
-      opacity: 0.5;
-      z-index: -1;
-      animation: float 15s linear infinite;
-    }
-    
-    @keyframes float {
-      0% { transform: translateY(100vh) rotate(0deg); }
-      100% { transform: translateY(-10vh) rotate(360deg); }
-    }
-    
-    /* Container */
-    .container {
-      max-width: 900px;
-      margin: 40px auto;
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(10px);
-      border-radius: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
-      overflow: hidden;
-      position: relative;
-      z-index: 1;
-    }
-    
-    /* Header */
-    header {
-      text-align: center;
-      padding: 40px 20px;
-      background: linear-gradient(to right, #ff006e, #ff4b91);
-      position: relative;
-      overflow: hidden;
-    }
-    
-    header::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
-      transform: rotate(30deg);
-    }
-    
-    header h1 {
-      font-size: 3.5rem;
-      margin-bottom: 10px;
-      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-      position: relative;
-      z-index: 2;
-      animation: pulse 2s infinite;
-    }
-    
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.03); }
-      100% { transform: scale(1); }
-    }
-    
-    .tagline {
-      font-size: 1.3rem;
-      opacity: 0.9;
-      max-width: 600px;
-      margin: 0 auto;
-      position: relative;
-      z-index: 2;
-    }
-    
-    /* Navigation */
-    .main-nav {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 15px;
-      padding: 20px;
-      background: rgba(0, 0, 0, 0.2);
-    }
-    
-    .main-nav a {
-      color: rgba(255, 255, 255, 0.8);
-      text-decoration: none;
-      font-weight: 500;
-      padding: 8px 15px;
-      border-radius: 30px;
-      transition: all 0.3s ease;
-    }
-    
-    .main-nav a:hover {
-      background: rgba(255, 255, 255, 0.1);
-      color: #fff;
-      transform: translateY(-2px);
-    }
-    
-    .main-nav a.active {
-      background: #ff006e;
-      color: #fff;
-    }
-    
-    /* Input Section */
-    .input-section {
-      padding: 30px;
-      text-align: center;
-    }
-    
-    .input-group {
-      display: flex;
-      gap: 20px;
-      justify-content: center;
-      margin-bottom: 30px;
-      flex-wrap: wrap;
-    }
-    
-    .input-box {
-      flex: 1;
-      min-width: 250px;
-      max-width: 300px;
-      position: relative;
-    }
-    
-    .input-box label {
-      display: block;
-      margin-bottom: 10px;
-      font-size: 1.1rem;
-      text-align: left;
-      color: rgba(255, 255, 255, 0.9);
-    }
-    
-    .input-box input {
-      width: 100%;
-      padding: 15px 20px;
-      border-radius: 12px;
-      border: none;
-      background: rgba(255, 255, 255, 0.1);
-      font-size: 1.1rem;
-      color: #fff;
-      transition: all 0.3s ease;
-      border: 2px solid transparent;
-    }
-    
-    .input-box input:focus {
-      outline: none;
-      border-color: #ff006e;
-      background: rgba(255, 255, 255, 0.15);
-      box-shadow: 0 0 15px rgba(255, 0, 110, 0.3);
-    }
-    
-    .input-box input::placeholder {
-      color: rgba(255, 255, 255, 0.5);
-    }
-    
-    .input-box i {
-      position: absolute;
-      right: 15px;
-      top: 45px;
-      color: rgba(255, 255, 255, 0.5);
-    }
-    
-    /* Button */
-    .calculate-btn {
-      padding: 16px 40px;
-      background: linear-gradient(to right, #ff006e, #ff4b91);
-      border: none;
-      border-radius: 12px;
-      color: #fff;
-      font-size: 1.2rem;
-      font-weight: bold;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 5px 15px rgba(255, 0, 110, 0.4);
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .calculate-btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 20px rgba(255, 0, 110, 0.6);
-    }
-    
-    .calculate-btn:active {
-      transform: translateY(1px);
-    }
-    
-    .calculate-btn::after {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -60%;
-      width: 20px;
-      height: 200%;
-      background: rgba(255, 255, 255, 0.3);
-      transform: rotate(30deg);
-      transition: all 0.6s;
-    }
-    
-    .calculate-btn:hover::after {
-      left: 120%;
-    }
-    
-    /* Result Section */
-    .result-section {
-      padding: 40px 20px;
-      text-align: center;
-      background: rgba(0, 0, 0, 0.2);
-      margin: 20px 30px;
-      border-radius: 15px;
-      display: none;
-      animation: fadeIn 0.8s ease;
-    }
-    
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    
-    .result-title {
-      font-size: 1.8rem;
-      color: #ffcc00;
-      margin-bottom: 20px;
-    }
-    
-    .names {
-      font-size: 1.8rem;
-      margin-bottom: 20px;
-      color: #ff6b9d;
-    }
-    
-    .percentage {
-      font-size: 5rem;
-      font-weight: bold;
-      background: linear-gradient(to right, #ffcc00, #ff6b9d);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin: 20px 0;
-      text-shadow: 0 0 10px rgba(255, 204, 0, 0.3);
-    }
-    
-    .message {
-      font-size: 1.3rem;
-      color: #ffcc00;
-      margin-top: 20px;
-      padding: 15px;
-      background: rgba(255, 204, 0, 0.1);
-      border-radius: 10px;
-      display: inline-block;
-      max-width: 80%;
-      animation: pulse 2s infinite;
-    }
-    
-    /* Quotes */
-    .love-quotes {
-      padding: 30px;
-      text-align: center;
-      margin: 30px;
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 15px;
-    }
-    
-    .quote-title {
-      font-size: 1.5rem;
-      color: #ff6b9d;
-      margin-bottom: 20px;
-    }
-    
-    .quote {
-      font-style: italic;
-      font-size: 1.2rem;
-      line-height: 1.6;
-      margin-bottom: 15px;
-      color: rgba(255, 255, 255, 0.9);
-      position: relative;
-      padding: 0 20px;
-    }
-    
-    .quote::before, .quote::after {
-      content: '"';
-      font-size: 3rem;
-      position: absolute;
-      color: rgba(255, 107, 157, 0.3);
-    }
-    
-    .quote::before {
-      top: -20px;
-      left: -10px;
-    }
-    
-    .quote::after {
-      bottom: -40px;
-      right: -10px;
-    }
-    
-    .quote-author {
-      font-size: 1.1rem;
-      color: #ffcc00;
-      font-weight: 500;
-    }
-    
-    /* Footer */
-    footer {
-      text-align: center;
-      padding: 30px;
-      background: rgba(0, 0, 0, 0.3);
-      margin-top: 20px;
-    }
-    
-    footer p {
-      margin: 10px 0;
-      color: rgba(255, 255, 255, 0.7);
-    }
-    
-    footer a {
-      color: #ff6b9d;
-      text-decoration: none;
-      transition: all 0.3s ease;
-    }
-    
-    footer a:hover {
-      color: #ffcc00;
-      text-decoration: underline;
-    }
-    
-    footer i.fas.fa-heart {
-      color: #ff006e;
-      animation: heartbeat 1.2s infinite;
-    }
-    
-    @keyframes heartbeat {
-      0% { transform: scale(1); }
-      5% { transform: scale(1.2); }
-      10% { transform: scale(1); }
-      15% { transform: scale(1.3); }
-      50% { transform: scale(1); }
-      100% { transform: scale(1); }
-    }
-    
-    /* Responsive Design */
-    @media (max-width: 768px) {
-      header h1 {
-        font-size: 2.5rem;
-      }
-      
-      .tagline {
-        font-size: 1.1rem;
-      }
-      
-      .input-group {
-        flex-direction: column;
-        align-items: center;
-      }
-      
-      .input-box {
-        width: 100%;
-        max-width: 100%;
-      }
-      
-      .percentage {
-        font-size: 3.5rem;
-      }
-      
-      .message {
-        font-size: 1.1rem;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love Calculator - Find Your Perfect Match</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1f0710, #30130d, #130101);
+            min-height: 100vh;
+            padding: 20px;
+            color: #fff;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* Floating Hearts */
+        .heart {
+            position: absolute;
+            color: #ff69b4;
+            font-size: 1.5rem;
+            opacity: 0.5;
+            z-index: -1;
+            animation: float 15s linear infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); }
+            100% { transform: translateY(-10vh) rotate(360deg); }
+        }
+        
+        /* Container */
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Header */
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(to right, #ff006e, #ff4b91);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+            transform: rotate(30deg);
+        }
+        
+        header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 2;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+            100% { transform: scale(1); }
+        }
+        
+        .tagline {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* Navigation */
+        .main-nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.2);
+        }
+        
+        .main-nav a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 15px;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+        }
+        
+        .main-nav a:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+        
+        .main-nav a.active {
+            background: #ff006e;
+            color: #fff;
+        }
+        
+        /* Page Sections */
+        .page {
+            display: none;
+            padding: 30px;
+            animation: fadeIn 0.8s ease;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Input Section */
+        .input-section {
+            text-align: center;
+        }
+        
+        .input-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .input-box {
+            flex: 1;
+            min-width: 250px;
+            max-width: 300px;
+            position: relative;
+        }
+        
+        .input-box label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            text-align: left;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .input-box input, 
+        .input-box select,
+        .input-box textarea {
+            width: 100%;
+            padding: 15px 20px;
+            border-radius: 12px;
+            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            font-size: 1.1rem;
+            color: #fff;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .input-box input:focus,
+        .input-box select:focus,
+        .input-box textarea:focus {
+            outline: none;
+            border-color: #ff006e;
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 15px rgba(255, 0, 110, 0.3);
+        }
+        
+        .input-box input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .input-box i {
+            position: absolute;
+            right: 15px;
+            top: 45px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        /* Button */
+        .calculate-btn {
+            padding: 16px 40px;
+            background: linear-gradient(to right, #ff006e, #ff4b91);
+            border: none;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 0, 110, 0.4);
+            position: relative;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+        
+        .calculate-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 0, 110, 0.6);
+        }
+        
+        .calculate-btn:active {
+            transform: translateY(1px);
+        }
+        
+        .calculate-btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -60%;
+            width: 20px;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(30deg);
+            transition: all 0.6s;
+        }
+        
+        .calculate-btn:hover::after {
+            left: 120%;
+        }
+        
+        /* Result Section */
+        .result-section {
+            padding: 40px 20px;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.2);
+            margin: 20px 30px;
+            border-radius: 15px;
+            display: none;
+        }
+        
+        .result-title {
+            font-size: 1.8rem;
+            color: #ffcc00;
+            margin-bottom: 20px;
+        }
+        
+        .names {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #ff6b9d;
+        }
+        
+        .percentage {
+            font-size: 5rem;
+            font-weight: bold;
+            background: linear-gradient(to right, #ffcc00, #ff6b9d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 20px 0;
+            text-shadow: 0 0 10px rgba(255, 204, 0, 0.3);
+        }
+        
+        .message {
+            font-size: 1.3rem;
+            color: #ffcc00;
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255, 204, 0, 0.1);
+            border-radius: 10px;
+            display: inline-block;
+            max-width: 80%;
+            animation: pulse 2s infinite;
+        }
+        
+        /* Quotes */
+        .love-quotes {
+            padding: 30px;
+            text-align: center;
+            margin: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+        }
+        
+        .quote-title {
+            font-size: 1.5rem;
+            color: #ff6b9d;
+            margin-bottom: 20px;
+        }
+        
+        .quote {
+            font-style: italic;
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            color: rgba(255, 255, 255, 0.9);
+            position: relative;
+            padding: 0 20px;
+        }
+        
+        .quote::before, .quote::after {
+            content: '"';
+            font-size: 3rem;
+            position: absolute;
+            color: rgba(255, 107, 157, 0.3);
+        }
+        
+        .quote::before {
+            top: -20px;
+            left: -10px;
+        }
+        
+        .quote::after {
+            bottom: -40px;
+            right: -10px;
+        }
+        
+        .quote-author {
+            font-size: 1.1rem;
+            color: #ffcc00;
+            font-weight: 500;
+        }
+        
+        /* Content Section */
+        .content-section {
+            padding: 30px;
+            line-height: 1.8;
+        }
+        
+        .content-section h2 {
+            color: #ff6b9d;
+            margin-bottom: 20px;
+            font-size: 2rem;
+            border-bottom: 2px solid rgba(255, 107, 157, 0.3);
+            padding-bottom: 10px;
+        }
+        
+        .content-section h3 {
+            color: #ffcc00;
+            margin: 25px 0 15px;
+            font-size: 1.5rem;
+        }
+        
+        .content-section p {
+            margin-bottom: 15px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .content-section ul {
+            margin-left: 30px;
+            margin-bottom: 20px;
+        }
+        
+        .content-section li {
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 20px;
+        }
+        
+        .content-section li:before {
+            content: "❤";
+            position: absolute;
+            left: 0;
+            color: #ff6b9d;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.3);
+            margin-top: 20px;
+        }
+        
+        footer p {
+            margin: 10px 0;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        footer a {
+            color: #ff6b9d;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        footer a:hover {
+            color: #ffcc00;
+            text-decoration: underline;
+        }
+        
+        footer i.fas.fa-heart {
+            color: #ff006e;
+            animation: heartbeat 1.2s infinite;
+        }
+        
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            5% { transform: scale(1.2); }
+            10% { transform: scale(1); }
+            15% { transform: scale(1.3); }
+            50% { transform: scale(1); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .tagline {
+                font-size: 1.1rem;
+            }
+            
+            .input-group {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .input-box {
+                width: 100%;
+                max-width: 100%;
+            }
+            
+            .percentage {
+                font-size: 3.5rem;
+            }
+            
+            .message {
+                font-size: 1.1rem;
+            }
+            
+            .main-nav {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
 </head>
 <body>
-  <!-- Floating Hearts Background -->
-  <div class="hearts-container"></div>
-  
-  <div class="container">
-    <header>
-      <h1><i class="fas fa-heart"></i> Love Calculator</h1>
-      <p class="tagline">Discover your love compatibility percentage with our magical calculator. Enter your names and see the sparks fly!</p>
-    </header>
+    <!-- Floating Hearts Background -->
+    <div class="hearts-container"></div>
     
-    <nav class="main-nav">
-      <a href="#" class="active">Home</a>
-      <a href="#">Love Tips</a>
-      <a href="#">About</a>
-      <a href="#">Privacy</a>
-      <a href="#">Contact</a>
-      <a href="#">🎂 Birthday Match</a>
-      <a href="#">🔮 Zodiac Match</a>
-    </nav>
-    
-    <div class="input-section">
-      <div class="input-group">
-        <div class="input-box">
-          <label for="name1"><i class="fas fa-user"></i> Your Name</label>
-          <input type="text" id="name1" placeholder="Enter your name">
-          <i class="fas fa-heart"></i>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-heart"></i> Love Calculator</h1>
+            <p class="tagline">Discover your love compatibility percentage with our magical calculator</p>
+        </header>
+        
+        <nav class="main-nav">
+            <a href="#" class="nav-link active" data-page="home">Home</a>
+            <a href="#" class="nav-link" data-page="birthday">🎂 Birthday Match</a>
+            <a href="#" class="nav-link" data-page="zodiac">🔮 Zodiac Match</a>
+            <a href="#" class="nav-link" data-page="about">About</a>
+            <a href="#" class="nav-link" data-page="tips">Love Tips</a>
+            <a href="#" class="nav-link" data-page="contact">Contact</a>
+            <a href="#" class="nav-link" data-page="privacy">Privacy</a>
+        </nav>
+        
+        <!-- Home Page -->
+        <div id="home" class="page active">
+            <div class="input-section">
+                <div class="input-group">
+                    <div class="input-box">
+                        <label for="name1"><i class="fas fa-user"></i> Your Name</label>
+                        <input type="text" id="name1" placeholder="Enter your name">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <div class="input-box">
+                        <label for="name2"><i class="fas fa-user"></i> Partner's Name</label>
+                        <input type="text" id="name2" placeholder="Enter partner's name">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                </div>
+                
+                <button class="calculate-btn" id="calculateBtn">
+                    <i class="fas fa-heart"></i> Calculate Love Percentage
+                </button>
+            </div>
+            
+            <div class="result-section" id="resultSection">
+                <h2 class="result-title">Your Love Compatibility</h2>
+                <div class="names" id="namesDisplay">Alex ❤️ Taylor</div>
+                <div class="percentage" id="percentageDisplay">86%</div>
+                <div class="message" id="messageDisplay">🌟 Wow! You two are truly compatible!</div>
+            </div>
+            
+            <div class="love-quotes">
+                <h3 class="quote-title"><i class="fas fa-quote-left"></i> Romantic Quotes</h3>
+                <p class="quote" id="quoteText">Love is composed of a single soul inhabiting two bodies.</p>
+                <p class="quote-author" id="quoteAuthor">- Aristotle</p>
+            </div>
         </div>
-        <div class="input-box">
-          <label for="name2"><i class="fas fa-user"></i> Partner's Name</label>
-          <input type="text" id="name2" placeholder="Enter partner's name">
-          <i class="fas fa-heart"></i>
+        
+        <!-- Birthday Match Page -->
+        <div id="birthday" class="page">
+            <div class="input-section">
+                <div class="input-group">
+                    <div class="input-box">
+                        <label for="bday1"><i class="fas fa-calendar"></i> Your Birthday</label>
+                        <input type="date" id="bday1">
+                    </div>
+                    <div class="input-box">
+                        <label for="bday2"><i class="fas fa-calendar"></i> Partner's Birthday</label>
+                        <input type="date" id="bday2">
+                    </div>
+                </div>
+                
+                <button class="calculate-btn" id="calculateBdayBtn">
+                    <i class="fas fa-heart"></i> Calculate Birthday Match
+                </button>
+            </div>
+            
+            <div class="result-section" id="bdayResultSection">
+                <h2 class="result-title">Your Birthday Compatibility</h2>
+                <div class="names" id="bdayNamesDisplay">Jan 15 ❤️ Feb 28</div>
+                <div class="percentage" id="bdayPercentageDisplay">72%</div>
+                <div class="message" id="bdayMessageDisplay">🔥 There's definite chemistry here!</div>
+            </div>
+            
+            <div class="content-section">
+                <h3>How Birthday Compatibility Works</h3>
+                <p>Our algorithm calculates compatibility based on astrological principles and numerology. The positions of celestial bodies at your time of birth can influence your personality traits and relationship dynamics.</p>
+            </div>
         </div>
-      </div>
-      
-      <button class="calculate-btn" id="calculateBtn">
-        <i class="fas fa-heart"></i> Calculate Love Percentage
-      </button>
+        
+        <!-- Zodiac Match Page -->
+        <div id="zodiac" class="page">
+            <div class="input-section">
+                <div class="input-group">
+                    <div class="input-box">
+                        <label for="zodiac1"><i class="fas fa-star"></i> Your Zodiac Sign</label>
+                        <select id="zodiac1">
+                            <option value="">-- Select --</option>
+                            <option>Aries</option>
+                            <option>Taurus</option>
+                            <option>Gemini</option>
+                            <option>Cancer</option>
+                            <option>Leo</option>
+                            <option>Virgo</option>
+                            <option>Libra</option>
+                            <option>Scorpio</option>
+                            <option>Sagittarius</option>
+                            <option>Capricorn</option>
+                            <option>Aquarius</option>
+                            <option>Pisces</option>
+                        </select>
+                    </div>
+                    <div class="input-box">
+                        <label for="zodiac2"><i class="fas fa-star"></i> Partner's Sign</label>
+                        <select id="zodiac2">
+                            <option value="">-- Select --</option>
+                            <option>Aries</option>
+                            <option>Taurus</option>
+                            <option>Gemini</option>
+                            <option>Cancer</option>
+                            <option>Leo</option>
+                            <option>Virgo</option>
+                            <option>Libra</option>
+                            <option>Scorpio</option>
+                            <option>Sagittarius</option>
+                            <option>Capricorn</option>
+                            <option>Aquarius</option>
+                            <option>Pisces</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <button class="calculate-btn" id="calculateZodiacBtn">
+                    <i class="fas fa-heart"></i> Calculate Zodiac Match
+                </button>
+            </div>
+            
+            <div class="result-section" id="zodiacResultSection">
+                <h2 class="result-title">Your Zodiac Compatibility</h2>
+                <div class="names" id="zodiacNamesDisplay">Leo ❤️ Sagittarius</div>
+                <div class="percentage" id="zodiacPercentageDisplay">94%</div>
+                <div class="message" id="zodiacMessageDisplay">😍 An almost perfect match - cherish it!</div>
+            </div>
+            
+            <div class="content-section">
+                <h3>Zodiac Compatibility Explained</h3>
+                <p>Zodiac signs can reveal how compatible two people are based on their elemental groups (Fire, Earth, Air, Water) and planetary alignments. Fire signs (Aries, Leo, Sagittarius) are often compatible with other Fire and Air signs.</p>
+            </div>
+        </div>
+        
+        <!-- About Page -->
+        <div id="about" class="page">
+            <div class="content-section">
+                <h2>About Love Calculator</h2>
+                <p>This Love Calculator is a lighthearted and fun tool created to bring a smile to your face. It is designed purely for entertainment and is not based on any scientific formula. Whether you are in love or just curious, this app gives you a sweet way to engage with your partner or crush.</p>
+                
+                <h3>How It Works</h3>
+                <p>Our algorithm uses a combination of numerology and symbolic calculations to determine compatibility. For name matching, we convert letters to numbers and calculate a compatibility score. For birthdays and zodiac signs, we use astrological principles to determine potential harmony.</p>
+                
+                <h3>Disclaimer</h3>
+                <p>This tool is just for entertainment purposes. Real relationships require communication, understanding, and effort from both partners. Use these results as a fun conversation starter, not as relationship advice.</p>
+            </div>
+        </div>
+        
+        <!-- Love Tips Page -->
+        <div id="tips" class="page">
+            <div class="content-section">
+                <h2>Top 10 Love & Relationship Tips</h2>
+                <p>A successful relationship is not based on luck, but on mutual respect, communication, and understanding. Whether you're starting a new relationship or strengthening an old one, these love tips can help you grow together with your partner.</p>
+                
+                <h3>1. Communicate Honestly and Often</h3>
+                <p>Communication is the foundation of any strong relationship. Make sure you express your feelings clearly and listen to your partner without judgment. Don’t wait for special moments — talk daily about your life, emotions, and goals.</p>
+                
+                <h3>2. Spend Quality Time Together</h3>
+                <p>In today’s busy world, quality time is precious. Put your phone away, plan dates, and make time just for each other. Even 30 minutes of undivided attention can deepen your bond.</p>
+                
+                <h3>3. Show Appreciation</h3>
+                <p>Say "thank you" for the little things. Compliment your partner and acknowledge their efforts. This builds positivity and makes both of you feel valued.</p>
+                
+                <h3>4. Respect Personal Space</h3>
+                <p>It’s healthy for each person to have their own space and interests. Supporting your partner’s individuality shows maturity and builds trust.</p>
+                
+                <h3>5. Resolve Conflicts Calmly</h3>
+                <p>Disagreements are natural, but yelling or blaming damages trust. Stay calm, discuss solutions, and never go to bed angry if possible.</p>
+                
+                <h3>6. Surprise Each Other</h3>
+                <p>Little surprises go a long way — a sweet note, favorite food, or a small gift can make your partner feel special and keep the spark alive.</p>
+                
+                <h3>7. Be Loyal and Trustworthy</h3>
+                <p>Trust is earned through consistent behavior. Be dependable and honest — don’t hide things or break promises.</p>
+                
+                <h3>8. Laugh Together</h3>
+                <p>Don’t underestimate the power of shared laughter. Watch comedies, tell jokes, or just be silly together — it relieves stress and increases emotional connection.</p>
+                
+                <h3>9. Support Each Other's Goals</h3>
+                <p>Celebrate your partner’s successes and help them in their failures. When you support each other's dreams, you grow as a team.</p>
+                
+                <h3>10. Never Stop Learning About Each Other</h3>
+                <p>People change over time. Keep exploring each other's likes, dislikes, fears, and dreams. It keeps the relationship fresh and exciting.</p>
+                
+                <p>Remember, love is not just a feeling — it’s a daily choice. These tips can help create a lasting, meaningful bond that stands the test of time.</p>
+            </div>
+        </div>
+        
+        <!-- Contact Page -->
+        <div id="contact" class="page">
+            <div class="content-section">
+                <h2>Contact Us</h2>
+                <p>If you have any questions, suggestions, or just want to say hello, feel free to reach out:</p>
+                
+                <div class="input-section">
+                    <div class="input-group">
+                        <div class="input-box">
+                            <label for="contactName"><i class="fas fa-user"></i> Your Name</label>
+                            <input type="text" id="contactName" placeholder="Enter your name">
+                        </div>
+                        <div class="input-box">
+                            <label for="contactEmail"><i class="fas fa-envelope"></i> Your Email</label>
+                            <input type="email" id="contactEmail" placeholder="Enter your email">
+                        </div>
+                    </div>
+                    
+                    <div class="input-box">
+                        <label for="contactMessage"><i class="fas fa-comment"></i> Your Message</label>
+                        <textarea id="contactMessage" rows="5" placeholder="Type your message here"></textarea>
+                    </div>
+                    
+                    <button class="calculate-btn">
+                        <i class="fas fa-paper-plane"></i> Send Message
+                    </button>
+                </div>
+                
+                <h3>Other Ways to Reach Us</h3>
+                <ul>
+                    <li>Email: prince@lovecalculator.com</li>
+                    <li>Instagram: <a href="https://instagram.com/prince__xharma777" target="_blank">@prince__xharma777</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Privacy Page -->
+        <div id="privacy" class="page">
+            <div class="content-section">
+                <h2>Privacy Policy</h2>
+                <p>We respect your privacy. This site does not collect or store any personal information you enter. The love percentage is calculated instantly in your browser and no data is sent to a server.</p>
+                
+                <h3>Information We Don't Collect</h3>
+                <p>We do not collect, store, or share any personal information that you enter into our calculator tools, including:</p>
+                <ul>
+                    <li>Your name or your partner's name</li>
+                    <li>Birthdate information</li>
+                    <li>Zodiac sign selections</li>
+                    <li>Any messages you type into the calculator</li>
+                </ul>
+                
+                <h3>How Our Calculator Works</h3>
+                <p>All calculations are performed locally in your web browser. When you enter names, birthdays, or zodiac signs, that information never leaves your device. We do not have servers collecting this data.</p>
+                
+                <h3>Third-Party Services</h3>
+                <p>We use Google AdSense to display ads on our site. Google may use cookies to serve personalized ads based on your browsing history. You can opt out of personalized advertising by visiting <a href="https://adssettings.google.com" target="_blank">Google's Ads Settings</a>.</p>
+            </div>
+        </div>
+        
+        <footer>
+            <p>🥀 Follow us on 
+                <a href="https://instagram.com/prince__xharma777" target="_blank">
+                    <i class="fab fa-instagram"></i> Instagram
+                </a>
+            </p>
+            <p>Made with <i class="fas fa-heart"></i> | Prince Kumar © 2025</p>
+        </footer>
     </div>
-    
-    <div class="result-section" id="resultSection">
-      <h2 class="result-title">Your Love Compatibility</h2>
-      <div class="names" id="namesDisplay">Alex ❤️ Taylor</div>
-      <div class="percentage" id="percentageDisplay">86%</div>
-      <div class="message" id="messageDisplay">🌟 Wow! You two are truly compatible!</div>
-    </div>
-    
-    <div class="love-quotes">
-      <h3 class="quote-title"><i class="fas fa-quote-left"></i> Romantic Quotes</h3>
-      <p class="quote" id="quoteText">Love is composed of a single soul inhabiting two bodies.</p>
-      <p class="quote-author" id="quoteAuthor">- Aristotle</p>
-    </div>
-    
-    <footer>
-      <p>🥀 Follow us on 
-        <a href="https://instagram.com/prince__xharma777" target="_blank">
-          <i class="fab fa-instagram"></i> Instagram
-        </a>
-      </p>
-      <p>Made with <i class="fas fa-heart"></i> | Prince Kumar © 2025</p>
-    </footer>
-  </div>
 
-  <script>
-    // Create floating hearts
-    function createHearts() {
-      const heartsContainer = document.querySelector('.hearts-container');
-      const heartCount = 30;
-      
-      for (let i = 0; i < heartCount; i++) {
-        const heart = document.createElement('div');
-        heart.classList.add('heart');
-        heart.innerHTML = '❤';
-        
-        // Random properties
-        const size = Math.random() * 2 + 1;
-        const duration = Math.random() * 10 + 10;
-        const delay = Math.random() * 5;
-        const left = Math.random() * 100;
-        
-        heart.style.fontSize = `${size}rem`;
-        heart.style.animationDuration = `${duration}s`;
-        heart.style.animationDelay = `${delay}s`;
-        heart.style.left = `${left}vw`;
-        heart.style.opacity = Math.random() * 0.5 + 0.1;
-        
-        heartsContainer.appendChild(heart);
-      }
-    }
-    
-    // Quotes data
-    const quotes = [
-      {
-        text: "Love is composed of a single soul inhabiting two bodies.",
-        author: "Aristotle"
-      },
-      {
-        text: "The best thing to hold onto in life is each other.",
-        author: "Audrey Hepburn"
-      },
-      {
-        text: "We are most alive when we're in love.",
-        author: "John Updike"
-      },
-      {
-        text: "True love stories never have endings.",
-        author: "Richard Bach"
-      },
-      {
-        text: "Love doesn't make the world go round. Love is what makes the ride worthwhile.",
-        author: "Franklin P. Jones"
-      }
-    ];
-    
-    // Messages for different percentages
-    const messages = {
-      0: "💔 There might be some challenges ahead...",
-      10: "🌱 A spark is there, but it needs nurturing.",
-      20: "👯 Friendship potential is strong!",
-      30: "😊 You enjoy each other's company.",
-      40: "🔥 There's definite chemistry here!",
-      50: "🤝 A balanced connection - work on it together.",
-      60: "💖 Strong feelings are developing!",
-      70: "💞 This is a deep and meaningful connection.",
-      80: "🌟 Wow! You two are truly compatible!",
-      90: "😍 An almost perfect match - cherish it!",
-      100: "💘 Soulmates! This is true love!"
-    };
-    
-    // Initialize
-    document.addEventListener('DOMContentLoaded', () => {
-      createHearts();
-      showRandomQuote();
-      
-      // Set up button click
-      document.getElementById('calculateBtn').addEventListener('click', calculateLove);
-    });
-    
-    // Show random quote
-    function showRandomQuote() {
-      const quote = quotes[Math.floor(Math.random() * quotes.length)];
-      document.getElementById('quoteText').textContent = quote.text;
-      document.getElementById('quoteAuthor').textContent = `- ${quote.author}`;
-    }
-    
-    // Calculate love percentage
-    function calculateLove() {
-      const name1 = document.getElementById('name1').value.trim();
-      const name2 = document.getElementById('name2').value.trim();
-      
-      if (!name1 || !name2) {
-        alert('Please enter both names!');
-        return;
-      }
-      
-      // Display names
-      document.getElementById('namesDisplay').textContent = `${name1} ❤️ ${name2}`;
-      
-      // Calculate percentage (fun algorithm)
-      const combined = (name1 + name2).toLowerCase().replace(/\s/g, '');
-      let sum = 0;
-      
-      for (let char of combined) {
-        sum += char.charCodeAt(0);
-      }
-      
-      const percentage = (sum % 91) + 10; // Ensure between 10-100
-      
-      // Animate result
-      animateResult(percentage);
-      
-      // Show result section
-      document.getElementById('resultSection').style.display = 'block';
-      
-      // Show new quote
-      setTimeout(showRandomQuote, 1500);
-    }
-    
-    // Animate the percentage counter
-    function animateResult(finalPercentage) {
-      const display = document.getElementById('percentageDisplay');
-      let current = 0;
-      const increment = Math.ceil(finalPercentage / 30); // Dynamic increment
-      
-      const timer = setInterval(() => {
-        current += increment;
-        if (current >= finalPercentage) {
-          current = finalPercentage;
-          clearInterval(timer);
-          
-          // Set message based on percentage
-          const messageKey = Math.floor(finalPercentage / 10) * 10;
-          document.getElementById('messageDisplay').textContent = messages[messageKey];
+    <script>
+        // Create floating hearts
+        function createHearts() {
+            const heartsContainer = document.querySelector('.hearts-container');
+            const heartCount = 30;
+            
+            for (let i = 0; i < heartCount; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.innerHTML = '❤';
+                
+                // Random properties
+                const size = Math.random() * 2 + 1;
+                const duration = Math.random() * 10 + 10;
+                const delay = Math.random() * 5;
+                const left = Math.random() * 100;
+                
+                heart.style.fontSize = `${size}rem`;
+                heart.style.animationDuration = `${duration}s`;
+                heart.style.animationDelay = `${delay}s`;
+                heart.style.left = `${left}vw`;
+                heart.style.opacity = Math.random() * 0.5 + 0.1;
+                
+                heartsContainer.appendChild(heart);
+            }
         }
-        display.textContent = `${current}%`;
-      }, 30);
-    }
-  </script>
+        
+        // Quotes data
+        const quotes = [
+            {
+                text: "Love is composed of a single soul inhabiting two bodies.",
+                author: "Aristotle"
+            },
+            {
+                text: "The best thing to hold onto in life is each other.",
+                author: "Audrey Hepburn"
+            },
+            {
+                text: "We are most alive when we're in love.",
+                author: "John Updike"
+            },
+            {
+                text: "True love stories never have endings.",
+                author: "Richard Bach"
+            },
+            {
+                text: "Love doesn't make the world go round. Love is what makes the ride worthwhile.",
+                author: "Franklin P. Jones"
+            }
+        ];
+        
+        // Messages for different percentages
+        const messages = {
+            0: "💔 There might be some challenges ahead...",
+            10: "🌱 A spark is there, but it needs nurturing.",
+            20: "👯 Friendship potential is strong!",
+            30: "😊 You enjoy each other's company.",
+            40: "🔥 There's definite chemistry here!",
+            50: "🤝 A balanced connection - work on it together.",
+            60: "💖 Strong feelings are developing!",
+            70: "💞 This is a deep and meaningful connection.",
+            80: "🌟 Wow! You two are truly compatible!",
+            90: "😍 An almost perfect match - cherish it!",
+            100: "💘 Soulmates! This is true love!"
+        };
+        
+        // Zodiac compatibility matrix (simplified)
+        const zodiacCompatibility = {
+            Aries: { Aries: 70, Taurus: 40, Gemini: 80, Cancer: 30, Leo: 90, Virgo: 50, Libra: 70, Scorpio: 60, Sagittarius: 95, Capricorn: 40, Aquarius: 80, Pisces: 50 },
+            Taurus: { Aries: 40, Taurus: 75, Gemini: 50, Cancer: 85, Leo: 50, Virgo: 90, Libra: 70, Scorpio: 80, Sagittarius: 40, Capricorn: 95, Aquarius: 60, Pisces: 85 },
+            Gemini: { Aries: 80, Taurus: 50, Gemini: 75, Cancer: 60, Leo: 70, Virgo: 60, Libra: 90, Scorpio: 50, Sagittarius: 85, Capricorn: 50, Aquarius: 95, Pisces: 65 },
+            Cancer: { Aries: 30, Taurus: 85, Gemini: 60, Cancer: 80, Leo: 50, Virgo: 75, Libra: 60, Scorpio: 90, Sagittarius: 40, Capricorn: 70, Aquarius: 50, Pisces: 95 },
+            Leo: { Aries: 90, Taurus: 50, Gemini: 70, Cancer: 50, Leo: 85, Virgo: 60, Libra: 80, Scorpio: 70, Sagittarius: 95, Capricorn: 60, Aquarius: 75, Pisces: 65 },
+            Virgo: { Aries: 50, Taurus: 90, Gemini: 60, Cancer: 75, Leo: 60, Virgo: 80, Libra: 70, Scorpio: 85, Sagittarius: 50, Capricorn: 95, Aquarius: 70, Pisces: 80 },
+            Libra: { Aries: 70, Taurus: 70, Gemini: 90, Cancer: 60, Leo: 80, Virgo: 70, Libra: 85, Scorpio: 75, Sagittarius: 80, Capricorn: 70, Aquarius: 95, Pisces: 75 },
+            Scorpio: { Aries: 60, Taurus: 80, Gemini: 50, Cancer: 90, Leo: 70, Virgo: 85, Libra: 75, Scorpio: 85, Sagittarius: 65, Capricorn: 80, Aquarius: 70, Pisces: 95 },
+            Sagittarius: { Aries: 95, Taurus: 40, Gemini: 85, Cancer: 40, Leo: 95, Virgo: 50, Libra: 80, Scorpio: 65, Sagittarius: 90, Capricorn: 50, Aquarius: 90, Pisces: 60 },
+            Capricorn: { Aries: 40, Taurus: 95, Gemini: 50, Cancer: 70, Leo: 60, Virgo: 95, Libra: 70, Scorpio: 80, Sagittarius: 50, Capricorn: 85, Aquarius: 60, Pisces: 75 },
+            Aquarius: { Aries: 80, Taurus: 60, Gemini: 95, Cancer: 50, Leo: 75, Virgo: 70, Libra: 95, Scorpio: 70, Sagittarius: 90, Capricorn: 60, Aquarius: 80, Pisces: 70 },
+            Pisces: { Aries: 50, Taurus: 85, Gemini: 65, Cancer: 95, Leo: 65, Virgo: 80, Libra: 75, Scorpio: 95, Sagittarius: 60, Capricorn: 75, Aquarius: 70, Pisces: 85 }
+        };
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            createHearts();
+            showRandomQuote();
+            
+            // Set up button click
+            document.getElementById('calculateBtn').addEventListener('click', calculateLove);
+            document.getElementById('calculateBdayBtn').addEventListener('click', calculateBday);
+            document.getElementById('calculateZodiacBtn').addEventListener('click', calculateZodiac);
+            
+            // Set up navigation
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const pageId = link.getAttribute('data-page');
+                    navigateToPage(pageId);
+                });
+            });
+        });
+        
+        // Show random quote
+        function showRandomQuote() {
+            const quote = quotes[Math.floor(Math.random() * quotes.length)];
+            document.getElementById('quoteText').textContent = quote.text;
+            document.getElementById('quoteAuthor').textContent = `- ${quote.author}`;
+        }
+        
+        // Calculate love percentage
+        function calculateLove() {
+            const name1 = document.getElementById('name1').value.trim();
+            const name2 = document.getElementById('name2').value.trim();
+            
+            if (!name1 || !name2) {
+                alert('Please enter both names!');
+                return;
+            }
+            
+            // Display names
+            document.getElementById('namesDisplay').textContent = `${name1} ❤️ ${name2}`;
+            
+            // Calculate percentage (fun algorithm)
+            const combined = (name1 + name2).toLowerCase().replace(/\s/g, '');
+            let sum = 0;
+            
+            for (let char of combined) {
+                sum += char.charCodeAt(0);
+            }
+            
+            const percentage = (sum % 91) + 10; // Ensure between 10-100
+            
+            // Animate result
+            animateResult(percentage, 'resultSection', 'percentageDisplay', 'messageDisplay');
+            
+            // Show new quote
+            setTimeout(showRandomQuote, 1500);
+        }
+        
+        // Calculate birthday match
+        function calculateBday() {
+            const bday1 = document.getElementById('bday1').value;
+            const bday2 = document.getElementById('bday2').value;
+            
+            if (!bday1 || !bday2) {
+                alert('Please select both birthdays!');
+                return;
+            }
+            
+            // Display dates
+            const date1 = new Date(bday1);
+            const date2 = new Date(bday2);
+            const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            
+            const display1 = `${monthNames[date1.getMonth()]} ${date1.getDate()}`;
+            const display2 = `${monthNames[date2.getMonth()]} ${date2.getDate()}`;
+            document.getElementById('bdayNamesDisplay').textContent = `${display1} ❤️ ${display2}`;
+            
+            // Calculate percentage (based on day difference)
+            const diff = Math.abs(date1 - date2);
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const percentage = 100 - (days % 90); // Ensure between 10-100
+            
+            // Animate result
+            animateResult(percentage, 'bdayResultSection', 'bdayPercentageDisplay', 'bdayMessageDisplay');
+        }
+        
+        // Calculate zodiac match
+        function calculateZodiac() {
+            const zodiac1 = document.getElementById('zodiac1').value;
+            const zodiac2 = document.getElementById('zodiac2').value;
+            
+            if (!zodiac1 || !zodiac2) {
+                alert('Please select both zodiac signs!');
+                return;
+            }
+            
+            // Display signs
+            document.getElementById('zodiacNamesDisplay').textContent = `${zodiac1} ❤️ ${zodiac2}`;
+            
+            // Calculate percentage from matrix
+            const percentage = zodiacCompatibility[zodiac1][zodiac2];
+            
+            // Animate result
+            animateResult(percentage, 'zodiacResultSection', 'zodiacPercentageDisplay', 'zodiacMessageDisplay');
+        }
+        
+        // Animate the percentage counter
+        function animateResult(finalPercentage, sectionId, displayId, messageId) {
+            const section = document.getElementById(sectionId);
+            const display = document.getElementById(displayId);
+            const message = document.getElementById(messageId);
+            
+            section.style.display = 'block';
+            let current = 0;
+            const increment = Math.ceil(finalPercentage / 30); // Dynamic increment
+            
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= finalPercentage) {
+                    current = finalPercentage;
+                    clearInterval(timer);
+                    
+                    // Set message based on percentage
+                    const messageKey = Math.floor(finalPercentage / 10) * 10;
+                    message.textContent = messages[messageKey];
+                }
+                display.textContent = `${current}%`;
+            }, 30);
+        }
+        
+        // Navigation between pages
+        function navigateToPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
+            
+            // Update active nav link
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            document.querySelector(`.nav-link[data-page="${pageId}"]`).classList.add('active');
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+    </script>
 </body>
 </html>
