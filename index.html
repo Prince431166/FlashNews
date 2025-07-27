@@ -11,6 +11,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            transition: background-color 0.5s ease, color 0.3s ease;
         }
         
         :root {
@@ -20,11 +21,34 @@
             --light: #fff5f7;
             --dark: #4a2e39;
             --text: #333333;
+            --bg: #fff9fc;
+            --card-bg: #ffffff;
+            --header-bg: linear-gradient(to right, #ff6b8b, #d45d79);
+            --footer-bg: #4a2e39;
+            --footer-text: #ddd;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --hero-overlay: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.7) 100%);
+        }
+        
+        .dark-mode {
+            --primary: #ff85a1;
+            --secondary: #d4778c;
+            --accent: #ffb6c1;
+            --light: #1a0f14;
+            --dark: #f8e6eb;
+            --text: #f0e6ea;
+            --bg: #2a1a22;
+            --card-bg: #341f29;
+            --header-bg: linear-gradient(to right, #7a3b4d, #5c2a3a);
+            --footer-bg: #1a0f14;
+            --footer-text: #e0c8d1;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            --hero-overlay: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.85) 100%);
         }
         
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #fff9fc 0%, #fff0f5 100%);
+            background: var(--bg);
             color: var(--text);
             line-height: 1.6;
             overflow-x: hidden;
@@ -38,7 +62,7 @@
         
         /* Header Styles */
         header {
-            background: linear-gradient(to right, var(--primary), var(--accent));
+            background: var(--header-bg);
             padding: 20px 0;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             position: sticky;
@@ -68,6 +92,38 @@
             color: white;
             font-size: 28px;
             letter-spacing: 1px;
+        }
+        
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .theme-toggle {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            width: 50px;
+            height: 26px;
+            border-radius: 13px;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .theme-toggle::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+        }
+        
+        .dark-mode .theme-toggle::after {
+            transform: translateX(24px);
         }
         
         nav ul {
@@ -120,7 +176,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.7) 100%);
+            background: var(--hero-overlay);
         }
         
         .hero-content {
@@ -131,6 +187,7 @@
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
+            animation: fadeInUp 1s ease;
         }
         
         .hero-content h2 {
@@ -145,15 +202,35 @@
             margin-bottom: 30px;
         }
         
+        .btn {
+            display: inline-block;
+            background: white;
+            color: var(--accent);
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+            background: var(--light);
+        }
+        
         /* Quote Section */
         .quote-section {
             padding: 80px 0;
-            background-color: var(--light);
+            background: var(--bg);
         }
         
         .section-title {
             text-align: center;
             margin-bottom: 50px;
+            animation: fadeIn 1s ease;
         }
         
         .section-title h2 {
@@ -182,12 +259,18 @@
         }
         
         .quote-card {
-            background: white;
+            background: var(--card-bg);
             border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            box-shadow: var(--shadow);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeIn 0.5s ease;
+            animation-fill-mode: both;
         }
+        
+        .quote-card:nth-child(1) { animation-delay: 0.2s; }
+        .quote-card:nth-child(2) { animation-delay: 0.4s; }
+        .quote-card:nth-child(3) { animation-delay: 0.6s; }
         
         .quote-card:hover {
             transform: translateY(-10px);
@@ -226,7 +309,7 @@
         /* Categories Section */
         .categories {
             padding: 80px 0;
-            background: white;
+            background: var(--card-bg);
         }
         
         .categories-container {
@@ -236,14 +319,21 @@
         }
         
         .category-card {
-            background: var(--light);
+            background: var(--bg);
             border-radius: 15px;
             padding: 30px;
             text-align: center;
             transition: all 0.3s ease;
             cursor: pointer;
             border: 2px solid transparent;
+            animation: fadeIn 0.5s ease;
+            animation-fill-mode: both;
         }
+        
+        .category-card:nth-child(1) { animation-delay: 0.3s; }
+        .category-card:nth-child(2) { animation-delay: 0.5s; }
+        .category-card:nth-child(3) { animation-delay: 0.7s; }
+        .category-card:nth-child(4) { animation-delay: 0.9s; }
         
         .category-card:hover {
             border-color: var(--primary);
@@ -265,7 +355,7 @@
         /* Benefits Section */
         .benefits {
             padding: 80px 0;
-            background: linear-gradient(135deg, var(--light) 0%, #fff0f5 100%);
+            background: var(--bg);
         }
         
         .benefits-container {
@@ -275,12 +365,18 @@
         }
         
         .benefit-card {
-            background: white;
+            background: var(--card-bg);
             border-radius: 15px;
             padding: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            box-shadow: var(--shadow);
             text-align: center;
+            animation: fadeIn 0.5s ease;
+            animation-fill-mode: both;
         }
+        
+        .benefit-card:nth-child(1) { animation-delay: 0.4s; }
+        .benefit-card:nth-child(2) { animation-delay: 0.6s; }
+        .benefit-card:nth-child(3) { animation-delay: 0.8s; }
         
         .benefit-card i {
             font-size: 50px;
@@ -297,7 +393,7 @@
         /* Ads Section */
         .ads-section {
             padding: 40px 0;
-            background: white;
+            background: var(--card-bg);
             text-align: center;
         }
         
@@ -305,7 +401,7 @@
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
-            background: #f9f9f9;
+            background: var(--bg);
             border: 1px dashed var(--secondary);
             border-radius: 10px;
         }
@@ -316,7 +412,7 @@
         }
         
         .ad-placeholder {
-            background: linear-gradient(45deg, var(--light), white);
+            background: linear-gradient(45deg, var(--bg), var(--card-bg));
             height: 250px;
             display: flex;
             align-items: center;
@@ -331,8 +427,8 @@
         
         /* Footer */
         footer {
-            background: var(--dark);
-            color: white;
+            background: var(--footer-bg);
+            color: var(--footer-text);
             padding: 60px 0 20px;
         }
         
@@ -348,6 +444,7 @@
             margin-bottom: 20px;
             position: relative;
             padding-bottom: 10px;
+            color: white;
         }
         
         .footer-col h3:after {
@@ -361,7 +458,7 @@
         }
         
         .footer-col p, .footer-col a {
-            color: #ddd;
+            color: var(--footer-text);
             margin-bottom: 10px;
             display: block;
             text-decoration: none;
@@ -403,14 +500,132 @@
             color: #aaa;
         }
         
+        /* Modal for Important Pages */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background: var(--card-bg);
+            border-radius: 15px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 30px;
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            animation: modalFade 0.3s ease;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            color: var(--text);
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        
+        .close-modal:hover {
+            color: var(--primary);
+        }
+        
+        .modal-content h2 {
+            font-family: 'Playfair Display', serif;
+            color: var(--accent);
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+        
+        .modal-content p {
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+        
+        /* Form Styles */
+        .newsletter-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .form-input {
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 1px solid var(--secondary);
+            background: var(--bg);
+            color: var(--text);
+            font-size: 1rem;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .form-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .form-btn:hover {
+            background: var(--accent);
+            transform: translateY(-2px);
+        }
+        
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background: var(--primary);
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 1001;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+        }
+        
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
         /* Responsive Design */
         @media (max-width: 768px) {
             .header-container {
                 flex-direction: column;
             }
             
+            .header-controls {
+                margin-top: 15px;
+            }
+            
             nav ul {
                 margin-top: 20px;
+                flex-wrap: wrap;
+                justify-content: center;
             }
             
             nav ul li {
@@ -424,21 +639,41 @@
             .hero-content p {
                 font-size: 1.2rem;
             }
+            
+            .footer-container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
         }
         
         @media (max-width: 480px) {
-            nav ul {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            
             nav ul li {
-                margin: 5px 10px;
+                margin: 5px 8px;
             }
             
             .hero-content h2 {
                 font-size: 2rem;
             }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes modalFade {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
@@ -457,9 +692,12 @@
                     <li><a href="#">Poems</a></li>
                     <li><a href="#">Messages</a></li>
                     <li><a href="#">Stories</a></li>
-                    <li><a href="#">Contact</a></li>
+                    <li><a href="#" id="contact-link">Contact</a></li>
                 </ul>
             </nav>
+            <div class="header-controls">
+                <button class="theme-toggle" id="theme-toggle"></button>
+            </div>
         </div>
     </header>
 
@@ -468,12 +706,12 @@
         <div class="hero-content">
             <h2>Whispers of the Heart</h2>
             <p>Discover the most beautiful romantic quotes to express your deepest feelings</p>
-            <a href="#" class="btn">Explore Love Quotes</a>
+            <a href="#quotes" class="btn">Explore Love Quotes</a>
         </div>
     </section>
 
     <!-- Quotes Section -->
-    <section class="quote-section">
+    <section class="quote-section" id="quotes">
         <div class="container">
             <div class="section-title">
                 <h2>Timeless Romantic Quotes</h2>
@@ -592,46 +830,230 @@
                 <div class="footer-col">
                     <h3>Quick Links</h3>
                     <a href="#">Home</a>
-                    <a href="#">Romantic Quotes</a>
+                    <a href="#quotes">Romantic Quotes</a>
                     <a href="#">Love Poems</a>
                     <a href="#">Good Night Messages</a>
                     <a href="#">Anniversary Wishes</a>
                 </div>
                 <div class="footer-col">
                     <h3>Important Pages</h3>
-                    <a href="#">About Us</a>
-                    <a href="#">Contact</a>
-                    <a href="#">Privacy Policy</a>
-                    <a href="#">Terms of Service</a>
-                    <a href="#">Advertise With Us</a>
+                    <a href="#" id="about-link">About Us</a>
+                    <a href="#" id="privacy-link">Privacy Policy</a>
+                    <a href="#" id="terms-link">Terms of Service</a>
+                    <a href="#" id="advertise-link">Advertise With Us</a>
+                    <a href="#" id="contact-footer-link">Contact</a>
                 </div>
                 <div class="footer-col">
                     <h3>Newsletter</h3>
                     <p>Subscribe to receive daily romantic quotes</p>
-                    <form>
-                        <input type="email" placeholder="Your Email Address" style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: none;">
-                        <button style="background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; width: 100%;">Subscribe</button>
+                    <form class="newsletter-form" id="newsletter-form">
+                        <input type="email" class="form-input" placeholder="Your Email Address" required>
+                        <button type="submit" class="form-btn">Subscribe</button>
                     </form>
                 </div>
             </div>
             <div class="copyright">
-                <p>&copy; 2025 Eternal Love. All Rights Reserved. Designed for Google AdSense Approval.</p>
+                <p>&copy; <span id="current-year"></span> Eternal Love. All Rights Reserved. Designed for Google AdSense Approval.</p>
             </div>
         </div>
     </footer>
 
+    <!-- Modal for Important Pages -->
+    <div class="modal" id="page-modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-modal">&times;</span>
+            <div id="modal-content">
+                <!-- Content will be loaded here dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">Thank you for subscribing!</div>
+
     <script>
-        // Simple animation for quote cards
         document.addEventListener('DOMContentLoaded', function() {
-            const quoteCards = document.querySelectorAll('.quote-card');
+            // Set current year in footer
+            document.getElementById('current-year').textContent = new Date().getFullYear();
             
-            quoteCards.forEach((card, index) => {
-                // Add delay for staggered animation
-                card.style.animationDelay = `${index * 0.2}s`;
+            // Theme toggle functionality
+            const themeToggle = document.getElementById('theme-toggle');
+            themeToggle.addEventListener('click', function() {
+                document.body.classList.toggle('dark-mode');
+                // Save theme preference
+                const isDarkMode = document.body.classList.contains('dark-mode');
+                localStorage.setItem('darkMode', isDarkMode);
             });
             
-            // Update year in footer
-            document.querySelector('.copyright p').innerHTML = `&copy; ${new Date().getFullYear()} Eternal Love. All Rights Reserved. Designed for Google AdSense Approval.`;
+            // Check for saved theme preference
+            if (localStorage.getItem('darkMode') === 'true') {
+                document.body.classList.add('dark-mode');
+            }
+            
+            // Modal functionality for important pages
+            const modal = document.getElementById('page-modal');
+            const modalContent = document.getElementById('modal-content');
+            const closeModal = document.getElementById('close-modal');
+            const pageLinks = [
+                { id: 'about-link', title: 'About Eternal Love', content: `
+                    <h2>About Eternal Love</h2>
+                    <p>Welcome to Eternal Love, your premier destination for romantic quotes, poems, and messages that touch the heart. Founded in 2023, our mission is to help people express their deepest feelings through beautiful words.</p>
+                    <p>We carefully curate our collection from classic literature, contemporary authors, and timeless wisdom to bring you the most heartfelt expressions of love. Our team of romantic enthusiasts works tirelessly to create original content that resonates with lovers around the world.</p>
+                    <p>Whether you're looking for the perfect words to express your love, celebrate an anniversary, or simply brighten your partner's day, Eternal Love is here to inspire you. Our content is organized into intuitive categories making it easy to find exactly what you need.</p>
+                    <p>We believe that expressing love shouldn't be complicated. That's why we've created a platform where you can find genuine, heartfelt messages that convey your emotions perfectly. Our growing community of romantic souls continues to inspire us every day.</p>
+                `},
+                { id: 'privacy-link', title: 'Privacy Policy', content: `
+                    <h2>Privacy Policy</h2>
+                    <p>Your privacy is important to us. This Privacy Policy explains how Eternal Love collects, uses, and protects your personal information when you visit our website.</p>
+                    <h3>Information We Collect</h3>
+                    <p>We collect information you provide directly, such as when you subscribe to our newsletter or contact us. This may include your name, email address, and any other information you choose to provide.</p>
+                    <p>We automatically collect certain information about your device and browsing activity through cookies and similar technologies. This includes your IP address, browser type, operating system, referring URLs, and information about how you interact with our site.</p>
+                    <h3>How We Use Your Information</h3>
+                    <p>We use the information we collect to:</p>
+                    <ul>
+                        <li>Provide and improve our services</li>
+                        <li>Send you newsletters and promotional communications</li>
+                        <li>Respond to your comments and questions</li>
+                        <li>Monitor and analyze site usage and trends</li>
+                        <li>Personalize your experience on our site</li>
+                    </ul>
+                    <h3>Data Security</h3>
+                    <p>We implement reasonable security measures to protect your information from unauthorized access, alteration, or destruction. However, no internet transmission is completely secure, and we cannot guarantee absolute security.</p>
+                `},
+                { id: 'terms-link', title: 'Terms of Service', content: `
+                    <h2>Terms of Service</h2>
+                    <p>Welcome to Eternal Love. By accessing or using our website, you agree to be bound by these Terms of Service. Please read them carefully.</p>
+                    <h3>Use of Our Content</h3>
+                    <p>All content on this website, including text, graphics, images, and other material, is protected by copyright and intellectual property laws. You may share our content through social media or personal communication, provided you give proper attribution to Eternal Love.</p>
+                    <p>You may not reproduce, distribute, modify, or commercially exploit any content from this site without our express written permission.</p>
+                    <h3>User Conduct</h3>
+                    <p>You agree to use our website only for lawful purposes and in a way that does not infringe the rights of others or restrict their use of the site. Prohibited activities include:</p>
+                    <ul>
+                        <li>Harassing, threatening, or intimidating other users</li>
+                        <li>Uploading or transmitting viruses or malicious code</li>
+                        <li>Attempting to gain unauthorized access to our systems</li>
+                        <li>Engaging in any activity that disrupts the website's operation</li>
+                    </ul>
+                    <h3>Limitation of Liability</h3>
+                    <p>Eternal Love and its affiliates will not be liable for any indirect, incidental, or consequential damages arising from your use of the website. We provide content "as is" without warranties of any kind.</p>
+                `},
+                { id: 'advertise-link', title: 'Advertise With Us', content: `
+                    <h2>Advertise With Us</h2>
+                    <p>Thank you for your interest in advertising with Eternal Love. We offer premium advertising opportunities on our romantic content platform that reaches thousands of engaged visitors daily.</p>
+                    <h3>Why Advertise With Us?</h3>
+                    <p>Our audience consists primarily of romantics looking for ways to express their feelings, plan special occasions, and find relationship inspiration. Our visitors are:</p>
+                    <ul>
+                        <li>Highly engaged with our content</li>
+                        <li>Predominantly aged 25-55</li>
+                        <li>Interested in gifts, experiences, and relationship-building</li>
+                        <li>Active social media users who share content</li>
+                    </ul>
+                    <h3>Advertising Options</h3>
+                    <p>We offer several advertising formats:</p>
+                    <ul>
+                        <li><strong>Banner Ads:</strong> Premium placements throughout the site</li>
+                        <li><strong>Sponsored Content:</strong> Native articles that match our editorial style</li>
+                        <li><strong>Newsletter Features:</strong> Reach our email subscribers</li>
+                        <li><strong>Social Media Promotion:</strong> Featured posts on our social channels</li>
+                    </ul>
+                    <h3>Contact Us</h3>
+                    <p>For advertising inquiries and rate information, please contact our advertising team at advertise@eternallove.com. We'd be happy to create a customized advertising package that meets your marketing objectives.</p>
+                `},
+                { id: 'contact-link', title: 'Contact Us', content: `
+                    <h2>Contact Eternal Love</h2>
+                    <p>We'd love to hear from you! Whether you have a question, suggestion, or just want to share your favorite romantic quote, please reach out using the information below.</p>
+                    <h3>Get in Touch</h3>
+                    <p><strong>Email:</strong> hello@eternallove.com</p>
+                    <p><strong>Mailing Address:</strong><br>
+                    Eternal Love<br>
+                    123 Romance Avenue<br>
+                    Loveville, LV 12345</p>
+                    <h3>Send Us a Message</h3>
+                    <form class="newsletter-form">
+                        <input type="text" class="form-input" placeholder="Your Name" required>
+                        <input type="email" class="form-input" placeholder="Your Email" required>
+                        <textarea class="form-input" placeholder="Your Message" rows="4" required></textarea>
+                        <button type="submit" class="form-btn">Send Message</button>
+                    </form>
+                `},
+                { id: 'contact-footer-link', title: 'Contact Us', content: `
+                    <h2>Contact Eternal Love</h2>
+                    <p>We'd love to hear from you! Whether you have a question, suggestion, or just want to share your favorite romantic quote, please reach out using the information below.</p>
+                    <h3>Get in Touch</h3>
+                    <p><strong>Email:</strong> hello@eternallove.com</p>
+                    <p><strong>Mailing Address:</strong><br>
+                    Eternal Love<br>
+                    123 Romance Avenue<br>
+                    Loveville, LV 12345</p>
+                    <h3>Send Us a Message</h3>
+                    <form class="newsletter-form">
+                        <input type="text" class="form-input" placeholder="Your Name" required>
+                        <input type="email" class="form-input" placeholder="Your Email" required>
+                        <textarea class="form-input" placeholder="Your Message" rows="4" required></textarea>
+                        <button type="submit" class="form-btn">Send Message</button>
+                    </form>
+                `}
+            ];
+            
+            // Add event listeners to all page links
+            pageLinks.forEach(page => {
+                document.getElementById(page.id).addEventListener('click', function(e) {
+                    e.preventDefault();
+                    modalContent.innerHTML = `
+                        <h2>${page.title}</h2>
+                        ${page.content}
+                    `;
+                    modal.style.display = 'flex';
+                });
+            });
+            
+            // Close modal functionality
+            closeModal.addEventListener('click', function() {
+                modal.style.display = 'none';
+            });
+            
+            // Close modal when clicking outside content
+            window.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+            
+            // Newsletter form submission
+            const newsletterForm = document.getElementById('newsletter-form');
+            const toast = document.getElementById('toast');
+            
+            newsletterForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                // Simulate form submission
+                setTimeout(function() {
+                    newsletterForm.reset();
+                    toast.classList.add('show');
+                    setTimeout(function() {
+                        toast.classList.remove('show');
+                    }, 3000);
+                }, 500);
+            });
+            
+            // Animate elements on scroll
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animation = 'fadeIn 0.8s ease forwards';
+                    }
+                });
+            }, observerOptions);
+            
+            document.querySelectorAll('.section-title, .quote-card, .category-card, .benefit-card').forEach(el => {
+                el.style.opacity = '0';
+                observer.observe(el);
+            });
         });
     </script>
 </body>
