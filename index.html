@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eternal Love - Romantic Quotes & Messages</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary: #ff6b8b;
+            --secondary: #ffa5b6;
+            --accent: #d45d79;
+            --light: #fff5f7;
+            --dark: #4a2e39;
+            --text: #333333;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #fff9fc 0%, #fff0f5 100%);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            padding: 20px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            font-size: 32px;
+            color: white;
+            margin-right: 10px;
+        }
+        
+        .logo h1 {
+            font-family: 'Playfair Display', serif;
+            color: white;
+            font-size: 28px;
+            letter-spacing: 1px;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 25px;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        nav ul li a:after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: white;
+            transition: width 0.3s ease;
+        }
+        
+        nav ul li a:hover:after {
+            width: 100%;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: url('https://images.unsplash.com/photo-1516487200032-8532cb558261?ixlib=rb-4.0.3') no-repeat center center/cover;
+            height: 80vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.7) 100%);
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            color: white;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .hero-content h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+        }
+        
+        .hero-content p {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+        }
+        
+        /* Quote Section */
+        .quote-section {
+            padding: 80px 0;
+            background-color: var(--light);
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .section-title h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--accent);
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title h2:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: var(--primary);
+        }
+        
+        .quotes-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .quote-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .quote-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .quote-content {
+            padding: 30px;
+            position: relative;
+        }
+        
+        .quote-content i {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 40px;
+            color: var(--secondary);
+            opacity: 0.3;
+        }
+        
+        .quote-text {
+            font-size: 1.2rem;
+            font-style: italic;
+            margin: 20px 0 30px;
+            padding: 0 20px;
+            text-align: center;
+            color: var(--dark);
+        }
+        
+        .quote-author {
+            text-align: right;
+            color: var(--accent);
+            font-weight: 500;
+        }
+        
+        /* Categories Section */
+        .categories {
+            padding: 80px 0;
+            background: white;
+        }
+        
+        .categories-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+        
+        .category-card {
+            background: var(--light);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        
+        .category-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+        }
+        
+        .category-card i {
+            font-size: 40px;
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+        
+        .category-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--accent);
+        }
+        
+        /* Benefits Section */
+        .benefits {
+            padding: 80px 0;
+            background: linear-gradient(135deg, var(--light) 0%, #fff0f5 100%);
+        }
+        
+        .benefits-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .benefit-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            text-align: center;
+        }
+        
+        .benefit-card i {
+            font-size: 50px;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        
+        .benefit-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--accent);
+        }
+        
+        /* Ads Section */
+        .ads-section {
+            padding: 40px 0;
+            background: white;
+            text-align: center;
+        }
+        
+        .ad-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f9f9f9;
+            border: 1px dashed var(--secondary);
+            border-radius: 10px;
+        }
+        
+        .ad-container h3 {
+            color: var(--accent);
+            margin-bottom: 15px;
+        }
+        
+        .ad-placeholder {
+            background: linear-gradient(45deg, var(--light), white);
+            height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            margin: 20px 0;
+            color: var(--accent);
+            font-weight: 500;
+            font-size: 1.2rem;
+            border: 1px solid var(--secondary);
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 60px 0 20px;
+        }
+        
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-col h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-col h3:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--primary);
+        }
+        
+        .footer-col p, .footer-col a {
+            color: #ddd;
+            margin-bottom: 10px;
+            display: block;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-col a:hover {
+            color: var(--primary);
+            padding-left: 5px;
+        }
+        
+        .social-links {
+            display: flex;
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            margin-right: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background: var(--primary);
+            transform: translateY(-5px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+            }
+            
+            nav ul {
+                margin-top: 20px;
+            }
+            
+            nav ul li {
+                margin: 0 10px;
+            }
+            
+            .hero-content h2 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-content p {
+                font-size: 1.2rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            nav ul li {
+                margin: 5px 10px;
+            }
+            
+            .hero-content h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <i class="fas fa-heart"></i>
+                <h1>Eternal Love</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Quotes</a></li>
+                    <li><a href="#">Poems</a></li>
+                    <li><a href="#">Messages</a></li>
+                    <li><a href="#">Stories</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h2>Whispers of the Heart</h2>
+            <p>Discover the most beautiful romantic quotes to express your deepest feelings</p>
+            <a href="#" class="btn">Explore Love Quotes</a>
+        </div>
+    </section>
+
+    <!-- Quotes Section -->
+    <section class="quote-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Timeless Romantic Quotes</h2>
+            </div>
+            <div class="quotes-container">
+                <div class="quote-card">
+                    <div class="quote-content">
+                        <i class="fas fa-quote-left"></i>
+                        <p class="quote-text">You are the poem I never knew how to write and this life is the story I have always wanted to tell.</p>
+                        <p class="quote-author">- Tyler Knott Gregson</p>
+                    </div>
+                </div>
+                <div class="quote-card">
+                    <div class="quote-content">
+                        <i class="fas fa-quote-left"></i>
+                        <p class="quote-text">I love you not only for what you are, but for what I am when I am with you.</p>
+                        <p class="quote-author">- Roy Croft</p>
+                    </div>
+                </div>
+                <div class="quote-card">
+                    <div class="quote-content">
+                        <i class="fas fa-quote-left"></i>
+                        <p class="quote-text">In all the world, there is no heart for me like yours. In all the world, there is no love for you like mine.</p>
+                        <p class="quote-author">- Maya Angelou</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="categories">
+        <div class="container">
+            <div class="section-title">
+                <h2>Romantic Categories</h2>
+            </div>
+            <div class="categories-container">
+                <div class="category-card">
+                    <i class="fas fa-heart"></i>
+                    <h3>Love Quotes</h3>
+                    <p>Express your deepest feelings with beautiful words</p>
+                </div>
+                <div class="category-card">
+                    <i class="fas fa-kiss-wink-heart"></i>
+                    <h3>Good Morning Messages</h3>
+                    <p>Start your partner's day with love and warmth</p>
+                </div>
+                <div class="category-card">
+                    <i class="fas fa-book"></i>
+                    <h3>Romantic Poems</h3>
+                    <p>Classic and modern poetry for the heart</p>
+                </div>
+                <div class="category-card">
+                    <i class="fas fa-gift"></i>
+                    <h3>Anniversary Wishes</h3>
+                    <p>Celebrate your special day with perfect words</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="benefits">
+        <div class="container">
+            <div class="section-title">
+                <h2>Why Our Visitors Love Us</h2>
+            </div>
+            <div class="benefits-container">
+                <div class="benefit-card">
+                    <i class="fas fa-feather-alt"></i>
+                    <h3>Beautiful Content</h3>
+                    <p>Carefully curated romantic quotes and messages that touch the heart</p>
+                </div>
+                <div class="benefit-card">
+                    <i class="fas fa-sync-alt"></i>
+                    <h3>Daily Updates</h3>
+                    <p>Fresh content added regularly to keep visitors coming back</p>
+                </div>
+                <div class="benefit-card">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h3>Mobile Friendly</h3>
+                    <p>Perfectly responsive design for all devices</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ads Section -->
+    <section class="ads-section">
+        <div class="container">
+            <div class="ad-container">
+                <h3>AdSense Approved Advertising Space</h3>
+                <p>This website is optimized for Google AdSense with strategic ad placement</p>
+                <div class="ad-placeholder">
+                    Google AdSense Banner (728x90)
+                </div>
+                <p>Ad placement designed for maximum visibility and revenue potential</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-col">
+                    <h3>Eternal Love</h3>
+                    <p>Your destination for the most beautiful romantic quotes, messages, and poems to express your deepest feelings.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-pinterest"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <a href="#">Home</a>
+                    <a href="#">Romantic Quotes</a>
+                    <a href="#">Love Poems</a>
+                    <a href="#">Good Night Messages</a>
+                    <a href="#">Anniversary Wishes</a>
+                </div>
+                <div class="footer-col">
+                    <h3>Important Pages</h3>
+                    <a href="#">About Us</a>
+                    <a href="#">Contact</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Advertise With Us</a>
+                </div>
+                <div class="footer-col">
+                    <h3>Newsletter</h3>
+                    <p>Subscribe to receive daily romantic quotes</p>
+                    <form>
+                        <input type="email" placeholder="Your Email Address" style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: none;">
+                        <button style="background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; width: 100%;">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 Eternal Love. All Rights Reserved. Designed for Google AdSense Approval.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple animation for quote cards
+        document.addEventListener('DOMContentLoaded', function() {
+            const quoteCards = document.querySelectorAll('.quote-card');
+            
+            quoteCards.forEach((card, index) => {
+                // Add delay for staggered animation
+                card.style.animationDelay = `${index * 0.2}s`;
+            });
+            
+            // Update year in footer
+            document.querySelector('.copyright p').innerHTML = `&copy; ${new Date().getFullYear()} Eternal Love. All Rights Reserved. Designed for Google AdSense Approval.`;
+        });
+    </script>
+</body>
+</html>
