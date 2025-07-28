@@ -3,1312 +3,1058 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Calculate love compatibility, birthday matches, and zodiac compatibility with our romantic love calculator">
-    <title>Romantic Love Calculator - Discover Your Compatibility</title>
+    <title>Eternal Love - Romantic Quotes & Messages</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6452903048072621" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background-color 0.5s ease, color 0.3s ease;
+        }
+        
+        :root {
+            --primary: #ff6b8b;
+            --secondary: #ffa5b6;
+            --accent: #d45d79;
+            --light: #fff5f7;
+            --dark: #4a2e39;
+            --text: #333333;
+            --bg: #fff9fc;
+            --card-bg: #ffffff;
+            --header-bg: linear-gradient(to right, #ff6b8b, #d45d79);
+            --footer-bg: #4a2e39;
+            --footer-text: #ddd;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --hero-overlay: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.7) 100%);
+        }
+        
+        .dark-mode {
+            --primary: #ff85a1;
+            --secondary: #d4778c;
+            --accent: #ffb6c1;
+            --light: #1a0f14;
+            --dark: #f8e6eb;
+            --text: #f0e6ea;
+            --bg: #2a1a22;
+            --card-bg: #341f29;
+            --header-bg: linear-gradient(to right, #7a3b4d, #5c2a3a);
+            --footer-bg: #1a0f14;
+            --footer-text: #e0c8d1;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            --hero-overlay: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.85) 100%);
         }
         
         body {
-            background: linear-gradient(135deg, #fdf2f8, #fce7f3, #fae8ff);
-            min-height: 100vh;
-            color: #4a154b;
-            transition: background 0.5s ease;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        body.dark-mode {
-            background: linear-gradient(135deg, #1f0710, #30130d, #130101);
-            color: #f0e6ef;
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
         }
         
         .container {
             max-width: 1200px;
-            width: 100%;
             margin: 0 auto;
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-            position: relative;
-            transition: all 0.5s ease;
-            min-height: 100vh;
+            padding: 0 20px;
         }
         
-        body.dark-mode .container {
-            background: rgba(30, 10, 30, 0.85);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
-        }
-        
+        /* Header Styles */
         header {
-            text-align: center;
-            padding: 40px 20px;
-            background: linear-gradient(to right, #d1478c, #c6428e);
-            position: relative;
-            overflow: hidden;
+            background: var(--header-bg);
+            padding: 20px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
         
-        body.dark-mode header {
-            background: linear-gradient(to right, #8a2c62, #6d2250);
-        }
-        
-        header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
-            transform: rotate(30deg);
-        }
-        
-        .header-content {
-            position: relative;
-            z-index: 2;
-        }
-        
-        h1 {
-            font-size: 3.2rem;
-            margin-bottom: 10px;
-            color: white;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-            100% { transform: scale(1); }
-        }
-        
-        .tagline {
-            font-size: 1.3rem;
-            opacity: 0.9;
-            max-width: 600px;
-            margin: 0 auto;
-            color: rgba(255, 255, 255, 0.9);
-        }
-        
-        .nav-container {
+        .header-container {
             display: flex;
             justify-content: space-between;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(5px);
-            flex-wrap: wrap;
+            align-items: center;
         }
         
-        body.dark-mode .nav-container {
-            background: rgba(50, 15, 45, 0.3);
-        }
-        
-        .main-nav {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-        
-        .nav-link {
-            color: rgba(255, 255, 255, 0.9);
-            text-decoration: none;
-            font-weight: 500;
-            padding: 8px 20px;
-            border-radius: 30px;
-            transition: all 0.3s ease;
-            background: rgba(180, 60, 130, 0.7);
+        .logo {
             display: flex;
             align-items: center;
-            gap: 8px;
         }
         
-        .nav-link:hover, .nav-link.active {
-            background: rgba(210, 80, 160, 0.9);
-            transform: translateY(-2px);
-        }
-        
-        .dark-toggle {
-            background: rgba(180, 60, 130, 0.7);
-            border: none;
+        .logo i {
+            font-size: 32px;
             color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
+            margin-right: 10px;
+        }
+        
+        .logo h1 {
+            font-family: 'Playfair Display', serif;
+            color: white;
+            font-size: 28px;
+            letter-spacing: 1px;
+        }
+        
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .theme-toggle {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            width: 50px;
+            height: 26px;
+            border-radius: 13px;
+            position: relative;
             cursor: pointer;
+        }
+        
+        .theme-toggle::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+        }
+        
+        .dark-mode .theme-toggle::after {
+            transform: translateX(24px);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 25px;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        nav ul li a:after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: white;
+            transition: width 0.3s ease;
+        }
+        
+        nav ul li a:hover:after {
+            width: 100%;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: url('https://images.unsplash.com/photo-1516487200032-8532cb558261?ixlib=rb-4.0.3') no-repeat center center/cover;
+            height: 80vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--hero-overlay);
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            color: white;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            animation: fadeInUp 1s ease;
+        }
+        
+        .hero-content h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+        }
+        
+        .hero-content p {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: white;
+            color: var(--accent);
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+            background: var(--light);
+        }
+        
+        /* Quote Section */
+        .quote-section {
+            padding: 80px 0;
+            background: var(--bg);
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            animation: fadeIn 1s ease;
+        }
+        
+        .section-title h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--accent);
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title h2:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: var(--primary);
+        }
+        
+        .quotes-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .quote-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeIn 0.5s ease;
+            animation-fill-mode: both;
+        }
+        
+        .quote-card:nth-child(1) { animation-delay: 0.2s; }
+        .quote-card:nth-child(2) { animation-delay: 0.4s; }
+        .quote-card:nth-child(3) { animation-delay: 0.6s; }
+        
+        .quote-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .quote-content {
+            padding: 30px;
+            position: relative;
+        }
+        
+        .quote-content i {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 40px;
+            color: var(--secondary);
+            opacity: 0.3;
+        }
+        
+        .quote-text {
+            font-size: 1.2rem;
+            font-style: italic;
+            margin: 20px 0 30px;
+            padding: 0 20px;
+            text-align: center;
+            color: var(--dark);
+        }
+        
+        .quote-author {
+            text-align: right;
+            color: var(--accent);
+            font-weight: 500;
+        }
+        
+        /* Categories Section */
+        .categories {
+            padding: 80px 0;
+            background: var(--card-bg);
+        }
+        
+        .categories-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+        
+        .category-card {
+            background: var(--bg);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+            animation: fadeIn 0.5s ease;
+            animation-fill-mode: both;
+        }
+        
+        .category-card:nth-child(1) { animation-delay: 0.3s; }
+        .category-card:nth-child(2) { animation-delay: 0.5s; }
+        .category-card:nth-child(3) { animation-delay: 0.7s; }
+        .category-card:nth-child(4) { animation-delay: 0.9s; }
+        
+        .category-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+        }
+        
+        .category-card i {
+            font-size: 40px;
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+        
+        .category-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--accent);
+        }
+        
+        /* Benefits Section */
+        .benefits {
+            padding: 80px 0;
+            background: var(--bg);
+        }
+        
+        .benefits-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .benefit-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            animation: fadeIn 0.5s ease;
+            animation-fill-mode: both;
+        }
+        
+        .benefit-card:nth-child(1) { animation-delay: 0.4s; }
+        .benefit-card:nth-child(2) { animation-delay: 0.6s; }
+        .benefit-card:nth-child(3) { animation-delay: 0.8s; }
+        
+        .benefit-card i {
+            font-size: 50px;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        
+        .benefit-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--accent);
+        }
+        
+        /* Ads Section */
+        .ads-section {
+            padding: 40px 0;
+            background: var(--card-bg);
+            text-align: center;
+        }
+        
+        .ad-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: var(--bg);
+            border: 1px dashed var(--secondary);
+            border-radius: 10px;
+        }
+        
+        .ad-container h3 {
+            color: var(--accent);
+            margin-bottom: 15px;
+        }
+        
+        .ad-placeholder {
+            background: linear-gradient(45deg, var(--bg), var(--card-bg));
+            height: 250px;
             display: flex;
             align-items: center;
             justify-content: center;
+            border-radius: 8px;
+            margin: 20px 0;
+            color: var(--accent);
+            font-weight: 500;
             font-size: 1.2rem;
+            border: 1px solid var(--secondary);
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--footer-bg);
+            color: var(--footer-text);
+            padding: 60px 0 20px;
+        }
+        
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-col h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+            color: white;
+        }
+        
+        .footer-col h3:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--primary);
+        }
+        
+        .footer-col p, .footer-col a {
+            color: var(--footer-text);
+            margin-bottom: 10px;
+            display: block;
+            text-decoration: none;
             transition: all 0.3s ease;
         }
         
-        .dark-toggle:hover {
-            background: rgba(210, 80, 160, 0.9);
+        .footer-col a:hover {
+            color: var(--primary);
+            padding-left: 5px;
+        }
+        
+        .social-links {
+            display: flex;
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            margin-right: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background: var(--primary);
+            transform: translateY(-5px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+        
+        /* Modal for Important Pages */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background: var(--card-bg);
+            border-radius: 15px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 30px;
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            animation: modalFade 0.3s ease;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            color: var(--text);
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        
+        .close-modal:hover {
+            color: var(--primary);
+        }
+        
+        .modal-content h2 {
+            font-family: 'Playfair Display', serif;
+            color: var(--accent);
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+        
+        .modal-content p {
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+        
+        /* Form Styles */
+        .newsletter-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .form-input {
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 1px solid var(--secondary);
+            background: var(--bg);
+            color: var(--text);
+            font-size: 1rem;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .form-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .form-btn:hover {
+            background: var(--accent);
             transform: translateY(-2px);
         }
         
-        .page {
-            display: none;
-            padding: 30px;
-            animation: fadeIn 0.5s ease;
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background: var(--primary);
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 1001;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
         }
         
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+            }
+            
+            .header-controls {
+                margin-top: 15px;
+            }
+            
+            nav ul {
+                margin-top: 20px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            nav ul li {
+                margin: 0 10px;
+            }
+            
+            .hero-content h2 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-content p {
+                font-size: 1.2rem;
+            }
+            
+            .footer-container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            nav ul li {
+                margin: 5px 8px;
+            }
+            
+            .hero-content h2 {
+                font-size: 2rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+        }
+        
+        /* Animations */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
         
-        .page.active {
-            display: block;
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
-        .input-section {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        
-        .input-group {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-        }
-        
-        .input-box {
-            flex: 1;
-            min-width: 250px;
-            max-width: 300px;
-            position: relative;
-        }
-        
-        .input-box label {
-            display: block;
-            margin-bottom: 10px;
-            font-size: 1.1rem;
-            text-align: left;
-            color: #6d3d6d;
-            font-weight: 500;
-        }
-        
-        body.dark-mode .input-box label {
-            color: #e0c0db;
-        }
-        
-        .input-box input, 
-        .input-box select {
-            width: 100%;
-            padding: 15px 20px;
-            border-radius: 12px;
-            border: 1px solid #e9cfe9;
-            background: rgba(255, 255, 255, 0.7);
-            font-size: 1.1rem;
-            color: #4a154b;
-            transition: all 0.3s ease;
-        }
-        
-        body.dark-mode .input-box input,
-        body.dark-mode .input-box select {
-            background: rgba(50, 20, 45, 0.7);
-            border: 1px solid #5a2d5a;
-            color: #f0e6ef;
-        }
-        
-        .input-box input:focus,
-        .input-box select:focus {
-            outline: none;
-            border-color: #d1478c;
-            box-shadow: 0 0 15px rgba(209, 71, 140, 0.2);
-        }
-        
-        .calculate-btn {
-            padding: 16px 40px;
-            background: linear-gradient(to right, #d1478c, #c6428e);
-            border: none;
-            border-radius: 12px;
-            color: #fff;
-            font-size: 1.2rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(209, 71, 140, 0.3);
-            position: relative;
-            overflow: hidden;
-            margin-top: 20px;
-        }
-        
-        .calculate-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(209, 71, 140, 0.4);
-        }
-        
-        .result-section {
-            padding: 40px 20px;
-            text-align: center;
-            background: rgba(255, 240, 245, 0.6);
-            margin: 20px 30px;
-            border-radius: 15px;
-            display: none;
-            animation: scaleIn 0.5s ease;
-        }
-        
-        body.dark-mode .result-section {
-            background: rgba(50, 15, 45, 0.4);
-        }
-        
-        @keyframes scaleIn {
-            from { transform: scale(0.9); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
-        }
-        
-        .result-title {
-            font-size: 1.8rem;
-            color: #d1478c;
-            margin-bottom: 20px;
-        }
-        
-        .names {
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-            color: #c6428e;
-        }
-        
-        .percentage {
-            font-size: 5rem;
-            font-weight: bold;
-            background: linear-gradient(to right, #d1478c, #9c27b0);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin: 20px 0;
-            text-shadow: 0 0 10px rgba(209, 71, 140, 0.2);
-        }
-        
-        .message {
-            font-size: 1.3rem;
-            color: #9c27b0;
-            margin-top: 20px;
-            padding: 15px;
-            background: rgba(245, 220, 235, 0.5);
-            border-radius: 10px;
-            display: inline-block;
-            max-width: 80%;
-        }
-        
-        body.dark-mode .message {
-            background: rgba(70, 25, 60, 0.5);
-        }
-        
-        .love-quotes {
-            padding: 30px;
-            text-align: center;
-            margin: 30px;
-            background: rgba(255, 240, 245, 0.6);
-            border-radius: 15px;
-        }
-        
-        body.dark-mode .love-quotes {
-            background: rgba(50, 15, 45, 0.4);
-        }
-        
-        .quote-title {
-            font-size: 1.5rem;
-            color: #d1478c;
-            margin-bottom: 20px;
-        }
-        
-        .quote {
-            font-style: italic;
-            font-size: 1.2rem;
-            line-height: 1.6;
-            margin-bottom: 15px;
-            color: #6d3d6d;
-            position: relative;
-            padding: 0 20px;
-        }
-        
-        body.dark-mode .quote {
-            color: #e0c0db;
-        }
-        
-        .quote::before, .quote::after {
-            content: '"';
-            font-size: 2.5rem;
-            position: absolute;
-            color: rgba(209, 71, 140, 0.3);
-        }
-        
-        .quote::before {
-            top: -20px;
-            left: -10px;
-        }
-        
-        .quote::after {
-            bottom: -40px;
-            right: -10px;
-        }
-        
-        .quote-author {
-            font-size: 1.1rem;
-            color: #9c27b0;
-            font-weight: 500;
-        }
-        
-        .content-section {
-            padding: 30px;
-            line-height: 1.8;
-        }
-        
-        .content-section h2 {
-            color: #d1478c;
-            margin-bottom: 20px;
-            font-size: 2rem;
-            border-bottom: 2px solid rgba(209, 71, 140, 0.2);
-            padding-bottom: 10px;
-        }
-        
-        .content-section h3 {
-            color: #9c27b0;
-            margin: 25px 0 15px;
-            font-size: 1.5rem;
-        }
-        
-        .content-section p {
-            margin-bottom: 15px;
-            color: #6d3d6d;
-        }
-        
-        body.dark-mode .content-section p {
-            color: #e0c0db;
-        }
-        
-        .content-section ul {
-            margin-left: 30px;
-            margin-bottom: 20px;
-        }
-        
-        .content-section li {
-            margin-bottom: 10px;
-            position: relative;
-            padding-left: 30px;
-            color: #6d3d6d;
-        }
-        
-        body.dark-mode .content-section li {
-            color: #e0c0db;
-        }
-        
-        .content-section li:before {
-            content: "❤";
-            position: absolute;
-            left: 0;
-            color: #d1478c;
-        }
-        
-        footer {
-            text-align: center;
-            padding: 30px;
-            background: rgba(245, 220, 235, 0.6);
-            margin-top: 20px;
-        }
-        
-        body.dark-mode footer {
-            background: rgba(50, 15, 45, 0.4);
-        }
-        
-        footer p {
-            margin: 10px 0;
-            color: #6d3d6d;
-        }
-        
-        body.dark-mode footer p {
-            color: #e0c0db;
-        }
-        
-        footer a {
-            color: #d1478c;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-        
-        footer a:hover {
-            color: #9c27b0;
-            text-decoration: underline;
-        }
-        
-        .heart-beat {
-            animation: heartbeat 1.2s infinite;
-            color: #d1478c;
-            display: inline-block;
-        }
-        
-        @keyframes heartbeat {
-            0% { transform: scale(1); }
-            5% { transform: scale(1.1); }
-            10% { transform: scale(1); }
-            15% { transform: scale(1.2); }
-            50% { transform: scale(1); }
-            100% { transform: scale(1); }
-        }
-        
-        .ad-container {
-            margin: 30px auto;
-            text-align: center;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.5);
-            border-radius: 15px;
-            max-width: 90%;
-        }
-        
-        body.dark-mode .ad-container {
-            background: rgba(50, 20, 45, 0.5);
-        }
-        
-        .ad-label {
-            font-size: 0.9rem;
-            color: #9c27b0;
-            margin-bottom: 10px;
-            display: block;
-        }
-        
-        .page-content {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 30px;
-        }
-        
-        .main-content {
-            flex: 3;
-            min-width: 300px;
-        }
-        
-        .sidebar {
-            flex: 1;
-            min-width: 250px;
-            background: rgba(255, 240, 245, 0.6);
-            border-radius: 15px;
-            padding: 20px;
-            align-self: flex-start;
-        }
-        
-        body.dark-mode .sidebar {
-            background: rgba(50, 15, 45, 0.4);
-        }
-        
-        .sidebar h3 {
-            color: #d1478c;
-            margin-bottom: 15px;
-            font-size: 1.3rem;
-        }
-        
-        .sidebar ul {
-            list-style: none;
-        }
-        
-        .sidebar li {
-            margin-bottom: 10px;
-            padding: 10px;
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.3);
-            transition: all 0.3s ease;
-        }
-        
-        .sidebar li:hover {
-            background: rgba(255, 255, 255, 0.5);
-            transform: translateX(5px);
-        }
-        
-        body.dark-mode .sidebar li {
-            background: rgba(70, 25, 60, 0.3);
-        }
-        
-        body.dark-mode .sidebar li:hover {
-            background: rgba(90, 35, 80, 0.5);
-        }
-        
-        .sidebar a {
-            color: #9c27b0;
-            text-decoration: none;
-            display: block;
-        }
-        
-        .featured-tools {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin: 30px 0;
-        }
-        
-        .tool-card {
-            background: rgba(255, 240, 245, 0.6);
-            border-radius: 15px;
-            padding: 20px;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-        
-        .tool-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        }
-        
-        body.dark-mode .tool-card {
-            background: rgba(50, 15, 45, 0.4);
-        }
-        
-        .tool-icon {
-            font-size: 3rem;
-            color: #d1478c;
-            margin-bottom: 15px;
-        }
-        
-        .tool-card h3 {
-            color: #9c27b0;
-            margin-bottom: 10px;
-        }
-        
-        .blog-posts {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin: 30px 0;
-        }
-        
-        .blog-card {
-            background: rgba(255, 240, 245, 0.6);
-            border-radius: 15px;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-        
-        .blog-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        }
-        
-        body.dark-mode .blog-card {
-            background: rgba(50, 15, 45, 0.4);
-        }
-        
-        .blog-image {
-            height: 180px;
-            background: linear-gradient(to right, #d1478c, #c6428e);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 4rem;
-        }
-        
-        .blog-content {
-            padding: 20px;
-        }
-        
-        .blog-content h3 {
-            color: #d1478c;
-            margin-bottom: 10px;
-        }
-        
-        .blog-content p {
-            color: #6d3d6d;
-            margin-bottom: 15px;
-        }
-        
-        body.dark-mode .blog-content p {
-            color: #e0c0db;
-        }
-        
-        .read-more {
-            color: #d1478c;
-            text-decoration: none;
-            font-weight: 500;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-        }
-        
-        .testimonials {
-            margin: 40px 0;
-            background: rgba(255, 240, 245, 0.6);
-            border-radius: 15px;
-            padding: 30px;
-        }
-        
-        body.dark-mode .testimonials {
-            background: rgba(50, 15, 45, 0.4);
-        }
-        
-        .testimonial-title {
-            text-align: center;
-            color: #d1478c;
-            margin-bottom: 30px;
-        }
-        
-        .testimonial {
-            background: rgba(255, 255, 255, 0.5);
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 20px;
-            position: relative;
-        }
-        
-        body.dark-mode .testimonial {
-            background: rgba(70, 25, 60, 0.3);
-        }
-        
-        .testimonial:before {
-            content: '"';
-            font-size: 5rem;
-            position: absolute;
-            top: -20px;
-            left: 10px;
-            color: rgba(209, 71, 140, 0.2);
-        }
-        
-        .testimonial-text {
-            font-style: italic;
-            margin-bottom: 15px;
-            color: #6d3d6d;
-        }
-        
-        body.dark-mode .testimonial-text {
-            color: #e0c0db;
-        }
-        
-        .testimonial-author {
-            font-weight: bold;
-            color: #9c27b0;
-            text-align: right;
-        }
-        
-        .faq-section {
-            margin: 40px 0;
-        }
-        
-        .faq-title {
-            text-align: center;
-            color: #d1478c;
-            margin-bottom: 30px;
-        }
-        
-        .faq-item {
-            background: rgba(255, 240, 245, 0.6);
-            border-radius: 15px;
-            margin-bottom: 20px;
-            overflow: hidden;
-        }
-        
-        body.dark-mode .faq-item {
-            background: rgba(50, 15, 45, 0.4);
-        }
-        
-        .faq-question {
-            padding: 20px;
-            background: rgba(180, 60, 130, 0.2);
-            font-weight: bold;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .faq-answer {
-            padding: 0 20px;
-            max-height: 0;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-        
-        .faq-item.active .faq-answer {
-            padding: 20px;
-            max-height: 500px;
-        }
-        
-        .placeholder-section {
-            padding: 50px;
-            text-align: center;
-            background: rgba(255, 240, 245, 0.6);
-            border-radius: 15px;
-            margin: 30px 0;
-        }
-        
-        body.dark-mode .placeholder-section {
-            background: rgba(50, 15, 45, 0.4);
-        }
-        
-        .placeholder-icon {
-            font-size: 5rem;
-            color: #d1478c;
-            margin-bottom: 20px;
-        }
-        
-        .placeholder-title {
-            font-size: 2rem;
-            color: #9c27b0;
-            margin-bottom: 20px;
-        }
-        
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2.3rem;
-            }
-            
-            .tagline {
-                font-size: 1.1rem;
-            }
-            
-            .input-group {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .input-box {
-                width: 100%;
-                max-width: 100%;
-            }
-            
-            .percentage {
-                font-size: 3.5rem;
-            }
-            
-            .message {
-                font-size: 1.1rem;
-            }
-            
-            .main-nav {
-                flex-direction: column;
-                align-items: center;
-                width: 100%;
-            }
-            
-            .nav-container {
-                flex-direction: column;
-                gap: 15px;
-                align-items: center;
-            }
-            
-            .ad-container {
-                padding: 10px;
-            }
-            
-            .page-content {
-                flex-direction: column;
-            }
+        @keyframes modalFade {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="header-content">
-                <h1><i class="fas fa-heart"></i> Romantic Love Calculator</h1>
-                <p class="tagline">Discover the magic of your connection with someone special</p>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <i class="fas fa-heart"></i>
+                <h1>Eternal Love</h1>
             </div>
-        </header>
-        
-        <div class="nav-container">
-            <div class="main-nav">
-                <a href="#" class="nav-link active" data-page="home">
-                    <i class="fas fa-home"></i> Home
-                </a>
-                <a href="#" class="nav-link" data-page="birthday">
-                    <i class="fas fa-birthday-cake"></i> Birthday Match
-                </a>
-                <a href="#" class="nav-link" data-page="zodiac">
-                    <i class="fas fa-star"></i> Zodiac Match
-                </a>
-                <a href="#" class="nav-link" data-page="tips">
-                    <i class="fas fa-heart"></i> Love Tips
-                </a>
-                <a href="#" class="nav-link" data-page="about">
-                    <i class="fas fa-info-circle"></i> About
-                </a>
-            </div>
-            <button class="dark-toggle" id="darkModeToggle">
-                <i class="fas fa-moon"></i>
-            </button>
-        </div>
-        
-        <!-- Home Page -->
-        <div id="home" class="page active">
-            <!-- Home page content remains the same -->
-        </div>
-        
-        <!-- Birthday Match Page -->
-        <div id="birthday" class="page">
-            <!-- Birthday page content remains the same -->
-        </div>
-        
-        <!-- Zodiac Match Page -->
-        <div id="zodiac" class="page">
-            <!-- Zodiac page content remains the same -->
-        </div>
-        
-        <!-- Love Tips Page -->
-        <div id="tips" class="page">
-            <!-- Love Tips page content remains the same -->
-        </div>
-        
-        <!-- About Page -->
-        <div id="about" class="page">
-            <!-- About page content remains the same -->
-        </div>
-        
-        <!-- New Pages for Additional Features -->
-        <div id="marriage-predictor" class="page">
-            <div class="content-section">
-                <h2><i class="fas fa-ring"></i> Marriage Predictor</h2>
-                <div class="placeholder-section">
-                    <div class="placeholder-icon">
-                        <i class="fas fa-ring"></i>
-                    </div>
-                    <h2 class="placeholder-title">Marriage Predictor Coming Soon!</h2>
-                    <p>Our marriage predictor tool is currently in development. This feature will help you understand the long-term potential of your relationship and predict marriage compatibility based on your names, birthdays, and zodiac signs.</p>
-                    <p>Check back soon for this exciting new feature!</p>
-                </div>
-            </div>
-        </div>
-        
-        <div id="chemistry-test" class="page">
-            <div class="content-section">
-                <h2><i class="fas fa-flask"></i> Chemistry Test</h2>
-                <div class="placeholder-section">
-                    <div class="placeholder-icon">
-                        <i class="fas fa-flask"></i>
-                    </div>
-                    <h2 class="placeholder-title">Chemistry Test Coming Soon!</h2>
-                    <p>Our chemistry test is under development and will be available soon. This tool will analyze the sparks and attraction between you and your partner based on psychological and astrological factors.</p>
-                    <p>Stay tuned for this exciting new feature!</p>
-                </div>
-            </div>
-        </div>
-        
-        <div id="privacy-policy" class="page">
-            <div class="content-section">
-                <h2><i class="fas fa-shield-alt"></i> Privacy Policy</h2>
-                <p>Last updated: July 28, 2025</p>
-                
-                <h3>Information We Collect</h3>
-                <p>We collect minimal personal information to provide our services. When you use our love calculator tools, we may collect:</p>
+            <nav>
                 <ul>
-                    <li>Names you enter for compatibility calculations</li>
-                    <li>Birth dates for birthday matching</li>
-                    <li>Zodiac signs for astrological compatibility</li>
-                    <li>Non-personal information like browser type and device information</li>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Quotes</a></li>
+                    <li><a href="#">Poems</a></li>
+                    <li><a href="#">Messages</a></li>
+                    <li><a href="#">Stories</a></li>
+                    <li><a href="#" id="contact-link">Contact</a></li>
                 </ul>
-                
-                <h3>How We Use Your Information</h3>
-                <p>We use the information we collect for the following purposes:</p>
-                <ul>
-                    <li>To provide our love calculation services</li>
-                    <li>To improve and personalize your experience</li>
-                    <li>To understand how users interact with our website</li>
-                    <li>To display relevant advertisements</li>
-                </ul>
-                
-                <h3>Data Security</h3>
-                <p>We take reasonable measures to protect your information from unauthorized access or disclosure. However, please remember that no method of transmission over the internet is 100% secure.</p>
-                
-                <h3>Third-Party Services</h3>
-                <p>We use Google AdSense to serve advertisements. These third-party services may collect information about your visits to our site and other sites to provide relevant ads.</p>
-                
-                <h3>Contact Us</h3>
-                <p>If you have any questions about our Privacy Policy, please contact us at privacy@romanticlovecalculator.com</p>
+            </nav>
+            <div class="header-controls">
+                <button class="theme-toggle" id="theme-toggle"></button>
             </div>
         </div>
-        
-        <div id="terms-of-service" class="page">
-            <div class="content-section">
-                <h2><i class="fas fa-file-contract"></i> Terms of Service</h2>
-                <p>Last updated: July 28, 2025</p>
-                
-                <h3>Acceptance of Terms</h3>
-                <p>By accessing or using the Romantic Love Calculator website, you agree to be bound by these Terms of Service.</p>
-                
-                <h3>Description of Service</h3>
-                <p>We provide entertainment-based love compatibility tools including name matching, birthday compatibility, and zodiac sign matching. These tools are for entertainment purposes only and should not be taken as professional advice.</p>
-                
-                <h3>User Conduct</h3>
-                <p>You agree not to use our services for any unlawful purpose or in any way that might harm, damage, or disparage any other party.</p>
-                
-                <h3>Intellectual Property</h3>
-                <p>All content on this website, including text, graphics, logos, and software, is the property of Romantic Love Calculator and protected by copyright laws.</p>
-                
-                <h3>Limitation of Liability</h3>
-                <p>Romantic Love Calculator shall not be liable for any damages resulting from the use or inability to use our services.</p>
-                
-                <h3>Changes to Terms</h3>
-                <p>We reserve the right to modify these terms at any time. Your continued use of the site constitutes acceptance of any changes.</p>
-            </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h2>Whispers of the Heart</h2>
+            <p>Discover the most beautiful romantic quotes to express your deepest feelings</p>
+            <a href="#quotes" class="btn">Explore Love Quotes</a>
         </div>
-        
-        <div id="contact-us" class="page">
-            <div class="content-section">
-                <h2><i class="fas fa-envelope"></i> Contact Us</h2>
-                
-                <div class="input-group">
-                    <div class="input-box">
-                        <label for="contact-name"><i class="fas fa-user"></i> Your Name</label>
-                        <input type="text" id="contact-name" placeholder="Enter your name">
-                    </div>
-                    <div class="input-box">
-                        <label for="contact-email"><i class="fas fa-envelope"></i> Your Email</label>
-                        <input type="email" id="contact-email" placeholder="Enter your email">
+    </section>
+
+    <!-- Quotes Section -->
+    <section class="quote-section" id="quotes">
+        <div class="container">
+            <div class="section-title">
+                <h2>Timeless Romantic Quotes</h2>
+            </div>
+            <div class="quotes-container">
+                <div class="quote-card">
+                    <div class="quote-content">
+                        <i class="fas fa-quote-left"></i>
+                        <p class="quote-text">You are the poem I never knew how to write and this life is the story I have always wanted to tell.</p>
+                        <p class="quote-author">- Tyler Knott Gregson</p>
                     </div>
                 </div>
-                
-                <div class="input-box">
-                    <label for="contact-subject"><i class="fas fa-tag"></i> Subject</label>
-                    <input type="text" id="contact-subject" placeholder="Enter subject">
+                <div class="quote-card">
+                    <div class="quote-content">
+                        <i class="fas fa-quote-left"></i>
+                        <p class="quote-text">I love you not only for what you are, but for what I am when I am with you.</p>
+                        <p class="quote-author">- Roy Croft</p>
+                    </div>
                 </div>
-                
-                <div class="input-box">
-                    <label for="contact-message"><i class="fas fa-comment"></i> Message</label>
-                    <textarea id="contact-message" rows="5" placeholder="Enter your message" style="width: 100%; padding: 15px 20px; border-radius: 12px; border: 1px solid #e9cfe9; background: rgba(255, 255, 255, 0.7); font-size: 1.1rem; color: #4a154b;"></textarea>
-                </div>
-                
-                <button class="calculate-btn" id="sendMessageBtn">
-                    <i class="fas fa-paper-plane"></i> Send Message
-                </button>
-                
-                <div class="result-section" id="contactResultSection" style="display: none;">
-                    <div class="message">Thank you for your message! We'll get back to you soon.</div>
-                </div>
-                
-                <div style="margin-top: 40px; text-align: center;">
-                    <h3>Other Ways to Reach Us</h3>
-                    <p><i class="fas fa-envelope"></i> Email: contact@romanticlovecalculator.com</p>
-                    <p><i class="fab fa-instagram"></i> Instagram: @romanticlovecalculator</p>
-                    <p><i class="fab fa-twitter"></i> Twitter: @lovecalc_official</p>
+                <div class="quote-card">
+                    <div class="quote-content">
+                        <i class="fas fa-quote-left"></i>
+                        <p class="quote-text">In all the world, there is no heart for me like yours. In all the world, there is no love for you like mine.</p>
+                        <p class="quote-author">- Maya Angelou</p>
+                    </div>
                 </div>
             </div>
         </div>
-        
-        <footer>
-            <p>Made with <i class="fas fa-heart heart-beat"></i> PRINCE KUMAR</p>
-            <div>
-                <a href="https://instagram.com/prince__xharma777" target="_blank">
-                    <i class="fab fa-instagram"></i> Instagram 
-                </a>
-                <a href="mailto:princexharmaji@gmail.com" target="_blank">
-                    <i class="fas fa-envelope"></i> Gmail
-                </a>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="categories">
+        <div class="container">
+            <div class="section-title">
+                <h2>Romantic Categories</h2>
             </div>
-            <p>© 2025 Romantic Love Calculator. All rights reserved.</p>
-            <p>
-                <a href="#" data-page="privacy-policy">Privacy Policy</a> | 
-                <a href="#" data-page="terms-of-service">Terms of Service</a> | 
-                <a href="#" data-page="contact-us">Contact Us</a>
-            </p>
-        </footer>
+            <div class="categories-container">
+                <div class="category-card">
+                    <i class="fas fa-heart"></i>
+                    <h3>Love Quotes</h3>
+                    <p>Express your deepest feelings with beautiful words</p>
+                </div>
+                <div class="category-card">
+                    <i class="fas fa-kiss-wink-heart"></i>
+                    <h3>Good Morning Messages</h3>
+                    <p>Start your partner's day with love and warmth</p>
+                </div>
+                <div class="category-card">
+                    <i class="fas fa-book"></i>
+                    <h3>Romantic Poems</h3>
+                    <p>Classic and modern poetry for the heart</p>
+                </div>
+                <div class="category-card">
+                    <i class="fas fa-gift"></i>
+                    <h3>Anniversary Wishes</h3>
+                    <p>Celebrate your special day with perfect words</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="benefits">
+        <div class="container">
+            <div class="section-title">
+                <h2>Why Our Visitors Love Us</h2>
+            </div>
+            <div class="benefits-container">
+                <div class="benefit-card">
+                    <i class="fas fa-feather-alt"></i>
+                    <h3>Beautiful Content</h3>
+                    <p>Carefully curated romantic quotes and messages that touch the heart</p>
+                </div>
+                <div class="benefit-card">
+                    <i class="fas fa-sync-alt"></i>
+                    <h3>Daily Updates</h3>
+                    <p>Fresh content added regularly to keep visitors coming back</p>
+                </div>
+                <div class="benefit-card">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h3>Mobile Friendly</h3>
+                    <p>Perfectly responsive design for all devices</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ads Section -->
+    <section class="ads-section">
+        <div class="container">
+            <div class="ad-container">
+                <h3>AdSense Approved Advertising Space</h3>
+                <p>This website is optimized for Google AdSense with strategic ad placement</p>
+                <div class="ad-placeholder">
+                    Google AdSense Banner (728x90)
+                </div>
+                <p>Ad placement designed for maximum visibility and revenue potential</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-col">
+                    <h3>Eternal Love</h3>
+                    <p>Your destination for the most beautiful romantic quotes, messages, and poems to express your deepest feelings.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-pinterest"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <a href="#">Home</a>
+                    <a href="#quotes">Romantic Quotes</a>
+                    <a href="#">Love Poems</a>
+                    <a href="#">Good Night Messages</a>
+                    <a href="#">Anniversary Wishes</a>
+                </div>
+                <div class="footer-col">
+                    <h3>Important Pages</h3>
+                    <a href="#" id="about-link">About Us</a>
+                    <a href="#" id="privacy-link">Privacy Policy</a>
+                    <a href="#" id="terms-link">Terms of Service</a>
+                    <a href="#" id="advertise-link">Advertise With Us</a>
+                    <a href="#" id="contact-footer-link">Contact</a>
+                </div>
+                <div class="footer-col">
+                    <h3>Newsletter</h3>
+                    <p>Subscribe to receive daily romantic quotes</p>
+                    <form class="newsletter-form" id="newsletter-form">
+                        <input type="email" class="form-input" placeholder="Your Email Address" required>
+                        <button type="submit" class="form-btn">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; <span id="current-year"></span> Eternal Love. All Rights Reserved. Designed for Google AdSense Approval.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal for Important Pages -->
+    <div class="modal" id="page-modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-modal">&times;</span>
+            <div id="modal-content">
+                <!-- Content will be loaded here dynamically -->
+            </div>
+        </div>
     </div>
 
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">Thank you for subscribing!</div>
+
     <script>
-        // Quotes data
-        const quotes = [
-            {
-                text: "Love is composed of a single soul inhabiting two bodies.",
-                author: "Aristotle"
-            },
-            {
-                text: "The best thing to hold onto in life is each other.",
-                author: "Audrey Hepburn"
-            },
-            {
-                text: "We are most alive when we're in love.",
-                author: "John Updike"
-            },
-            {
-                text: "True love stories never have endings.",
-                author: "Richard Bach"
-            },
-            {
-                text: "Love doesn't make the world go round. Love is what makes the ride worthwhile.",
-                author: "Franklin P. Jones"
-            },
-            {
-                text: "In all the world, there is no heart for me like yours. In all the world, there is no love for you like mine.",
-                author: "Maya Angelou"
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set current year in footer
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+            
+            // Theme toggle functionality
+            const themeToggle = document.getElementById('theme-toggle');
+            themeToggle.addEventListener('click', function() {
+                document.body.classList.toggle('dark-mode');
+                // Save theme preference
+                const isDarkMode = document.body.classList.contains('dark-mode');
+                localStorage.setItem('darkMode', isDarkMode);
+            });
+            
+            // Check for saved theme preference
+            if (localStorage.getItem('darkMode') === 'true') {
+                document.body.classList.add('dark-mode');
             }
-        ];
-        
-        // Messages for different percentages
-        const messages = {
-            0: "💔 New beginnings often start with endings. Keep your heart open.",
-            10: "🌱 Every great love starts with a single spark. Nurture this connection.",
-            20: "👯 Friendship is a beautiful foundation for something more.",
-            30: "😊 Enjoy discovering each other. Love often grows with time.",
-            40: "🔥 There's definite chemistry here! Explore your connection.",
-            50: "🤝 A balanced connection - with effort, this could blossom beautifully.",
-            60: "💖 Strong feelings are developing! Cherish this connection.",
-            70: "💞 A deep and meaningful connection. This is special.",
-            80: "🌟 A true cosmic connection! Your bond is extraordinary.",
-            90: "😍 An almost perfect match - cherish this rare connection.",
-            100: "💘 Soulmates! This is the love stories are made of."
-        };
-        
-        // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
-            showRandomQuote();
             
-            // Set up button click
-            document.getElementById('calculateBtn').addEventListener('click', calculateLove);
-            document.getElementById('calculateBdayBtn').addEventListener('click', calculateBday);
-            document.getElementById('calculateZodiacBtn').addEventListener('click', calculateZodiac);
-            document.getElementById('sendMessageBtn').addEventListener('click', sendMessage);
+            // Modal functionality for important pages
+            const modal = document.getElementById('page-modal');
+            const modalContent = document.getElementById('modal-content');
+            const closeModal = document.getElementById('close-modal');
+            const pageLinks = [
+                { id: 'about-link', title: 'About Eternal Love', content: `
+                    <h2>About Eternal Love</h2>
+                    <p>Welcome to Eternal Love, your premier destination for romantic quotes, poems, and messages that touch the heart. Founded in 2023, our mission is to help people express their deepest feelings through beautiful words.</p>
+                    <p>We carefully curate our collection from classic literature, contemporary authors, and timeless wisdom to bring you the most heartfelt expressions of love. Our team of romantic enthusiasts works tirelessly to create original content that resonates with lovers around the world.</p>
+                    <p>Whether you're looking for the perfect words to express your love, celebrate an anniversary, or simply brighten your partner's day, Eternal Love is here to inspire you. Our content is organized into intuitive categories making it easy to find exactly what you need.</p>
+                    <p>We believe that expressing love shouldn't be complicated. That's why we've created a platform where you can find genuine, heartfelt messages that convey your emotions perfectly. Our growing community of romantic souls continues to inspire us every day.</p>
+                `},
+                { id: 'privacy-link', title: 'Privacy Policy', content: `
+                    <h2>Privacy Policy</h2>
+                    <p>Your privacy is important to us. This Privacy Policy explains how Eternal Love collects, uses, and protects your personal information when you visit our website.</p>
+                    <h3>Information We Collect</h3>
+                    <p>We collect information you provide directly, such as when you subscribe to our newsletter or contact us. This may include your name, email address, and any other information you choose to provide.</p>
+                    <p>We automatically collect certain information about your device and browsing activity through cookies and similar technologies. This includes your IP address, browser type, operating system, referring URLs, and information about how you interact with our site.</p>
+                    <h3>How We Use Your Information</h3>
+                    <p>We use the information we collect to:</p>
+                    <ul>
+                        <li>Provide and improve our services</li>
+                        <li>Send you newsletters and promotional communications</li>
+                        <li>Respond to your comments and questions</li>
+                        <li>Monitor and analyze site usage and trends</li>
+                        <li>Personalize your experience on our site</li>
+                    </ul>
+                    <h3>Data Security</h3>
+                    <p>We implement reasonable security measures to protect your information from unauthorized access, alteration, or destruction. However, no internet transmission is completely secure, and we cannot guarantee absolute security.</p>
+                `},
+                { id: 'terms-link', title: 'Terms of Service', content: `
+                    <h2>Terms of Service</h2>
+                    <p>Welcome to Eternal Love. By accessing or using our website, you agree to be bound by these Terms of Service. Please read them carefully.</p>
+                    <h3>Use of Our Content</h3>
+                    <p>All content on this website, including text, graphics, images, and other material, is protected by copyright and intellectual property laws. You may share our content through social media or personal communication, provided you give proper attribution to Eternal Love.</p>
+                    <p>You may not reproduce, distribute, modify, or commercially exploit any content from this site without our express written permission.</p>
+                    <h3>User Conduct</h3>
+                    <p>You agree to use our website only for lawful purposes and in a way that does not infringe the rights of others or restrict their use of the site. Prohibited activities include:</p>
+                    <ul>
+                        <li>Harassing, threatening, or intimidating other users</li>
+                        <li>Uploading or transmitting viruses or malicious code</li>
+                        <li>Attempting to gain unauthorized access to our systems</li>
+                        <li>Engaging in any activity that disrupts the website's operation</li>
+                    </ul>
+                    <h3>Limitation of Liability</h3>
+                    <p>Eternal Love and its affiliates will not be liable for any indirect, incidental, or consequential damages arising from your use of the website. We provide content "as is" without warranties of any kind.</p>
+                `},
+                { id: 'advertise-link', title: 'Advertise With Us', content: `
+                    <h2>Advertise With Us</h2>
+                    <p>Thank you for your interest in advertising with Eternal Love. We offer premium advertising opportunities on our romantic content platform that reaches thousands of engaged visitors daily.</p>
+                    <h3>Why Advertise With Us?</h3>
+                    <p>Our audience consists primarily of romantics looking for ways to express their feelings, plan special occasions, and find relationship inspiration. Our visitors are:</p>
+                    <ul>
+                        <li>Highly engaged with our content</li>
+                        <li>Predominantly aged 25-55</li>
+                        <li>Interested in gifts, experiences, and relationship-building</li>
+                        <li>Active social media users who share content</li>
+                    </ul>
+                    <h3>Advertising Options</h3>
+                    <p>We offer several advertising formats:</p>
+                    <ul>
+                        <li><strong>Banner Ads:</strong> Premium placements throughout the site</li>
+                        <li><strong>Sponsored Content:</strong> Native articles that match our editorial style</li>
+                        <li><strong>Newsletter Features:</strong> Reach our email subscribers</li>
+                        <li><strong>Social Media Promotion:</strong> Featured posts on our social channels</li>
+                    </ul>
+                    <h3>Contact Us</h3>
+                    <p>For advertising inquiries and rate information, please contact our advertising team at advertise@eternallove.com. We'd be happy to create a customized advertising package that meets your marketing objectives.</p>
+                `},
+                { id: 'contact-link', title: 'Contact Us', content: `
+                    <h2>Contact Eternal Love</h2>
+                    <p>We'd love to hear from you! Whether you have a question, suggestion, or just want to share your favorite romantic quote, please reach out using the information below.</p>
+                    <h3>Get in Touch</h3>
+                    <p><strong>Email:</strong> hello@eternallove.com</p>
+                    <p><strong>Mailing Address:</strong><br>
+                    Eternal Love<br>
+                    123 Romance Avenue<br>
+                    Loveville, LV 12345</p>
+                    <h3>Send Us a Message</h3>
+                    <form class="newsletter-form">
+                        <input type="text" class="form-input" placeholder="Your Name" required>
+                        <input type="email" class="form-input" placeholder="Your Email" required>
+                        <textarea class="form-input" placeholder="Your Message" rows="4" required></textarea>
+                        <button type="submit" class="form-btn">Send Message</button>
+                    </form>
+                `},
+                { id: 'contact-footer-link', title: 'Contact Us', content: `
+                    <h2>Contact Eternal Love</h2>
+                    <p>We'd love to hear from you! Whether you have a question, suggestion, or just want to share your favorite romantic quote, please reach out using the information below.</p>
+                    <h3>Get in Touch</h3>
+                    <p><strong>Email:</strong> hello@eternallove.com</p>
+                    <p><strong>Mailing Address:</strong><br>
+                    Eternal Love<br>
+                    123 Romance Avenue<br>
+                    Loveville, LV 12345</p>
+                    <h3>Send Us a Message</h3>
+                    <form class="newsletter-form">
+                        <input type="text" class="form-input" placeholder="Your Name" required>
+                        <input type="email" class="form-input" placeholder="Your Email" required>
+                        <textarea class="form-input" placeholder="Your Message" rows="4" required></textarea>
+                        <button type="submit" class="form-btn">Send Message</button>
+                    </form>
+                `}
+            ];
             
-            // Set up navigation for all nav links
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.addEventListener('click', (e) => {
+            // Add event listeners to all page links
+            pageLinks.forEach(page => {
+                document.getElementById(page.id).addEventListener('click', function(e) {
                     e.preventDefault();
-                    const pageId = link.getAttribute('data-page');
-                    navigateToPage(pageId);
+                    modalContent.innerHTML = `
+                        <h2>${page.title}</h2>
+                        ${page.content}
+                    `;
+                    modal.style.display = 'flex';
                 });
             });
             
-            // Set up navigation for footer links
-            document.querySelectorAll('footer a[data-page]').forEach(link => {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const pageId = link.getAttribute('data-page');
-                    navigateToPage(pageId);
-                });
+            // Close modal functionality
+            closeModal.addEventListener('click', function() {
+                modal.style.display = 'none';
             });
             
-            // Set up navigation for sidebar links
-            document.querySelectorAll('.sidebar a[data-page]').forEach(link => {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const pageId = link.getAttribute('data-page');
-                    navigateToPage(pageId);
-                });
+            // Close modal when clicking outside content
+            window.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
             });
             
-            // Set up dark mode toggle
-            document.getElementById('darkModeToggle').addEventListener('click', toggleDarkMode);
+            // Newsletter form submission
+            const newsletterForm = document.getElementById('newsletter-form');
+            const toast = document.getElementById('toast');
             
-            // Set up FAQ toggle
-            document.querySelectorAll('.faq-question').forEach(question => {
-                question.addEventListener('click', () => {
-                    const item = question.parentElement;
-                    item.classList.toggle('active');
-                });
+            newsletterForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                // Simulate form submission
+                setTimeout(function() {
+                    newsletterForm.reset();
+                    toast.classList.add('show');
+                    setTimeout(function() {
+                        toast.classList.remove('show');
+                    }, 3000);
+                }, 500);
             });
             
-            // Handle sidebar links without pages
-            document.querySelectorAll('.sidebar a:not([data-page])').forEach(link => {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    alert('This feature is coming soon! Stay tuned for updates.');
-                });
-            });
-            
-            // Initialize ads
-            initializeAds();
-        });
-        
-        // Initialize AdSense
-        function initializeAds() {
-            // Push ads after page is fully loaded
-            (adsbygoogle = window.adsbygoogle || []).push({});
-        }
-        
-        // Show random quote
-        function showRandomQuote() {
-            const quote = quotes[Math.floor(Math.random() * quotes.length)];
-            document.getElementById('quoteText').textContent = quote.text;
-            document.getElementById('quoteAuthor').textContent = `- ${quote.author}`;
-        }
-        
-        // Calculate love percentage
-        function calculateLove() {
-            const name1 = document.getElementById('name1').value.trim();
-            const name2 = document.getElementById('name2').value.trim();
-            
-            if (!name1 || !name2) {
-                alert('Please enter both names!');
-                return;
-            }
-            
-            // Display names
-            document.getElementById('namesDisplay').textContent = `${name1} ❤️ ${name2}`;
-            
-            // Calculate percentage (fun algorithm)
-            const combined = (name1 + name2).toLowerCase().replace(/\s/g, '');
-            let sum = 0;
-            
-            for (let char of combined) {
-                sum += char.charCodeAt(0);
-            }
-            
-            const percentage = (sum % 91) + 10; // Ensure between 10-100
-            
-            // Animate result
-            animateResult(percentage, 'resultSection', 'percentageDisplay', 'messageDisplay');
-            
-            // Show new quote
-            setTimeout(showRandomQuote, 1500);
-        }
-        
-        // Calculate birthday match
-        function calculateBday() {
-            const bday1 = document.getElementById('bday1').value;
-            const bday2 = document.getElementById('bday2').value;
-            
-            if (!bday1 || !bday2) {
-                alert('Please select both birthdays!');
-                return;
-            }
-            
-            // Display dates
-            const date1 = new Date(bday1);
-            const date2 = new Date(bday2);
-            const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-            
-            const display1 = `${monthNames[date1.getMonth()]} ${date1.getDate()}`;
-            const display2 = `${monthNames[date2.getMonth()]} ${date2.getDate()}`;
-            document.getElementById('bdayNamesDisplay').textContent = `${display1} ❤️ ${display2}`;
-            
-            // Calculate percentage (based on day difference)
-            const diff = Math.abs(date1 - date2);
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const percentage = 100 - (days % 90); // Ensure between 10-100
-            
-            // Animate result
-            animateResult(percentage, 'bdayResultSection', 'bdayPercentageDisplay', 'bdayMessageDisplay');
-        }
-        
-        // Calculate zodiac match
-        function calculateZodiac() {
-            const zodiac1 = document.getElementById('zodiac1').value;
-            const zodiac2 = document.getElementById('zodiac2').value;
-            
-            if (!zodiac1 || !zodiac2) {
-                alert('Please select both zodiac signs!');
-                return;
-            }
-            
-            // Display signs
-            document.getElementById('zodiacNamesDisplay').textContent = `${zodiac1} ❤️ ${zodiac2}`;
-            
-            // Calculate percentage from matrix
-            const compatibilityMatrix = {
-                Aries: { Aries: 70, Taurus: 40, Gemini: 80, Cancer: 30, Leo: 90, Virgo: 50, Libra: 70, Scorpio: 60, Sagittarius: 95, Capricorn: 40, Aquarius: 80, Pisces: 50 },
-                Taurus: { Aries: 40, Taurus: 75, Gemini: 50, Cancer: 85, Leo: 50, Virgo: 90, Libra: 70, Scorpio: 80, Sagittarius: 40, Capricorn: 95, Aquarius: 60, Pisces: 85 },
-                Gemini: { Aries: 80, Taurus: 50, Gemini: 75, Cancer: 60, Leo: 70, Virgo: 60, Libra: 90, Scorpio: 50, Sagittarius: 85, Capricorn: 50, Aquarius: 95, Pisces: 65 },
-                Cancer: { Aries: 30, Taurus: 85, Gemini: 60, Cancer: 80, Leo: 50, Virgo: 75, Libra: 60, Scorpio: 90, Sagittarius: 40, Capricorn: 70, Aquarius: 50, Pisces: 95 },
-                Leo: { Aries: 90, Taurus: 50, Gemini: 70, Cancer: 50, Leo: 85, Virgo: 60, Libra: 80, Scorpio: 70, Sagittarius: 95, Capricorn: 60, Aquarius: 75, Pisces: 65 },
-                Virgo: { Aries: 50, Taurus: 90, Gemini: 60, Cancer: 75, Leo: 60, Virgo: 80, Libra: 70, Scorpio: 85, Sagittarius: 50, Capricorn: 95, Aquarius: 70, Pisces: 80 },
-                Libra: { Aries: 70, Taurus: 70, Gemini: 90, Cancer: 60, Leo: 80, Virgo: 70, Libra: 85, Scorpio: 75, Sagittarius: 80, Capricorn: 70, Aquarius: 95, Pisces: 75 },
-                Scorpio: { Aries: 60, Taurus: 80, Gemini: 50, Cancer: 90, Leo: 70, Virgo: 85, Libra: 75, Scorpio: 85, Sagittarius: 65, Capricorn: 80, Aquarius: 70, Pisces: 95 },
-                Sagittarius: { Aries: 95, Taurus: 40, Gemini: 85, Cancer: 40, Leo: 95, Virgo: 50, Libra: 80, Scorpio: 65, Sagittarius: 90, Capricorn: 50, Aquarius: 90, Pisces: 60 },
-                Capricorn: { Aries: 40, Taurus: 95, Gemini: 50, Cancer: 70, Leo: 60, Virgo: 95, Libra: 70, Scorpio: 80, Sagittarius: 50, Capricorn: 85, Aquarius: 60, Pisces: 75 },
-                Aquarius: { Aries: 80, Taurus: 60, Gemini: 95, Cancer: 50, Leo: 75, Virgo: 70, Libra: 95, Scorpio: 70, Sagittarius: 90, Capricorn: 60, Aquarius: 80, Pisces: 70 },
-                Pisces: { Aries: 50, Taurus: 85, Gemini: 65, Cancer: 95, Leo: 65, Virgo: 80, Libra: 75, Scorpio: 95, Sagittarius: 60, Capricorn: 75, Aquarius: 70, Pisces: 85 }
+            // Animate elements on scroll
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
             };
             
-            const percentage = compatibilityMatrix[zodiac1][zodiac2];
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animation = 'fadeIn 0.8s ease forwards';
+                    }
+                });
+            }, observerOptions);
             
-            // Animate result
-            animateResult(percentage, 'zodiacResultSection', 'zodiacPercentageDisplay', 'zodiacMessageDisplay');
-        }
-        
-        // Send contact message
-        function sendMessage() {
-            const name = document.getElementById('contact-name').value.trim();
-            const email = document.getElementById('contact-email').value.trim();
-            const subject = document.getElementById('contact-subject').value.trim();
-            const message = document.getElementById('contact-message').value.trim();
-            
-            if (!name || !email || !subject || !message) {
-                alert('Please fill in all fields!');
-                return;
-            }
-            
-            // Show success message
-            const resultSection = document.getElementById('contactResultSection');
-            resultSection.style.display = 'block';
-            
-            // Clear form
-            document.getElementById('contact-name').value = '';
-            document.getElementById('contact-email').value = '';
-            document.getElementById('contact-subject').value = '';
-            document.getElementById('contact-message').value = '';
-        }
-        
-        // Animate the percentage counter
-        function animateResult(finalPercentage, sectionId, displayId, messageId) {
-            const section = document.getElementById(sectionId);
-            const display = document.getElementById(displayId);
-            const message = document.getElementById(messageId);
-            
-            section.style.display = 'block';
-            let current = 0;
-            const increment = Math.ceil(finalPercentage / 30); // Dynamic increment
-            
-            const timer = setInterval(() => {
-                current += increment;
-                if (current >= finalPercentage) {
-                    current = finalPercentage;
-                    clearInterval(timer);
-                    
-                    // Set message based on percentage
-                    const messageKey = Math.floor(finalPercentage / 10) * 10;
-                    message.textContent = messages[messageKey];
-                }
-                display.textContent = `${current}%`;
-            }, 30);
-        }
-        
-        // Navigation between pages
-        function navigateToPage(pageId) {
-            // Hide all pages
-            document.querySelectorAll('.page').forEach(page => {
-                page.classList.remove('active');
+            document.querySelectorAll('.section-title, .quote-card, .category-card, .benefit-card').forEach(el => {
+                el.style.opacity = '0';
+                observer.observe(el);
             });
-            
-            // Show selected page
-            if (document.getElementById(pageId)) {
-                document.getElementById(pageId).classList.add('active');
-            } else {
-                // Show home page if invalid page requested
-                document.getElementById('home').classList.add('active');
-            }
-            
-            // Update active nav link
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('data-page') === pageId) {
-                    link.classList.add('active');
-                }
-            });
-            
-            // Scroll to top
-            window.scrollTo(0, 0);
-            
-            // Refresh ads when navigating
-            initializeAds();
-        }
-        
-        // Toggle dark mode
-        function toggleDarkMode() {
-            document.body.classList.toggle('dark-mode');
-            const icon = document.querySelector('#darkModeToggle i');
-            if (document.body.classList.contains('dark-mode')) {
-                icon.classList.remove('fa-moon');
-                icon.classList.add('fa-sun');
-            } else {
-                icon.classList.remove('fa-sun');
-                icon.classList.add('fa-moon');
-            }
-        }
+        });
     </script>
 </body>
-</html>
+                                                </html>
