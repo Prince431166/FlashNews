@@ -345,6 +345,10 @@
         .game-header {
             text-align: center;
             margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
         }
 
         .game-header h2 {
@@ -358,6 +362,58 @@
             max-width: 600px;
             margin: 0 auto;
             opacity: 0.9;
+        }
+
+        /* Fullscreen button */
+        .fullscreen-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-left: auto;
+        }
+
+        .fullscreen-btn:hover {
+            background: var(--dark);
+            transform: scale(1.1);
+        }
+
+        /* Fullscreen mode styles */
+        .game-fullscreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1000;
+            background: var(--bg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow: auto;
+        }
+
+        .game-fullscreen .game-header {
+            max-width: 1200px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .game-fullscreen .game-content {
+            max-width: 1200px;
+            width: 100%;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
         }
 
         /* Love Calculator Game */
@@ -1745,8 +1801,13 @@
             <div class="game-area">
                 <div id="love-calculator">
                     <div class="game-header">
-                        <h2>Love Compatibility Calculator</h2>
-                        <p>Enter your names to discover your love compatibility percentage and personalized insights</p>
+                        <div>
+                            <h2>Love Compatibility Calculator</h2>
+                            <p>Enter your names to discover your love compatibility percentage and personalized insights</p>
+                        </div>
+                        <button class="fullscreen-btn" onclick="toggleFullscreen('love-calculator')">
+                            <i class="fas fa-expand"></i>
+                        </button>
                     </div>
                     
                     <div class="input-group">
@@ -1771,8 +1832,13 @@
                 
                 <div id="memory-game" class="game-placeholder">
                     <div class="game-header">
-                        <h2>Romantic Memory Match</h2>
-                        <p>Find all matching pairs of romantic symbols as quickly as you can!</p>
+                        <div>
+                            <h2>Romantic Memory Match</h2>
+                            <p>Find all matching pairs of romantic symbols as quickly as you can!</p>
+                        </div>
+                        <button class="fullscreen-btn" onclick="toggleFullscreen('memory-game')">
+                            <i class="fas fa-expand"></i>
+                        </button>
                     </div>
                     
                     <div class="game-stats">
@@ -1790,8 +1856,13 @@
                 
                 <div id="quiz-game" class="game-placeholder">
                     <div class="game-header">
-                        <h2>Romance Quiz</h2>
-                        <p>Test how well you know your partner with these romantic questions</p>
+                        <div>
+                            <h2>Romance Quiz</h2>
+                            <p>Test how well you know your partner with these romantic questions</p>
+                        </div>
+                        <button class="fullscreen-btn" onclick="toggleFullscreen('quiz-game')">
+                            <i class="fas fa-expand"></i>
+                        </button>
                     </div>
                     
                     <div class="quiz-container">
@@ -1825,8 +1896,13 @@
                 
                 <div id="puzzle-game" class="game-placeholder">
                     <div class="game-header">
-                        <h2>Love Puzzle</h2>
-                        <p>Solve this romantic puzzle together by moving the pieces</p>
+                        <div>
+                            <h2>Love Puzzle</h2>
+                            <p>Solve this romantic puzzle together by moving the pieces</p>
+                        </div>
+                        <button class="fullscreen-btn" onclick="toggleFullscreen('puzzle-game')">
+                            <i class="fas fa-expand"></i>
+                        </button>
                     </div>
                     
                     <div class="puzzle-container">
@@ -1849,8 +1925,13 @@
 
                 <div id="rather-game" class="game-placeholder">
                     <div class="game-header">
-                        <h2>Would You Rather</h2>
-                        <p>Answer fun romantic questions and see how well you match</p>
+                        <div>
+                            <h2>Would You Rather</h2>
+                            <p>Answer fun romantic questions and see how well you match</p>
+                        </div>
+                        <button class="fullscreen-btn" onclick="toggleFullscreen('rather-game')">
+                            <i class="fas fa-expand"></i>
+                        </button>
                     </div>
                     
                     <div class="rather-container">
@@ -1875,8 +1956,13 @@
 
                 <div id="chess-game" class="game-placeholder">
                     <div class="game-header">
-                        <h2>Couple's Chess</h2>
-                        <p>Play a romantic version of chess with special couple's rules</p>
+                        <div>
+                            <h2>Couple's Chess</h2>
+                            <p>Play a romantic version of chess with special couple's rules</p>
+                        </div>
+                        <button class="fullscreen-btn" onclick="toggleFullscreen('chess-game')">
+                            <i class="fas fa-expand"></i>
+                        </button>
                     </div>
                     
                     <div class="chess-container">
@@ -1895,8 +1981,13 @@
 
                 <div id="gift-game" class="game-placeholder">
                     <div class="game-header">
-                        <h2>Virtual Gifts</h2>
-                        <p>Send romantic virtual gifts to your partner</p>
+                        <div>
+                            <h2>Virtual Gifts</h2>
+                            <p>Send romantic virtual gifts to your partner</p>
+                        </div>
+                        <button class="fullscreen-btn" onclick="toggleFullscreen('gift-game')">
+                            <i class="fas fa-expand"></i>
+                        </button>
                     </div>
                     
                     <div class="gift-container">
@@ -1920,8 +2011,13 @@
 
                 <div id="music-game" class="game-placeholder">
                     <div class="game-header">
-                        <h2>Love Song Challenge</h2>
-                        <p>Guess romantic songs and build your couple's playlist</p>
+                        <div>
+                            <h2>Love Song Challenge</h2>
+                            <p>Guess romantic songs and build your couple's playlist</p>
+                        </div>
+                        <button class="fullscreen-btn" onclick="toggleFullscreen('music-game')">
+                            <i class="fas fa-expand"></i>
+                        </button>
                     </div>
                     
                     <div class="music-container">
@@ -1951,8 +2047,13 @@
 
                 <div id="bucket-game" class="game-placeholder">
                     <div class="game-header">
-                        <h2>Bucket List Builder</h2>
-                        <p>Create your couple's bucket list of romantic experiences</p>
+                        <div>
+                            <h2>Bucket List Builder</h2>
+                            <p>Create your couple's bucket list of romantic experiences</p>
+                        </div>
+                        <button class="fullscreen-btn" onclick="toggleFullscreen('bucket-game')">
+                            <i class="fas fa-expand"></i>
+                        </button>
                     </div>
                     
                     <div class="bucket-container">
@@ -1995,8 +2096,13 @@
 
                 <div id="memory-lane-game" class="game-placeholder">
                     <div class="game-header">
-                        <h2>Memory Lane</h2>
-                        <p>Relive your special moments together</p>
+                        <div>
+                            <h2>Memory Lane</h2>
+                            <p>Relive your special moments together</p>
+                        </div>
+                        <button class="fullscreen-btn" onclick="toggleFullscreen('memory-lane-game')">
+                            <i class="fas fa-expand"></i>
+                        </button>
                     </div>
                     
                     <div class="memory-lane-container">
@@ -2023,8 +2129,13 @@
 
                 <div id="photo-game" class="game-placeholder">
                     <div class="game-header">
-                        <h2>Photo Challenge</h2>
-                        <p>Complete romantic photo challenges together</p>
+                        <div>
+                            <h2>Photo Challenge</h2>
+                            <p>Complete romantic photo challenges together</p>
+                        </div>
+                        <button class="fullscreen-btn" onclick="toggleFullscreen('photo-game')">
+                            <i class="fas fa-expand"></i>
+                        </button>
                     </div>
                     
                     <div class="photo-container">
@@ -2058,8 +2169,13 @@
 
                 <div id="stars-game" class="game-placeholder">
                     <div class="game-header">
-                        <h2>Compatibility Stars</h2>
-                        <p>See how well you match in different relationship areas</p>
+                        <div>
+                            <h2>Compatibility Stars</h2>
+                            <p>See how well you match in different relationship areas</p>
+                        </div>
+                        <button class="fullscreen-btn" onclick="toggleFullscreen('stars-game')">
+                            <i class="fas fa-expand"></i>
+                        </button>
                     </div>
                     
                     <div class="stars-container">
@@ -2292,6 +2408,34 @@
             }
         });
         
+        // Fullscreen functionality
+        function toggleFullscreen(gameId) {
+            const gameElement = document.getElementById(gameId);
+            
+            if (!gameElement.classList.contains('game-fullscreen')) {
+                // Enter fullscreen
+                gameElement.classList.add('game-fullscreen');
+                
+                // Create exit fullscreen button
+                const exitBtn = document.createElement('button');
+                exitBtn.className = 'fullscreen-btn';
+                exitBtn.innerHTML = '<i class="fas fa-compress"></i>';
+                exitBtn.onclick = function() {
+                    gameElement.classList.remove('game-fullscreen');
+                    exitBtn.remove();
+                };
+                
+                // Find the game header and add exit button
+                const gameHeader = gameElement.querySelector('.game-header');
+                if (gameHeader) {
+                    gameHeader.appendChild(exitBtn);
+                }
+            } else {
+                // Exit fullscreen
+                gameElement.classList.remove('game-fullscreen');
+            }
+        }
+        
         // Game loading function
         function loadGame(gameId) {
             // Hide all games
@@ -2309,6 +2453,12 @@
             
             // Initialize specific games if selected
             switch(gameId) {
+                case 'love-calculator':
+                    // Reset love calculator
+                    document.getElementById('name1').value = '';
+                    document.getElementById('name2').value = '';
+                    document.getElementById('result').classList.remove('show');
+                    break;
                 case 'memory-game':
                     initializeMemoryGame();
                     break;
@@ -3356,7 +3506,7 @@
                     thumbImg.style.objectFit = 'cover';
                     
                     thumbnail.appendChild(thumbImg);
-                    gallery.appendChild(thumbnail);
+                    gallery.appendChild(thumbImg);
                     
                     // Add celebration effect
                     const heart = document.createElement('div');
@@ -3471,4 +3621,4 @@
         };
     </script>
 </body>
-                                </html>
+    </html>
