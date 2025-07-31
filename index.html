@@ -3,18 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LunaPlay - Romantic Game Nights</title>
+    <title>LunaPlay - Retro & Romantic Game Nights</title>
     <style>
+        :root {
+            --bg-primary: #ff9a9e;
+            --bg-secondary: #fad0c4;
+            --text-color: #5d3a3a;
+            --card-bg: rgba(255, 255, 255, 0.3);
+            --header-bg: rgba(255, 255, 255, 0.2);
+            --btn-primary: #ff6b81;
+            --btn-hover: #ff4757;
+        }
+
+        .dark-mode {
+            --bg-primary: #1a1a2e;
+            --bg-secondary: #16213e;
+            --text-color: #e6e6e6;
+            --card-bg: rgba(30, 30, 46, 0.7);
+            --header-bg: rgba(26, 26, 46, 0.8);
+            --btn-primary: #e94560;
+            --btn-hover: #ff2e63;
+        }
+
         body {
             font-family: 'Playfair Display', serif;
-            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
-            color: #5d3a3a;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            color: var(--text-color);
             margin: 0;
             padding: 0;
+            transition: background 0.5s, color 0.5s;
         }
         
         .header {
-            background: rgba(255, 255, 255, 0.2);
+            background: var(--header-bg);
             backdrop-filter: blur(10px);
             padding: 20px;
             text-align: center;
@@ -29,7 +50,7 @@
         }
         
         .game-card {
-            background: rgba(255, 255, 255, 0.3);
+            background: var(--card-bg);
             border-radius: 15px;
             overflow: hidden;
             transition: transform 0.3s;
@@ -51,7 +72,7 @@
         }
         
         .fullscreen-btn {
-            background: #ff6b81;
+            background: var(--btn-primary);
             color: white;
             border: none;
             padding: 10px 15px;
@@ -62,50 +83,137 @@
         }
         
         .fullscreen-btn:hover {
-            background: #ff4757;
+            background: var(--btn-hover);
         }
         
         .couple-mode {
             position: fixed;
             bottom: 20px;
             right: 20px;
-            background: #ff6b81;
+            background: var(--btn-primary);
             color: white;
             padding: 15px;
             border-radius: 50%;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             cursor: pointer;
         }
+
+        .dark-mode-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--btn-primary);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
+    <button class="dark-mode-toggle" onclick="toggleDarkMode()">🌙</button>
+    
     <div class="header">
         <h1>LunaPlay</h1>
-        <p>Share magical gaming moments with your special someone</p>
+        <p>Relive classic games & create romantic gaming moments</p>
     </div>
     
     <div class="game-grid">
-        <!-- Game 1 -->
+        <!-- Romantic & Co-op Games -->
         <div class="game-card">
-            <img src="stardew-valley-thumbnail.jpg" alt="Stardew Valley" class="game-thumbnail">
+            <img src="stardew-valley-thumb.jpg" alt="Stardew Valley" class="game-thumbnail">
             <div class="game-info">
                 <h3>Stardew Valley</h3>
-                <p>Build your farm and relationship in this charming game</p>
-                <button class="fullscreen-btn" onclick="launchGame('stardew')">Play in Fullscreen</button>
+                <p>Build a farm & fall in love in this cozy RPG.</p>
+                <button class="fullscreen-btn" onclick="launchGame('stardew')">Play Fullscreen</button>
             </div>
         </div>
         
-        <!-- Game 2 -->
         <div class="game-card">
-            <img src="it-takes-two-thumbnail.jpg" alt="It Takes Two" class="game-thumbnail">
+            <img src="it-takes-two-thumb.jpg" alt="It Takes Two" class="game-thumbnail">
             <div class="game-info">
                 <h3>It Takes Two</h3>
-                <p>The ultimate co-op adventure for couples</p>
-                <button class="fullscreen-btn" onclick="launchGame('itTakesTwo')">Play in Fullscreen</button>
+                <p>A perfect co-op adventure for couples.</p>
+                <button class="fullscreen-btn" onclick="launchGame('itTakesTwo')">Play Fullscreen</button>
             </div>
         </div>
         
-        <!-- More games would be listed here -->
+        <!-- Retro Games Section -->
+        <div class="game-card">
+            <img src="super-mario-bros-thumb.jpg" alt="Super Mario Bros" class="game-thumbnail">
+            <div class="game-info">
+                <h3>Super Mario Bros (1985)</h3>
+                <p>The classic platformer that started it all.</p>
+                <button class="fullscreen-btn" onclick="launchGame('mario')">Play Fullscreen</button>
+            </div>
+        </div>
+        
+        <div class="game-card">
+            <img src="pacman-thumb.jpg" alt="Pac-Man" class="game-thumbnail">
+            <div class="game-info">
+                <h3>Pac-Man (1980)</h3>
+                <p>Guide Pac-Man through mazes while avoiding ghosts.</p>
+                <button class="fullscreen-btn" onclick="launchGame('pacman')">Play Fullscreen</button>
+            </div>
+        </div>
+        
+        <div class="game-card">
+            <img src="tetris-thumb.jpg" alt="Tetris" class="game-thumbnail">
+            <div class="game-info">
+                <h3>Tetris (1984)</h3>
+                <p>The timeless block-stacking puzzle game.</p>
+                <button class="fullscreen-btn" onclick="launchGame('tetris')">Play Fullscreen</button>
+            </div>
+        </div>
+        
+        <!-- More Retro Games (20+ Total) -->
+        <div class="game-card">
+            <img src="sonic-thumb.jpg" alt="Sonic the Hedgehog" class="game-thumbnail">
+            <div class="game-info">
+                <h3>Sonic the Hedgehog (1991)</h3>
+                <p>Speed through levels as the iconic blue blur.</p>
+                <button class="fullscreen-btn" onclick="launchGame('sonic')">Play Fullscreen</button>
+            </div>
+        </div>
+        
+        <div class="game-card">
+            <img src="street-fighter-thumb.jpg" alt="Street Fighter II" class="game-thumbnail">
+            <div class="game-info">
+                <h3>Street Fighter II (1991)</h3>
+                <p>The legendary fighting game for 1v1 battles.</p>
+                <button class="fullscreen-btn" onclick="launchGame('streetfighter')">Play Fullscreen</button>
+            </div>
+        </div>
+        
+        <div class="game-card">
+            <img src="zelda-thumb.jpg" alt="The Legend of Zelda" class="game-thumbnail">
+            <div class="game-info">
+                <h3>The Legend of Zelda (1986)</h3>
+                <p>Embark on an epic adventure as Link.</p>
+                <button class="fullscreen-btn" onclick="launchGame('zelda')">Play Fullscreen</button>
+            </div>
+        </div>
+        
+        <div class="game-card">
+            <img src="donkey-kong-thumb.jpg" alt="Donkey Kong" class="game-thumbnail">
+            <div class="game-info">
+                <h3>Donkey Kong (1981)</h3>
+                <p>Save Pauline from the giant ape in this arcade classic.</p>
+                <button class="fullscreen-btn" onclick="launchGame('donkeykong')">Play Fullscreen</button>
+            </div>
+        </div>
+        
+        <div class="game-card">
+            <img src="space-invaders-thumb.jpg" alt="Space Invaders" class="game-thumbnail">
+            <div class="game-info">
+                <h3>Space Invaders (1978)</h3>
+                <p>Defend Earth from alien invaders in this arcade shooter.</p>
+                <button class="fullscreen-btn" onclick="launchGame('spaceinvaders')">Play Fullscreen</button>
+            </div>
+        </div>
+        
+        <!-- More games can be added similarly -->
     </div>
     
     <div class="couple-mode" title="Activate Couple Mode">
@@ -113,25 +221,31 @@
     </div>
     
     <script>
-function enterFullscreen(element) {
-    if (element.requestFullscreen) {
-        element.requestFullscreen();
-    } else if (element.webkitRequestFullscreen) {
-        element.webkitRequestFullscreen();
-    } else if (element.msRequestFullscreen) {
-        element.msRequestFullscreen();
-    }
-}
-        
-        function launchGame(gameId) {
-            // This would open the selected game in fullscreen mode
-            const gameWindow = window.open(`games/${gameId}/index.html`, '_blank', 'fullscreen=yes');
-            
-            // Focus the new window
-            if (gameWindow) {
-                gameWindow.focus();
+        // Dark Mode Toggle
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const darkModeBtn = document.querySelector('.dark-mode-toggle');
+            if (document.body.classList.contains('dark-mode')) {
+                darkModeBtn.textContent = '☀️';
+            } else {
+                darkModeBtn.textContent = '🌙';
             }
         }
+
+        // Fullscreen Game Launch
+        function launchGame(gameId) {
+            const gameWindow = window.open(`games/${gameId}/index.html`, '_blank', 'fullscreen=yes');
+            if (gameWindow) gameWindow.focus();
+        }
+
+        // Couple Mode (romantic effects)
+        document.querySelector('.couple-mode').addEventListener('click', () => {
+            document.body.style.background = "linear-gradient(135deg, #ff2e63 0%, #ff6b81 100%)";
+            setTimeout(() => {
+                document.body.style.background = "linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%)";
+            }, 3000);
+            alert("💖 Couple Mode Activated! Enjoy gaming together! 💖");
+        });
     </script>
 </body>
 </html>
