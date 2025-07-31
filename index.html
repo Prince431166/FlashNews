@@ -517,7 +517,206 @@
             color: var(--dark);
         }
         
-        /* New Game Placeholder Styles */
+        /* Romance Quiz Game Styles */
+        #quiz-game {
+            display: none;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .quiz-container {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .quiz-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .quiz-progress {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 10px 0;
+            border-bottom: 2px solid var(--accent);
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background: var(--light);
+            border-radius: 5px;
+            flex-grow: 1;
+            margin: 0 20px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border-radius: 5px;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .question-counter {
+            font-weight: bold;
+            color: var(--dark);
+            min-width: 80px;
+            text-align: center;
+        }
+        
+        .question-container {
+            margin: 30px 0;
+            min-height: 180px;
+        }
+        
+        .question-text {
+            font-size: 24px;
+            color: var(--dark);
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        .options-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        
+        @media (max-width: 600px) {
+            .options-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .option {
+            background: var(--bg);
+            border: 2px solid var(--accent);
+            border-radius: 15px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .option:hover {
+            transform: translateY(-3px);
+            border-color: var(--primary);
+            box-shadow: 0 5px 15px rgba(168, 50, 100, 0.1);
+        }
+        
+        .option.selected {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            border-color: var(--primary);
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(168, 50, 100, 0.2);
+        }
+        
+        .option-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--accent);
+            color: white;
+            margin-right: 15px;
+            font-weight: bold;
+        }
+        
+        .option.selected .option-number {
+            background: white;
+            color: var(--primary);
+        }
+        
+        .quiz-controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        
+        .quiz-btn {
+            padding: 12px 30px;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .quiz-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .next-btn {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+        }
+        
+        .next-btn:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 107, 139, 0.4);
+        }
+        
+        .prev-btn {
+            background: var(--light);
+            color: var(--dark);
+        }
+        
+        .prev-btn:hover:not(:disabled) {
+            background: var(--accent);
+            color: white;
+        }
+        
+        .quiz-result {
+            text-align: center;
+            padding: 40px 20px;
+            display: none;
+        }
+        
+        .score-display {
+            font-size: 80px;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 20px 0;
+            animation: pulse 2s infinite;
+        }
+        
+        .score-text {
+            font-size: 24px;
+            margin-bottom: 30px;
+            color: var(--dark);
+        }
+        
+        .result-message {
+            background: var(--light);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .restart-btn {
+            margin-top: 20px;
+            padding: 15px 40px;
+            font-size: 18px;
+        }
+
+        /* Placeholder for other games */
         .game-placeholder {
             display: none;
             text-align: center;
@@ -1187,10 +1386,46 @@
                     <button class="btn" id="restart-memory" style="margin-top: 30px; display: none;">Play Again</button>
                 </div>
                 
-                <div id="quiz-game" class="game-placeholder">
-                    <i class="fas fa-question-circle"></i>
-                    <h3>Romance Quiz Coming Soon!</h3>
-                    <p>Get ready to test your knowledge about your partner.</p>
+                <!-- Romance Quiz Game -->
+                <div id="quiz-game">
+                    <div class="game-header">
+                        <h2>Romance Quiz Challenge</h2>
+                        <p>Test how well you know your partner with these relationship questions</p>
+                    </div>
+                    
+                    <div class="quiz-container">
+                        <div class="quiz-progress">
+                            <div class="question-counter">Question <span id="current-question">1</span>/<span id="total-questions">5</span></div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="progress-fill"></div>
+                            </div>
+                            <div class="score-display-mini">Score: <span id="current-score">0</span></div>
+                        </div>
+                        
+                        <div class="question-container">
+                            <div class="question-text" id="question-text">Loading question...</div>
+                            
+                            <div class="options-container" id="options-container">
+                                <!-- Options will be added here by JavaScript -->
+                            </div>
+                        </div>
+                        
+                        <div class="quiz-controls">
+                            <button class="quiz-btn prev-btn" id="prev-btn" disabled>Previous</button>
+                            <button class="quiz-btn next-btn" id="next-btn">Next Question</button>
+                        </div>
+                    </div>
+                    
+                    <div class="quiz-result" id="quiz-result">
+                        <div class="score-display" id="final-score">0</div>
+                        <div class="score-text" id="score-text">Great effort! You know each other well!</div>
+                        
+                        <div class="result-message">
+                            <p id="result-message">Relationships thrive on mutual understanding and continuous learning. Keep exploring each other!</p>
+                        </div>
+                        
+                        <button class="btn restart-btn" id="restart-quiz">Play Again</button>
+                    </div>
                 </div>
                 
                 <div id="puzzle-game" class="game-placeholder">
@@ -1383,6 +1618,67 @@
     </button>
 
     <script>
+        // Quiz game data
+        const quizData = [
+            {
+                question: "What is your partner's favorite romantic movie?",
+                options: [
+                    "The Notebook",
+                    "Pride and Prejudice",
+                    "Titanic",
+                    "La La Land"
+                ],
+                answer: 0
+            },
+            {
+                question: "What would be your partner's ideal date night?",
+                options: [
+                    "Fine dining at a fancy restaurant",
+                    "Netflix and chill at home",
+                    "Adventure like hiking or exploring",
+                    "Cultural experience like a museum or concert"
+                ],
+                answer: 1
+            },
+            {
+                question: "What is your partner's love language?",
+                options: [
+                    "Words of affirmation",
+                    "Quality time",
+                    "Receiving gifts",
+                    "Acts of service",
+                    "Physical touch"
+                ],
+                answer: 4
+            },
+            {
+                question: "What is your partner's biggest relationship pet peeve?",
+                options: [
+                    "Being interrupted while talking",
+                    "Forgetting important dates",
+                    "Being on the phone too much",
+                    "Leaving things messy"
+                ],
+                answer: 2
+            },
+            {
+                question: "What does your partner consider the most important in a relationship?",
+                options: [
+                    "Trust and honesty",
+                    "Communication",
+                    "Shared interests",
+                    "Physical chemistry",
+                    "Emotional support"
+                ],
+                answer: 0
+            }
+        ];
+        
+        // Quiz game state
+        let currentQuestion = 0;
+        let score = 0;
+        let selectedOption = null;
+        
         // Floating hearts animation
         function createHearts() {
             const heartsContainer = document.getElementById('hearts-container');
@@ -1461,6 +1757,11 @@
             // Initialize memory game if selected
             if (gameId === 'memory-game') {
                 initializeMemoryGame();
+            }
+            
+            // Initialize quiz game if selected
+            if (gameId === 'quiz-game') {
+                resetQuiz();
             }
             
             // Scroll to game area
@@ -1735,6 +2036,147 @@
             lastScrollTop = currentScroll <= 0 ? 0 : currentScroll; // For Mobile or negative scrolling
         });
         
+        // Quiz Game Functions
+        function resetQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            selectedOption = null;
+            document.getElementById('current-score').textContent = '0';
+            document.getElementById('quiz-result').style.display = 'none';
+            document.querySelector('.quiz-container').style.display = 'block';
+            document.getElementById('prev-btn').disabled = true;
+            loadQuestion();
+        }
+        
+        function loadQuestion() {
+            const questionData = quizData[currentQuestion];
+            document.getElementById('question-text').textContent = questionData.question;
+            
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+            
+            questionData.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.classList.add('option');
+                if (selectedOption === index) {
+                    optionElement.classList.add('selected');
+                }
+                
+                optionElement.innerHTML = `
+                    <div class="option-number">${String.fromCharCode(65 + index)}</div>
+                    <div class="option-text">${option}</div>
+                `;
+                
+                optionElement.addEventListener('click', () => selectOption(index));
+                optionsContainer.appendChild(optionElement);
+            });
+            
+            // Update progress
+            document.getElementById('current-question').textContent = currentQuestion + 1;
+            document.getElementById('total-questions').textContent = quizData.length;
+            document.getElementById('progress-fill').style.width = `${(currentQuestion / quizData.length) * 100}%`;
+            
+            // Update button states
+            document.getElementById('prev-btn').disabled = currentQuestion === 0;
+            document.getElementById('next-btn').textContent = currentQuestion === quizData.length - 1 ? 'Finish Quiz' : 'Next Question';
+        }
+        
+        function selectOption(index) {
+            // Remove selected class from all options
+            document.querySelectorAll('.option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked option
+            document.querySelectorAll('.option')[index].classList.add('selected');
+            selectedOption = index;
+        }
+        
+        function nextQuestion() {
+            if (selectedOption === null) {
+                alert('Please select an answer before proceeding!');
+                return;
+            }
+            
+            // Check if answer is correct
+            if (selectedOption === quizData[currentQuestion].answer) {
+                score++;
+                document.getElementById('current-score').textContent = score;
+                
+                // Add celebration effect for correct answer
+                const hearts = ['❤️', '💖', '💕'];
+                for (let i = 0; i < 5; i++) {
+                    setTimeout(() => {
+                        const heart = document.createElement('div');
+                        heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                        heart.style.position = 'absolute';
+                        heart.style.fontSize = '30px';
+                        heart.style.left = `${Math.random() * 80 + 10}%`;
+                        heart.style.top = `${Math.random() * 60 + 20}%`;
+                        heart.style.opacity = '0';
+                        heart.style.animation = `fadeIn 0.5s ease-out forwards, float 3s linear ${Math.random() * 0.5}s infinite`;
+                        document.querySelector('.quiz-container').appendChild(heart);
+                        
+                        setTimeout(() => {
+                            heart.remove();
+                        }, 3000);
+                    }, i * 100);
+                }
+            }
+            
+            // Move to next question or finish quiz
+            if (currentQuestion < quizData.length - 1) {
+                currentQuestion++;
+                selectedOption = null;
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+        
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                selectedOption = null;
+                loadQuestion();
+            }
+        }
+        
+        function showResults() {
+            document.querySelector('.quiz-container').style.display = 'none';
+            const resultContainer = document.getElementById('quiz-result');
+            resultContainer.style.display = 'block';
+            
+            document.getElementById('final-score').textContent = `${score}/${quizData.length}`;
+            
+            // Calculate percentage
+            const percentage = Math.round((score / quizData.length) * 100);
+            
+            // Set result message based on score
+            let message, text;
+            if (percentage >= 80) {
+                text = "Amazing! You know each other incredibly well!";
+                message = "Your deep understanding of each other is the foundation of a strong relationship. Keep nurturing your connection!";
+            } else if (percentage >= 60) {
+                text = "Great job! You have a good understanding of each other.";
+                message = "You know each other well, but there's always more to discover. Keep communicating and learning about each other!";
+            } else if (percentage >= 40) {
+                text = "Good effort! There's room to learn more about each other.";
+                message = "Relationships are journeys of continuous discovery. Use this as an opportunity to have meaningful conversations!";
+            } else {
+                text = "Let's learn more about each other!";
+                message = "Every relationship has room to grow. Take this as a chance to have fun learning more about your partner!";
+            }
+            
+            document.getElementById('score-text').textContent = text;
+            document.getElementById('result-message').textContent = message;
+        }
+        
+        // Quiz event listeners
+        document.getElementById('next-btn').addEventListener('click', nextQuestion);
+        document.getElementById('prev-btn').addEventListener('click', prevQuestion);
+        document.getElementById('restart-quiz').addEventListener('click', resetQuiz);
+        
         // Initialize the website
         window.onload = function() {
             createHearts();
@@ -1743,4 +2185,4 @@
         };
     </script>
 </body>
-</html>
+                    </html>
