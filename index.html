@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LunaPlay - Play Games Online</title>
+    <title>LunaPlay - Play Original Retro & Romantic Games</title>
     <style>
         :root {
             --bg-primary: #ff9a9e;
@@ -26,7 +26,7 @@
         }
 
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Playfair Display', serif;
             background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
             color: var(--text-color);
             margin: 0;
@@ -55,8 +55,6 @@
             overflow: hidden;
             transition: transform 0.3s;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column;
         }
         
         .game-card:hover {
@@ -71,11 +69,6 @@
         
         .game-info {
             padding: 15px;
-            flex-grow: 1;
-        }
-        
-        .game-actions {
-            padding: 0 15px 15px;
         }
         
         .fullscreen-btn {
@@ -87,13 +80,25 @@
             cursor: pointer;
             font-weight: bold;
             transition: background 0.3s;
-            width: 100%;
         }
         
         .fullscreen-btn:hover {
             background: var(--btn-hover);
         }
         
+        .couple-mode {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--btn-primary);
+            color: white;
+            padding: 15px;
+            border-radius: 50%;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            z-index: 100;
+        }
+
         .dark-mode-toggle {
             position: fixed;
             top: 20px;
@@ -130,44 +135,6 @@
             cursor: pointer;
             z-index: 1000;
         }
-
-        #gameFrame {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        .rom-upload {
-            display: none;
-        }
-
-        .tab-buttons {
-            display: flex;
-            justify-content: center;
-            margin: 20px 0;
-        }
-
-        .tab-button {
-            padding: 10px 20px;
-            background: var(--btn-primary);
-            color: white;
-            border: none;
-            cursor: pointer;
-            margin: 0 5px;
-            border-radius: 5px;
-        }
-
-        .tab-button.active {
-            background: var(--btn-hover);
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
     </style>
 </head>
 <body>
@@ -175,105 +142,240 @@
     
     <div class="header">
         <h1>LunaPlay</h1>
-        <p>Play your favorite games online</p>
-    </div>
-
-    <div class="tab-buttons">
-        <button class="tab-button active" onclick="openTab('html5')">HTML5 Games</button>
-        <button class="tab-button" onclick="openTab('retro')">Retro Games</button>
+        <p>Play original retro games & romantic co-op experiences</p>
     </div>
     
-    <div id="html5" class="tab-content active">
-        <div class="game-grid">
-            <!-- HTML5 Games -->
-            <div class="game-card">
-                <img src="https://www.google.com/logos/fnbx/pacman/arcade/pacman10-hp.png" alt="Pac-Man" class="game-thumbnail">
-                <div class="game-info">
-                    <h3>Pac-Man</h3>
-                    <p>The classic arcade game</p>
-                </div>
-                <div class="game-actions">
-                    <button class="fullscreen-btn" onclick="launchGame('https://www.google.com/logos/fnbx/pacman/arcade.html')">Play Fullscreen</button>
-                </div>
+    <div class="game-grid">
+        <!-- Romantic & Co-op Games -->
+        <div class="game-card">
+            <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/413150/header.jpg" alt="Stardew Valley" class="game-thumbnail">
+            <div class="game-info">
+                <h3>Stardew Valley</h3>
+                <p>Build a farm & fall in love in this cozy RPG.</p>
+                <button class="fullscreen-btn" onclick="launchGame('stardew')">Play Fullscreen</button>
             </div>
-            
-            <div class="game-card">
-                <img src="https://tetris.com/images/og-image.jpg" alt="Tetris" class="game-thumbnail">
-                <div class="game-info">
-                    <h3>Tetris</h3>
-                    <p>The classic block-stacking game</p>
-                </div>
-                <div class="game-actions">
-                    <button class="fullscreen-btn" onclick="launchGame('https://tetris.com/play-tetris')">Play Fullscreen</button>
-                </div>
+        </div>
+        
+        <div class="game-card">
+            <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/1426210/header.jpg" alt="It Takes Two" class="game-thumbnail">
+            <div class="game-info">
+                <h3>It Takes Two</h3>
+                <p>A perfect co-op adventure for couples.</p>
+                <button class="fullscreen-btn" onclick="launchGame('itTakesTwo')">Play Fullscreen</button>
             </div>
-            
-            <div class="game-card">
-                <img src="https://playsnake.org/social.jpg" alt="Snake" class="game-thumbnail">
-                <div class="game-info">
-                    <h3>Snake</h3>
-                    <p>The classic Nokia snake game</p>
-                </div>
-                <div class="game-actions">
-                    <button class="fullscreen-btn" onclick="launchGame('https://playsnake.org/')">Play Fullscreen</button>
-                </div>
+        </div>
+        
+        <div class="game-card">
+            <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/728880/header.jpg" alt="Overcooked! 2" class="game-thumbnail">
+            <div class="game-info">
+                <h3>Overcooked! 2</h3>
+                <p>Chaotic cooking fun for couples.</p>
+                <button class="fullscreen-btn" onclick="launchGame('overcooked2')">Play Fullscreen</button>
             </div>
-            
-            <div class="game-card">
-                <img src="https://i.ytimg.com/vi/2lRfU6_6a5I/maxresdefault.jpg" alt="2048" class="game-thumbnail">
-                <div class="game-info">
-                    <h3>2048</h3>
-                    <p>Slide tiles to combine them</p>
-                </div>
-                <div class="game-actions">
-                    <button class="fullscreen-btn" onclick="launchGame('https://play2048.co/')">Play Fullscreen</button>
-                </div>
+        </div>
+        
+        <div class="game-card">
+            <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/983970/header.jpg" alt="Haven" class="game-thumbnail">
+            <div class="game-info">
+                <h3>Haven</h3>
+                <p>Story of lovers surviving together.</p>
+                <button class="fullscreen-btn" onclick="launchGame('haven')">Play Fullscreen</button>
+            </div>
+        </div>
+        
+        <div class="game-card">
+            <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/252110/header.jpg" alt="Lovers in a Dangerous Spacetime" class="game-thumbnail">
+            <div class="game-info">
+                <h3>Lovers in a Dangerous Spacetime</h3>
+                <p>Co-op space adventure.</p>
+                <button class="fullscreen-btn" onclick="launchGame('lovers')">Play Fullscreen</button>
+            </div>
+        </div>
+        
+        <!-- Retro Games Section -->
+        <div class="game-card">
+            <img src="https://retroachievements.org/Images/000002.png" alt="Super Mario Bros" class="game-thumbnail">
+            <div class="game-info">
+                <h3>Super Mario Bros (1985)</h3>
+                <p>The classic platformer that started it all.</p>
+                <button class="fullscreen-btn" onclick="launchGame('mario')">Play Fullscreen</button>
+            </div>
+        </div>
+        
+        <div class="game-card">
+            <img src="https://retroachievements.org/Images/000003.png" alt="Pac-Man" class="game-thumbnail">
+            <div class="game-info">
+                <h3>Pac-Man (1980)</h3>
+                <p>Guide Pac-Man through mazes while avoiding ghosts.</p>
+                <button class="fullscreen-btn" onclick="launchGame('pacman')">Play Fullscreen</button>
+            </div>
+        </div>
+        
+        <div class="game-card">
+            <img src="https://retroachievements.org/Images/000001.png" alt="Tetris" class="game-thumbnail">
+            <div class="game-info">
+                <h3>Tetris (1984)</h3>
+                <p>The timeless block-stacking puzzle game.</p>
+                <button class="fullscreen-btn" onclick="launchGame('tetris')">Play Fullscreen</button>
+            </div>
+        </div>
+        
+        <div class="game-card">
+            <img src="https://retroachievements.org/Images/000008.png" alt="Sonic the Hedgehog" class="game-thumbnail">
+            <div class="game-info">
+                <h3>Sonic the Hedgehog (1991)</h3>
+                <p>Speed through levels as the iconic blue blur.</p>
+                <button class="fullscreen-btn" onclick="launchGame('sonic')">Play Fullscreen</button>
+            </div>
+        </div>
+        
+        <div class="game-card">
+            <img src="https://retroachievements.org/Images/000012.png" alt="Street Fighter II" class="game-thumbnail">
+            <div class="game-info">
+                <h3>Street Fighter II (1991)</h3>
+                <p>The legendary fighting game for 1v1 battles.</p>
+                <button class="fullscreen-btn" onclick="launchGame('streetfighter')">Play Fullscreen</button>
+            </div>
+        </div>
+        
+        <div class="game-card">
+            <img src="https://retroachievements.org/Images/000006.png" alt="The Legend of Zelda" class="game-thumbnail">
+            <div class="game-info">
+                <h3>The Legend of Zelda (1986)</h3>
+                <p>Embark on an epic adventure as Link.</p>
+                <button class="fullscreen-btn" onclick="launchGame('zelda')">Play Fullscreen</button>
+            </div>
+        </div>
+        
+        <div class="game-card">
+            <img src="https://retroachievements.org/Images/000004.png" alt="Donkey Kong" class="game-thumbnail">
+            <div class="game-info">
+                <h3>Donkey Kong (1981)</h3>
+                <p>Save Pauline from the giant ape in this arcade classic.</p>
+                <button class="fullscreen-btn" onclick="launchGame('donkeykong')">Play Fullscreen</button>
+            </div>
+        </div>
+        
+        <div class="game-card">
+            <img src="https://retroachievements.org/Images/000005.png" alt="Space Invaders" class="game-thumbnail">
+            <div class="game-info">
+                <h3>Space Invaders (1978)</h3>
+                <p>Defend Earth from alien invaders in this arcade shooter.</p>
+                <button class="fullscreen-btn" onclick="launchGame('spaceinvaders')">Play Fullscreen</button>
+            </div>
+        </div>
+        
+        <div class="game-card">
+            <img src="https://retroachievements.org/Images/000007.png" alt="Pong" class="game-thumbnail">
+            <div class="game-info">
+                <h3>Pong (1972)</h3>
+                <p>The game that started the video game industry.</p>
+                <button class="fullscreen-btn" onclick="launchGame('pong')">Play Fullscreen</button>
+            </div>
+        </div>
+        
+        <div class="game-card">
+            <img src="https://retroachievements.org/Images/000009.png" alt="Galaga" class="game-thumbnail">
+            <div class="game-info">
+                <h3>Galaga (1981)</h3>
+                <p>Classic space shooter with challenging gameplay.</p>
+                <button class="fullscreen-btn" onclick="launchGame('galaga')">Play Fullscreen</button>
+            </div>
+        </div>
+        
+        <div class="game-card">
+            <img src="https://retroachievements.org/Images/000010.png" alt="Mega Man" class="game-thumbnail">
+            <div class="game-info">
+                <h3>Mega Man (1987)</h3>
+                <p>Run and gun through challenging levels.</p>
+                <button class="fullscreen-btn" onclick="launchGame('megaman')">Play Fullscreen</button>
+            </div>
+        </div>
+        
+        <div class="game-card">
+            <img src="https://retroachievements.org/Images/000011.png" alt="Contra" class="game-thumbnail">
+            <div class="game-info">
+                <h3>Contra (1987)</h3>
+                <p>Classic run-and-gun action game.</p>
+                <button class="fullscreen-btn" onclick="launchGame('contra')">Play Fullscreen</button>
+            </div>
+        </div>
+        
+        <div class="game-card">
+            <img src="https://retroachievements.org/Images/000013.png" alt="Castlevania" class="game-thumbnail">
+            <div class="game-info">
+                <h3>Castlevania (1986)</h3>
+                <p>Fight Dracula in this gothic action platformer.</p>
+                <button class="fullscreen-btn" onclick="launchGame('castlevania')">Play Fullscreen</button>
+            </div>
+        </div>
+        
+        <div class="game-card">
+            <img src="https://retroachievements.org/Images/000014.png" alt="Final Fantasy" class="game-thumbnail">
+            <div class="game-info">
+                <h3>Final Fantasy (1987)</h3>
+                <p>The game that launched the legendary RPG series.</p>
+                <button class="fullscreen-btn" onclick="launchGame('finalfantasy')">Play Fullscreen</button>
+            </div>
+        </div>
+        
+        <div class="game-card">
+            <img src="https://retroachievements.org/Images/000015.png" alt="Metroid" class="game-thumbnail">
+            <div class="game-info">
+                <h3>Metroid (1986)</h3>
+                <p>Explore alien worlds as bounty hunter Samus Aran.</p>
+                <button class="fullscreen-btn" onclick="launchGame('metroid')">Play Fullscreen</button>
+            </div>
+        </div>
+        
+        <div class="game-card">
+            <img src="https://retroachievements.org/Images/000016.png" alt="Double Dragon" class="game-thumbnail">
+            <div class="game-info">
+                <h3>Double Dragon (1987)</h3>
+                <p>Classic beat-em-up action game.</p>
+                <button class="fullscreen-btn" onclick="launchGame('doubledragon')">Play Fullscreen</button>
+            </div>
+        </div>
+        
+        <div class="game-card">
+            <img src="https://retroachievements.org/Images/000017.png" alt="Bubble Bobble" class="game-thumbnail">
+            <div class="game-info">
+                <h3>Bubble Bobble (1986)</h3>
+                <p>Cute dinosaur bubble-shooting platformer.</p>
+                <button class="fullscreen-btn" onclick="launchGame('bubblebobble')">Play Fullscreen</button>
+            </div>
+        </div>
+        
+        <div class="game-card">
+            <img src="https://retroachievements.org/Images/000018.png" alt="Mortal Kombat" class="game-thumbnail">
+            <div class="game-info">
+                <h3>Mortal Kombat (1992)</h3>
+                <p>The iconic fighting game with fatalities.</p>
+                <button class="fullscreen-btn" onclick="launchGame('mortalkombat')">Play Fullscreen</button>
+            </div>
+        </div>
+        
+        <div class="game-card">
+            <img src="https://retroachievements.org/Images/000019.png" alt="Duck Hunt" class="game-thumbnail">
+            <div class="game-info">
+                <h3>Duck Hunt (1984)</h3>
+                <p>Shoot ducks with the NES Zapper.</p>
+                <button class="fullscreen-btn" onclick="launchGame('duckhunt')">Play Fullscreen</button>
+            </div>
+        </div>
+        
+        <div class="game-card">
+            <img src="https://retroachievements.org/Images/000020.png" alt="Kirby's Adventure" class="game-thumbnail">
+            <div class="game-info">
+                <h3>Kirby's Adventure (1993)</h3>
+                <p>Pink puffball platforming action.</p>
+                <button class="fullscreen-btn" onclick="launchGame('kirby')">Play Fullscreen</button>
             </div>
         </div>
     </div>
-
-    <div id="retro" class="tab-content">
-        <div class="game-grid">
-            <!-- Retro Games -->
-            <div class="game-card">
-                <img src="https://retroachievements.org/Images/000002.png" alt="Super Mario Bros" class="game-thumbnail">
-                <div class="game-info">
-                    <h3>Super Mario Bros</h3>
-                    <p>The classic NES platformer</p>
-                    <p><small>Upload NES ROM to play</small></p>
-                </div>
-                <div class="game-actions">
-                    <input type="file" id="mario-rom" class="rom-upload" accept=".nes,.zip">
-                    <button class="fullscreen-btn" onclick="document.getElementById('mario-rom').click()">Upload ROM</button>
-                </div>
-            </div>
-            
-            <div class="game-card">
-                <img src="https://retroachievements.org/Images/000001.png" alt="Tetris" class="game-thumbnail">
-                <div class="game-info">
-                    <h3>Tetris (NES)</h3>
-                    <p>The classic NES version</p>
-                    <p><small>Upload NES ROM to play</small></p>
-                </div>
-                <div class="game-actions">
-                    <input type="file" id="tetris-rom" class="rom-upload" accept=".nes,.zip">
-                    <button class="fullscreen-btn" onclick="document.getElementById('tetris-rom').click()">Upload ROM</button>
-                </div>
-            </div>
-            
-            <div class="game-card">
-                <img src="https://retroachievements.org/Images/000008.png" alt="Sonic" class="game-thumbnail">
-                <div class="game-info">
-                    <h3>Sonic the Hedgehog</h3>
-                    <p>The classic Genesis game</p>
-                    <p><small>Upload Genesis ROM to play</small></p>
-                </div>
-                <div class="game-actions">
-                    <input type="file" id="sonic-rom" class="rom-upload" accept=".gen,.zip,.md">
-                    <button class="fullscreen-btn" onclick="document.getElementById('sonic-rom').click()">Upload ROM</button>
-                </div>
-            </div>
-        </div>
+    
+    <div class="couple-mode" title="Activate Couple Mode">
+        ♥
     </div>
     
     <div class="game-container" id="gameContainer">
@@ -293,31 +395,41 @@
             }
         }
 
-        // Tab Navigation
-        function openTab(tabId) {
-            // Hide all tab contents
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            
-            // Deactivate all tab buttons
-            document.querySelectorAll('.tab-button').forEach(button => {
-                button.classList.remove('active');
-            });
-            
-            // Show selected tab content
-            document.getElementById(tabId).classList.add('active');
-            
-            // Activate selected button
-            event.currentTarget.classList.add('active');
-        }
+        // Game URLs (would need actual game files hosted)
+        const gameUrls = {
+            'stardew': 'https://stardewvalley.net/',
+            'itTakesTwo': 'https://www.ea.com/games/it-takes-two',
+            'overcooked2': 'https://www.team17.com/games/overcooked-2/',
+            'haven': 'https://haven-thegame.com/',
+            'lovers': 'http://www.loversinadangerousspacetime.com/',
+            'mario': 'https://supermariobros.io/',
+            'pacman': 'https://www.pacman.com/',
+            'tetris': 'https://tetris.com/play-tetris',
+            'sonic': 'https://www.sonicthehedgehog.com/',
+            'streetfighter': 'https://www.streetfighter.com/',
+            'zelda': 'https://www.zelda.com/',
+            'donkeykong': 'https://www.nintendo.com/games/detail/donkey-kong-switch/',
+            'spaceinvaders': 'https://www.spaceinvaders.com/',
+            'pong': 'https://www.ponggame.org/',
+            'galaga': 'https://www.bandainamcoent.com/games/galaga',
+            'megaman': 'https://www.megaman.jp/',
+            'contra': 'https://www.konami.com/games/contra/',
+            'castlevania': 'https://www.konami.com/games/castlevania/',
+            'finalfantasy': 'https://www.finalfantasy.com/',
+            'metroid': 'https://www.nintendo.com/games/detail/metroid-switch/',
+            'doubledragon': 'https://www.arcsystemworks.jp/doubledragon/',
+            'bubblebobble': 'https://www.taito.com/games/bubblebobble',
+            'mortalkombat': 'https://www.mortalkombat.com/',
+            'duckhunt': 'https://www.nintendo.com/games/detail/duck-hunt-switch/',
+            'kirby': 'https://www.nintendo.com/games/detail/kirbys-adventure-switch/'
+        };
 
-        // Launch HTML5 Games
-        function launchGame(gameUrl) {
+        // Launch game in fullscreen container
+        function launchGame(gameId) {
             const container = document.getElementById('gameContainer');
             const frame = document.getElementById('gameFrame');
             
-            frame.src = gameUrl;
+            frame.src = gameUrls[gameId];
             container.style.display = 'block';
             
             // Try to enter fullscreen
@@ -330,7 +442,7 @@
             }
         }
 
-        // Close Game
+        // Close game
         function closeGame() {
             const container = document.getElementById('gameContainer');
             const frame = document.getElementById('gameFrame');
@@ -348,58 +460,14 @@
             }
         }
 
-        // ROM Upload Handlers
-        document.getElementById('mario-rom').addEventListener('change', function(e) {
-            loadRetroGame(e.target.files[0], 'nes');
+        // Couple Mode (romantic effects)
+        document.querySelector('.couple-mode').addEventListener('click', () => {
+            document.body.style.background = "linear-gradient(135deg, #ff2e63 0%, #ff6b81 100%)";
+            setTimeout(() => {
+                document.body.style.background = "linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%)";
+            }, 3000);
+            alert("💖 Couple Mode Activated! Enjoy gaming together! 💖");
         });
-
-        document.getElementById('tetris-rom').addEventListener('change', function(e) {
-            loadRetroGame(e.target.files[0], 'nes');
-        });
-
-        document.getElementById('sonic-rom').addEventListener('change', function(e) {
-            loadRetroGame(e.target.files[0], 'genesis');
-        });
-
-        // Load Retro Game
-        function loadRetroGame(romFile, core) {
-            if (!romFile) return;
-            
-            const container = document.getElementById('gameContainer');
-            const frame = document.getElementById('gameFrame');
-            
-            // Load emulator script dynamically
-            if (!window.EmulatorJS) {
-                const script = document.createElement('script');
-                script.src = 'https://cdn.jsdelivr.net/npm/emulatorjs@1.6.2/emulator.min.js';
-                script.onload = function() {
-                    startEmulator(romFile, core, container, frame);
-                };
-                document.head.appendChild(script);
-            } else {
-                startEmulator(romFile, core, container, frame);
-            }
-        }
-
-        function startEmulator(romFile, core, container, frame) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                container.style.display = 'block';
-                container.innerHTML = '<button class="close-game" onclick="closeGame()">Close Game</button><div id="emulator-screen"></div>';
-                
-                new EmulatorJS(document.getElementById('emulator-screen'), {
-                    rom: e.target.result,
-                    core: core,
-                    disableUI: true,
-                    fullscreenOnLoad: true
-                }).start();
-                
-                if (container.requestFullscreen) {
-                    container.requestFullscreen();
-                }
-            };
-            reader.readAsArrayBuffer(romFile);
-        }
     </script>
 </body>
 </html>
