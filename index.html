@@ -113,6 +113,16 @@
     </div>
     
     <script>
+function enterFullscreen(element) {
+    if (element.requestFullscreen) {
+        element.requestFullscreen();
+    } else if (element.webkitRequestFullscreen) {
+        element.webkitRequestFullscreen();
+    } else if (element.msRequestFullscreen) {
+        element.msRequestFullscreen();
+    }
+}
+        
         function launchGame(gameId) {
             // This would open the selected game in fullscreen mode
             const gameWindow = window.open(`games/${gameId}/index.html`, '_blank', 'fullscreen=yes');
