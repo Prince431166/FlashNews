@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EmailJS Feedback Form</title>
+
+  <!-- EmailJS SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script>
+    (function() {
+      // Initialize with your EmailJS Public Key
+      emailjs.init("XAmTKrqXUS3tkWYJJ");
+    })();
+  </script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width: 350px;
+    }
+    h2 {
+      margin-bottom: 15px;
+      text-align: center;
+      color: #333;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    #formMessage {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+    .success {
+      color: green;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Send Feedback</h2>
+
+    <form id="feedbackForm">
+      <label for="email">Enter your Email:</label>
+      <input type="email" name="email" id="email" required>
+
+      <button type="submit">Send</button>
+    </form>
+
+    <div id="formMessage"></div>
+  </div>
+
+  <script>
+    const form = document.getElementById("feedbackForm");
+    const formMessage = document.getElementById("formMessage");
+
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      formMessage.textContent = "⏳ Sending...";
+      formMessage.className = "";
+
+      emailjs.sendForm(
+        "service_b2qzd1j",   // ✅ Your Service ID
+        "template_3jvw1xt",  // ✅ Your Template ID
+        this
+      )
+      .then(() => {
+        formMessage.textContent = "✅ Message sent successfully!";
+        formMessage.className = "success";
+        form.reset();
+      })
+      .catch((err) => {
+        console.error("EmailJS Error:", err);
+        formMessage.textContent = "❌ Failed to send. Please try again.";
+        formMessage.className = "error";
+      });
+    });
+  </script>
+</body>
+</html>
