@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>17.07.2026 ✨ A Friendship Story</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --midnight-navy: #0a0a1a;
+            --deep-purple: #1a0b2e;
+            --soft-pink: #ffb6c1;
+            --lavender: #e6e6fa;
+            --warm-white: #fdfbf7;
+            --gold: #ffd700;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--midnight-navy);
+            color: var(--warm-white);
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+            overflow-y: hidden; /* Hidden until started */
+        }
+
+        /* 3D Canvas Background */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(to bottom, var(--midnight-navy), var(--deep-purple));
+        }
+
+        /* Audio Control */
+        #music-control {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            color: var(--soft-pink);
+            padding: 10px;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+
+        /* Typography */
+        h1, h2, h3 { font-family: 'Cinzel', serif; font-weight: 600; }
+        .serif { font-family: 'Playfair Display', serif; }
+        .pink-text { color: var(--soft-pink); text-shadow: 0 0 10px rgba(255, 182, 193, 0.3); }
+        .gold-text { color: var(--gold); text-shadow: 0 0 15px rgba(255, 215, 0, 0.3); }
+        .lavender-text { color: var(--lavender); }
+
+        /* Scene Layouts */
+        .scene {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px 20px;
+            position: relative;
+            perspective: 1000px;
+        }
+
+        /* Buttons */
+        .cinematic-btn {
+            background: rgba(255, 182, 193, 0.1);
+            border: 1px solid var(--soft-pink);
+            color: var(--soft-pink);
+            padding: 15px 40px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            letter-spacing: 2px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(5px);
+            margin-top: 30px;
+            text-transform: uppercase;
+            box-shadow: 0 0 20px rgba(255, 182, 193, 0.2);
+        }
+        .cinematic-btn:hover {
+            background: rgba(255, 182, 193, 0.3);
+            box-shadow: 0 0 30px rgba(255, 182, 193, 0.5);
+            transform: translateY(-2px);
+        }
+
+        /* Animations */
+        .fade-in { opacity: 0; transform: translateY(30px); transition: opacity 1.5s ease, transform 1.5s ease; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+        .delay-1 { transition-delay: 1s; }
+        .delay-2 { transition-delay: 2s; }
+        .delay-3 { transition-delay: 3s; }
+        .delay-4 { transition-delay: 4s; }
+
+        .glow-pulse {
+            animation: pulseGlow 3s infinite alternate;
+        }
+        @keyframes pulseGlow {
+            0% { text-shadow: 0 0 10px rgba(255, 182, 193, 0.2); }
+            100% { text-shadow: 0 0 30px rgba(255, 182, 193, 0.8), 0 0 50px rgba(255, 182, 193, 0.5); }
+        }
+
+        /* SCENE 2: 3D Date Card */
+        .date-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            padding: 40px 60px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            transform-style: preserve-3d;
+            animation: float3D 6s infinite ease-in-out;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5), inset 0 0 20px rgba(255, 182, 193, 0.1);
+        }
+        @keyframes float3D {
+            0%, 100% { transform: rotateY(-5deg) rotateX(5deg) translateY(0); }
+            50% { transform: rotateY(5deg) rotateX(-5deg) translateY(-15px); }
+        }
+
+        /* SCENE 3: Timeline */
+        .timeline-container { position: relative; padding: 20px 0; }
+        .timeline-line {
+            width: 2px;
+            height: 150px;
+            background: linear-gradient(to bottom, transparent, var(--soft-pink), transparent);
+            margin: 20px auto;
+        }
+
+        /* SCENE 4: Name Reveal */
+        .name-reveal {
+            font-size: 3.5rem;
+            letter-spacing: 5px;
+            color: transparent;
+            -webkit-text-stroke: 1px var(--soft-pink);
+            position: relative;
+        }
+        .name-reveal::before {
+            content: 'BHUVNESWARI 💗';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            color: var(--soft-pink);
+            filter: blur(10px);
+            opacity: 0;
+            transition: opacity 3s ease, filter 3s ease;
+        }
+        .name-reveal.visible::before { opacity: 1; filter: blur(0px); text-shadow: 0 0 20px var(--soft-pink); }
+
+        /* SCENE 5: Glass Letter */
+        .glass-letter {
+            background: rgba(20, 10, 40, 0.6);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 182, 193, 0.3);
+            border-radius: 20px;
+            padding: 50px 40px;
+            max-width: 600px;
+            width: 90%;
+            text-align: left;
+            line-height: 1.8;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+            position: relative;
+            overflow: hidden;
+        }
+        .glass-letter::after {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255,182,193,0.1) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        /* SCENE 6: Certificate */
+        .certificate {
+            background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
+            border: 2px solid var(--gold);
+            padding: 50px;
+            border-radius: 10px;
+            transform: rotateY(10deg);
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+            cursor: pointer;
+            box-shadow: -10px 10px 30px rgba(0,0,0,0.5);
+            max-width: 90%;
+        }
+        .certificate:hover {
+            transform: rotateY(0deg) scale(1.05);
+            box-shadow: 0 0 40px rgba(255, 215, 0, 0.3);
+        }
+
+        /* SCENE 7: Promise Cards */
+        .cards-grid {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 40px;
+        }
+        .promise-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            width: 200px;
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            backdrop-filter: blur(5px);
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+        }
+        .promise-card .hidden-text { display: none; font-size: 0.9rem; font-family: 'Playfair Display', serif; }
+        .promise-card.flipped {
+            background: rgba(255, 182, 193, 0.15);
+            border-color: var(--soft-pink);
+            height: 200px;
+        }
+        .promise-card.flipped .front-text { display: none; }
+        .promise-card.flipped .hidden-text { display: block; animation: fadeInTxt 1s forwards; }
+        @keyframes fadeInTxt { from { opacity: 0; } to { opacity: 1; } }
+
+        /* SCENE 8: The Question */
+        .btn-group { display: flex; gap: 20px; justify-content: center; margin-top: 30px; flex-wrap: wrap; }
+        
+        #acceptance-screen {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle, var(--deep-purple), var(--midnight-navy));
+            z-index: 100;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 2s ease;
+        }
+
+        /* SCENE 9 & 10: Secret Ending */
+        #secret-scene {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #000;
+            z-index: 200;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 3s ease;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .capsule {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 50px;
+            padding: 40px 60px;
+            box-shadow: inset 0 0 30px rgba(255, 182, 193, 0.1), 0 10px 40px rgba(0,0,0,0.8);
+            margin-bottom: 40px;
+            position: relative;
+        }
+        .capsule::before {
+            content: ''; position: absolute; top: -2px; left: -2px; right: -2px; bottom: -2px;
+            background: linear-gradient(45deg, transparent, var(--soft-pink), transparent);
+            border-radius: 52px; z-index: -1; opacity: 0.5;
+        }
+
+        /* Utils */
+        .mb-2 { margin-bottom: 10px; }
+        .mb-4 { margin-bottom: 20px; }
+        .mt-4 { margin-top: 20px; }
+        .italic { font-style: italic; }
+        .text-sm { font-size: 0.9rem; letter-spacing: 2px; opacity: 0.7; }
+        
+        /* Stop scroll container */
+        #scroll-container {
+            height: 100vh;
+            overflow-y: hidden;
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Audio Element (Placeholder src, requires local file or valid URL) -->
+    <audio id="bg-music" loop>
+        <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=cinematic-ambient-piano-113651.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="music-control" onclick="toggleMusic()">🔊</div>
+
+    <!-- 3D Particle Canvas -->
+    <canvas id="bg-canvas"></canvas>
+
+    <div id="scroll-container">
+        
+        <!-- SCENE 1 -->
+        <section class="scene" id="scene1">
+            <p class="fade-in serif mb-4 text-sm">Some stories don't begin with a grand moment...</p>
+            <p class="fade-in delay-2 serif mb-4 text-sm">Some simply begin with a conversation...</p>
+            <h1 class="fade-in delay-4 pink-text glow-pulse" style="font-size: 3rem; margin-top: 30px;">17.07.2026 ✨</h1>
+            <p class="fade-in delay-4 mt-4 italic lavender-text">The day a new friendship began 💗</p>
+            <button class="fade-in delay-4 cinematic-btn" onclick="startExperience()">BEGIN OUR STORY ✨</button>
+        </section>
+
+        <!-- SCENE 2 -->
+        <section class="scene">
+            <div class="date-card fade-in">
+                <h2 class="pink-text mb-2">17 JULY 2026</h2>
+            </div>
+            <div style="margin-top: 60px;">
+                <p class="fade-in serif mb-2">Maybe for the world...</p>
+                <p class="fade-in serif mb-4">it is just another date.</p>
+                <p class="fade-in delay-1 serif mb-2 gold-text" style="font-size: 1.5rem;">But for Prince...</p>
+                <p class="fade-in delay-2 serif italic lavender-text">...it became the first page of a new friendship story 💞</p>
+            </div>
+        </section>
+
+        <!-- SCENE 3 -->
+        <section class="scene">
+            <div class="timeline-container fade-in">
+                <h3 class="pink-text glow-pulse mb-2">17.07.2026 ✨</h3>
+                <p class="text-sm">Friendship Started</p>
+                <div class="timeline-line"></div>
+                <p class="fade-in delay-1 serif mb-2">Not the oldest friendship...</p>
+                <p class="fade-in delay-2 serif mb-4">Not the longest friendship...</p>
+                <p class="fade-in delay-3 serif gold-text" style="font-size: 1.3rem;">Just a new friendship...<br>with a beautiful beginning 🥹💗</p>
+            </div>
+        </section>
+
+        <!-- SCENE 4 -->
+        <section class="scene">
+            <h1 class="name-reveal fade-in mb-4">BHUVNESWARI</h1>
+            <p class="fade-in delay-1 serif mb-2 mt-4 text-sm">Some people enter your life quietly...</p>
+            <p class="fade-in delay-2 serif mb-4 text-sm">...and somehow become a memory worth keeping ✨</p>
+            <h2 class="fade-in delay-3 pink-text mt-4">Dear Bhuvneswari 💗</h2>
+        </section>
+
+        <!-- SCENE 5 -->
+        <section class="scene">
+            <div class="glass-letter fade-in">
+                <h3 class="pink-text mb-4">Bhuvneswari 💗</h3>
+                <p class="serif mb-4">Humari dosti ko abhi zyada time nahi hua...<br>but every friendship has a first memory 🥹✨</p>
+                <p class="serif mb-4">Aur humari friendship ka first memory<br>17 July 2026 hai 💞</p>
+                <p class="serif mb-4">Pata nahi future mein humari dosti kitni beautiful memories create karegi...</p>
+                <p class="serif mb-4 gold-text">But I genuinely hope ki humari friendship<br>time ke saath aur strong hoti jaaye 💗</p>
+                <p class="serif mb-4">Isliye is website ko sambhal ke rakhna 😤🥹</p>
+                <p class="serif mb-4">Kyuki ye humari friendship ki<br><span class="pink-text" style="letter-spacing: 2px;">FIRST DIGITAL MEMORY hai ✨</span></p>
+                <p class="serif text-sm" style="text-align: right; margin-top: 30px;">— Prince 💗</p>
+            </div>
+        </section>
+
+        <!-- SCENE 6 -->
+        <section class="scene">
+            <div class="certificate fade-in" onclick="this.style.transform = 'rotateY(360deg)'; setTimeout(()=>this.style.transform = 'rotateY(0deg)', 1000);">
+                <p class="text-sm gold-text mb-4">OFFICIAL FRIENDSHIP MEMORY</p>
+                <p class="serif mb-2 text-sm">This certifies that</p>
+                <h2 class="mb-4 mt-2" style="letter-spacing: 3px;">PRINCE 🤝 BHUVNESWARI</h2>
+                <p class="serif mb-2 text-sm">began a friendship on</p>
+                <h2 class="pink-text mb-4 glow-pulse">17 JULY 2026 💗</h2>
+                <p class="text-sm mb-4">CHAPTER 01 — THE BEGINNING</p>
+                <div style="margin-top: 30px; display:inline-block; border: 1px solid var(--gold); padding: 10px 20px; border-radius: 30px; font-size: 0.8rem; color: var(--gold);">
+                    FRIENDSHIP STARTED ✨
+                </div>
+            </div>
+            <p class="text-sm mt-4 fade-in delay-2" style="opacity: 0.5;">(Tap the certificate)</p>
+        </section>
+
+        <!-- SCENE 7 -->
+        <section class="scene">
+            <div class="cards-grid fade-in">
+                <div class="promise-card" onclick="flipCard(this)">
+                    <span class="front-text">TRUST 🤝</span>
+                    <span class="hidden-text">Let's keep it genuine 🤝</span>
+                </div>
+                <div class="promise-card delay-1" onclick="flipCard(this)">
+                    <span class="front-text">RESPECT 💗</span>
+                    <span class="hidden-text">Let's always value the friendship 💗</span>
+                </div>
+                <div class="promise-card delay-2" onclick="flipCard(this)">
+                    <span class="front-text">MEMORIES ✨</span>
+                    <span class="hidden-text">Let's create beautiful ones ✨</span>
+                </div>
+            </div>
+            <p id="promise-finale" class="fade-in serif gold-text mt-4" style="opacity:0; transition: opacity 1s;">Maybe this is only the beginning... 🥹</p>
+        </section>
+
+        <!-- SCENE 8 -->
+        <section class="scene" style="padding-bottom: 20vh;">
+            <h2 class="fade-in pink-text glow-pulse" style="font-size: 2.5rem;">Bhuvneswari 👀💗</h2>
+            <p class="fade-in delay-1 serif mt-4 mb-2" style="font-size: 1.2rem;">Ek honest answer dena...</p>
+            <p class="fade-in delay-2 serif mb-4 gold-text" style="font-size: 1.5rem;">Kya tum is friendship ko officially accept karti ho? 🥹✨</p>
+            
+            <div class="btn-group fade-in delay-3">
+                <button class="cinematic-btn" style="margin-top:0;" onclick="acceptFriendship()">YES 💞</button>
+                <button class="cinematic-btn" style="margin-top:0;" onclick="acceptFriendship()">OF COURSE 😌✨</button>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- ACCEPTANCE OVERLAY -->
+    <div id="acceptance-screen">
+        <h1 class="pink-text glow-pulse mb-4" style="font-size: 3rem;">FRIENDSHIP ACCEPTED 🥹💗</h1>
+        <p class="serif gold-text mb-2" style="font-size: 1.5rem; letter-spacing: 3px;">Prince × Bhuvneswari</p>
+        <p class="serif text-sm">17.07.2026 ✨</p>
+        
+        <div style="margin-top: 100px; text-align: center;">
+            <p class="serif mb-4" id="wait-text-1" style="opacity: 0; transition: opacity 2s;">Thank you for being a part of this first memory, Bhuvneswari 💗</p>
+            <p class="serif mb-4 pink-text" id="wait-text-2" style="opacity: 0; transition: opacity 2s;">Wait...</p>
+            <p class="serif mb-4" id="wait-text-3" style="opacity: 0; transition: opacity 2s;">Actually... there's one more thing 👀</p>
+            <button class="cinematic-btn" id="secret-btn" style="opacity: 0; pointer-events: none; transition: opacity 2s;" onclick="openSecret()">OPEN THE SECRET ✨</button>
+        </div>
+    </div>
+
+    <!-- SECRET SCENE (SCENE 9 & 10) -->
+    <div id="secret-scene">
+        <!-- Part 1 -->
+        <div id="secret-part-1" style="max-width: 600px;">
+            <h2 class="pink-text mb-4 glow-pulse" id="s-txt-1" style="opacity:0; transition: opacity 2s;">17.07.2026 💗</h2>
+            <p class="serif text-sm mb-2" id="s-txt-2" style="opacity:0; transition: opacity 2s;">Chapter 01: Started</p>
+            <p class="serif text-sm gold-text mb-4" id="s-txt-3" style="opacity:0; transition: opacity 2s;">Chapter 02: Loading... ⏳✨</p>
+            
+            <div id="s-txt-4" style="opacity:0; transition: opacity 2s; margin-top: 40px; text-align: left; background: rgba(255,255,255,0.05); padding: 30px; border-radius: 10px; border-left: 3px solid var(--soft-pink);">
+                <p class="serif mb-4">Bhuvneswari...</p>
+                <p class="serif mb-4">Aaj humari dosti ko bas shuru hue thoda hi time hua hai 🥹</p>
+                <p class="serif mb-4">Isliye main koi bade promises nahi karunga...</p>
+                <p class="serif mb-4">Bas itna kehna hai —</p>
+                <p class="serif mb-4 gold-text italic">I hope jab kabhi tum is website ko future mein dobara dekho,<br>tum smile karke bolo...</p>
+                <p class="serif mb-4 pink-text glow-pulse">'Yaar... humari dosti ka beginning kitna cute tha' 💗✨</p>
+                <p class="serif text-sm mt-4 text-right">— Prince</p>
+            </div>
+            
+            <button class="cinematic-btn mt-4" id="s-btn-1" style="opacity:0; pointer-events:none; transition: opacity 2s;" onclick="showFinalCapsule()">ONE LAST THING 💞</button>
+        </div>
+
+        <!-- Part 2 (Capsule) -->
+        <div id="secret-part-2" style="display:none; opacity:0; transition: opacity 2s;">
+            <div class="capsule">
+                <p class="text-sm gold-text mb-4">FRIENDSHIP MEMORY #001</p>
+                <h2 class="mb-2">Prince & Bhuvneswari</h2>
+                <p class="serif mb-4">17 July 2026</p>
+                <div style="background: rgba(255,215,0,0.1); padding: 5px 15px; border-radius: 20px; display: inline-block;">
+                    <p class="text-sm gold-text">STATUS: JUST THE BEGINNING ✨</p>
+                </div>
+            </div>
+            
+            <p class="serif mb-2 italic">Maybe this is not the end of a story...</p>
+            <p class="serif mb-4 italic">Maybe this is just the first page 💗</p>
+            
+            <h1 class="pink-text mt-4 mb-2" style="font-size: 2.5rem; letter-spacing: 5px;">PRINCE × BHUVNESWARI</h1>
+            <p class="gold-text mb-4 glow-pulse" style="font-size: 1.5rem; letter-spacing: 3px;">17.07.2026 ✨</p>
+            
+            <button class="cinematic-btn mt-4" onclick="location.reload()">REPLAY OUR BEGINNING 🎬</button>
+        </div>
+    </div>
+
+
+    <script>
+        // -- 3D CANVAS PARTICLES --
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let particles = [];
+
+        function resizeCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.reset();
+                this.z = Math.random() * 2000; // Random initial depth
+            }
+            reset() {
+                this.x = (Math.random() - 0.5) * 3000;
+                this.y = (Math.random() - 0.5) * 3000;
+                this.z = 2000; // Start far away
+                this.size = Math.random() * 2 + 0.5;
+                // Colors: pink, gold, white, lavender
+                const colors = ['#ffb6c1', '#ffd700', '#ffffff', '#e6e6fa'];
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+            }
+            update(speed) {
+                this.z -= speed;
+                if (this.z <= 0) this.reset();
+            }
+            draw() {
+                // Perspective projection
+                const fov = 300;
+                const scale = fov / (fov + this.z);
+                const x2d = this.x * scale + width / 2;
+                const y2d = this.y * scale + height / 2;
+                
+                // Opacity based on depth
+                const alpha = Math.max(0, 1 - (this.z / 2000));
+
+                ctx.beginPath();
+                ctx.arc(x2d, y2d, this.size * scale, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.globalAlpha = alpha;
+                ctx.fill();
+            }
+        }
+
+        for (let i = 0; i < 300; i++) particles.push(new Particle());
+
+        let speed = 0.5; // slow drift
+        function animateCanvas() {
+            ctx.clearRect(0, 0, width, height);
+            // Draw gradient bg over everything slowly for trail effect
+            ctx.fillStyle = 'rgba(10, 10, 26, 0.3)';
+            ctx.fillRect(0, 0, width, height);
+            
+            particles.forEach(p => {
+                p.update(speed);
+                p.draw();
+            });
+            requestAnimationFrame(animateCanvas);
+        }
+        animateCanvas();
+
+        // -- SCROLL OBSERVER FOR CINEMATIC FADES --
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    // Add visible class to children with fade-in
+                    const children = entry.target.querySelectorAll('.fade-in');
+                    children.forEach(child => child.classList.add('visible'));
+                }
+            });
+        }, { threshold: 0.2 });
+
+        document.querySelectorAll('.scene').forEach(scene => {
+            observer.observe(scene);
+        });
+
+        // -- AUDIO & START LOGIC --
+        const bgMusic = document.getElementById('bg-music');
+        bgMusic.volume = 0.3;
+        const scrollContainer = document.getElementById('scroll-container');
+        let isMusicPlaying = false;
+
+        function startExperience() {
+            bgMusic.play().catch(e => console.log("Audio autoplay blocked by browser"));
+            isMusicPlaying = true;
+            document.getElementById('music-control').style.display = 'flex';
+            
+            // Speed up particles temporarily for transition
+            speed = 5;
+            setTimeout(() => speed = 1, 1500);
+
+            // Enable scrolling
+            scrollContainer.style.overflowY = 'auto';
+            
+            // Scroll to scene 2 smoothly
+            document.querySelectorAll('.scene')[1].scrollIntoView({ behavior: 'smooth' });
+            
+            // Trigger observer for scene 1 immediately
+            document.getElementById('scene1').classList.add('visible');
+            document.getElementById('scene1').querySelectorAll('.fade-in').forEach(el => el.classList.add('visible'));
+        }
+
+        function toggleMusic() {
+            if (isMusicPlaying) {
+                bgMusic.pause();
+                document.getElementById('music-control').innerHTML = '🔇';
+            } else {
+                bgMusic.play();
+                document.getElementById('music-control').innerHTML = '🔊';
+            }
+            isMusicPlaying = !isMusicPlaying;
+        }
+
+        // -- PROMISE CARDS LOGIC --
+        let flippedCards = 0;
+        function flipCard(card) {
+            if (!card.classList.contains('flipped')) {
+                card.classList.add('flipped');
+                flippedCards++;
+                if (flippedCards === 3) {
+                    setTimeout(() => {
+                        document.getElementById('promise-finale').style.opacity = '1';
+                    }, 800);
+                }
+            }
+        }
+
+        // -- FRIENDSHIP ACCEPTANCE LOGIC --
+        function acceptFriendship() {
+            // Speed up warp drive
+            speed = 15;
+            
+            // Confetti effect on canvas
+            for(let i=0; i<100; i++) particles.push(new Particle());
+
+            const acceptScreen = document.getElementById('acceptance-screen');
+            acceptScreen.style.display = 'flex';
+            
+            // Fade in overlay
+            setTimeout(() => {
+                acceptScreen.style.opacity = '1';
+                speed = 2; // slow down in the new scene
+            }, 100);
+
+            // Sequence text delays
+            setTimeout(() => document.getElementById('wait-text-1').style.opacity = '1', 3000);
+            setTimeout(() => document.getElementById('wait-text-2').style.opacity = '1', 6000);
+            setTimeout(() => document.getElementById('wait-text-3').style.opacity = '1', 9000);
+            setTimeout(() => {
+                const btn = document.getElementById('secret-btn');
+                btn.style.opacity = '1';
+                btn.style.pointerEvents = 'auto';
+            }, 1100); // 11000
+        }
+
+        // -- SECRET ENDING LOGIC --
+        function openSecret() {
+            const secretScene = document.getElementById('secret-scene');
+            secretScene.style.display = 'flex';
+            
+            setTimeout(() => {
+                secretScene.style.opacity = '1';
+                // Stop regular particles, maybe add pulse effect here
+                speed = 0.1;
+            }, 100);
+
+            // Sequence cinematic text
+            setTimeout(() => document.getElementById('s-txt-1').style.opacity = '1', 2000);
+            setTimeout(() => document.getElementById('s-txt-2').style.opacity = '1', 4000);
+            setTimeout(() => document.getElementById('s-txt-3').style.opacity = '1', 6000);
+            setTimeout(() => document.getElementById('s-txt-4').style.opacity = '1', 8500);
+            
+            setTimeout(() => {
+                const btn = document.getElementById('s-btn-1');
+                btn.style.opacity = '1';
+                btn.style.pointerEvents = 'auto';
+            }, 12000);
+        }
+
+        function showFinalCapsule() {
+            const part1 = document.getElementById('secret-part-1');
+            const part2 = document.getElementById('secret-part-2');
+            
+            part1.style.opacity = '0';
+            setTimeout(() => {
+                part1.style.display = 'none';
+                part2.style.display = 'block';
+                setTimeout(() => part2.style.opacity = '1', 100);
+                speed = 3; // Celebration speed
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
